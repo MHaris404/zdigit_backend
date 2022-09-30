@@ -1,0 +1,14 @@
+const express = require("express")
+const app = express()
+var morgan = require('morgan')
+
+const logger = require('node-color-log');
+const connection = require('./config/dbconnection')
+
+app.use(express.json())
+app.use(morgan('dev'));
+
+require('./app/routes.js')(app, connection); // load our routes
+
+const port = process.env.PORT
+app.listen(port, ()=> logger.success(`Server Started on port ${port} on ` + new Date()))
