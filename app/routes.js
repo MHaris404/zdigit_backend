@@ -29,8 +29,8 @@ module.exports = function (app, connection) {
 				connection.release()
 				if (err) throw (err)
 				if (result.length != 0) {
-					res.status(409).json({
-						status : false,
+					res.json({
+						status : true,
 						message : result
 					})
 				}
@@ -86,7 +86,7 @@ module.exports = function (app, connection) {
 				if (err) throw (err)
 				if (result.length == 0) {
 					connection.release();
-					res.status(404).json({
+					res.json({
 						status : false,
 						message : "User does not exist"
 						})		
@@ -100,7 +100,7 @@ module.exports = function (app, connection) {
 						const refreshToken = generateRefreshToken ({user})
 						refreshTokens.push(refreshToken);
 						res.status(200).json({
-							status : false,
+							status : true,
 							message : "login successful",
 							details : {
 								user,
@@ -109,7 +109,7 @@ module.exports = function (app, connection) {
 								tokens : {accessToken, refreshToken},
 							}})
 					} else {
-						res.status(401).json({
+						res.json({ //res.status(401)
 							status : false,
 							message : "Password incorrect!",
 						})
@@ -154,10 +154,10 @@ module.exports = function (app, connection) {
 	})
 
 //logout
-	app.delete("/logout", (req,res)=>{
+	app.post("/logout", (req,res)=>{
 	refreshTokens = refreshTokens.filter( (c) => c != req.body.validrefreshtoken)
 	//remove the old refreshToken from the refreshTokens list
-	res.status(204).send({
+	res.send({ //.status(204)
 		status: true,
 		message: "logout successful"
 		})
