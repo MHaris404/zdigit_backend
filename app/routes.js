@@ -86,7 +86,7 @@ module.exports = function (app, connection) {
 				if (err) throw (err)
 				if (result.length == 0) {
 					connection.release();
-					res.json({
+					res.json({ //put status
 						status : false,
 						message : "User does not exist"
 						})		
@@ -125,9 +125,9 @@ module.exports = function (app, connection) {
 		var {oldvalidrefreshtoken, username} = req.body;
 
 		if (!refreshTokens.includes(oldvalidrefreshtoken)) {
-			res.status(400).send({
+			res.status(498).send({
 				status : false,
-				message : "Refresh Token Invalid/ Expired"
+				message : "Refresh Token Invalid/ Expired"	
 			})
 		}else {
 			refreshTokens = refreshTokens.filter( (c) => c != oldvalidrefreshtoken)

@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
         if (err) { 
             res.status(403).json({
                 status : false,
-                message : "Token invalid"
+                message : "Access Token invalid"        
             })
         }
         else {

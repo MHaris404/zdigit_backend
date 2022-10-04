@@ -5,14 +5,15 @@ exports.getPOCOUNT = function (req, res) {
 
 	connection.getConnection ( async (err, connection)=> {
 		if (err) throw (err)
-		const sqlSearch = "Select count(order_no) as count from 0_purch_order"
+		const sqlSearch = "Select count(order_no) as count from 0_purch_orders"
 		await connection.query (sqlSearch, async (err, result) => {
 			connection.release();
 			if (err) throw (err)
 			if (result.length == 0) {
-				res.status(200).json({
+				res.json({
 					status : false,
-					message : "No PO to be processed"
+					message : "No PO to be processed",
+					details : result[0].count
 					})
 			} else {
 				res.status(200).json({
