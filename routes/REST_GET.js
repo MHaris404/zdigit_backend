@@ -31,9 +31,7 @@ exports.getPODETAILS = function (req, res) {
 
 	connection.getConnection ( async (err, connection)=> {
 		if (err) throw (err)
-		// const sqlSearch = "Select POD.*, PO.supplier_id, SS.supp_name from 0_purch_order_details as POD, 0_suppliers as SS, 0_purch_orders as PO "
-		// + "where POD.order_no=PO.order_no and PO.supplier_id=SS.supplier_id"
-		const sqlSearch = "Select 0_purch_order_details.*, 0_purch_orders.supplier_id, 0_purch_orders.comments,0_purch_orders.ord_date,0_purch_orders.reference,0_purch_orders.requisition_no,0_purch_orders.into_stock_location,0_purch_orders.delivery_address,0_suppliers.supp_name from 0_purch_order_details, 0_suppliers, 0_purch_orders where 0_purch_order_details.order_no=0_purch_orders.order_no and 0_purch_orders.supplier_id=0_suppliers.supplier_id"
+		const sqlSearch ="Select 0_purch_order_details.order_no, 0_purch_order_details.po_detail_item, 0_purch_order_details.item_code, 0_purch_order_details.description, DATE_FORMAT(0_purch_order_details.delivery_date, '%Y/%c/%d %H:%i') as delivery_date, 0_purch_order_details.qty_invoiced, 0_purch_order_details.unit_price, 0_purch_order_details.unit_price, 0_purch_order_details.act_price, 0_purch_order_details.std_cost_unit, 0_purch_order_details.quantity_ordered, 0_purch_order_details.quantity_received, 0_purch_orders.supplier_id, 0_purch_orders.comments, DATE_FORMAT(0_purch_orders.ord_date, '%Y/%c/%d %H:%i') as ord_date, 0_purch_orders.reference, 0_purch_orders.requisition_no, 0_purch_orders.into_stock_location, 0_purch_orders.delivery_address, 0_suppliers.supp_name from 0_purch_order_details, 0_suppliers, 0_purch_orders where 0_purch_order_details.order_no=0_purch_orders.order_no and 0_purch_orders.supplier_id=0_suppliers.supplier_id"
 		await connection.query (sqlSearch, async (err, result) => {
 			connection.release();
 			if (err) throw (err)
