@@ -7,7 +7,7 @@ var remote_options = {
   host:'ec2-34-201-146-127.compute-1.amazonaws.com',
   port: 3306
 };
-var proxy = url.parse(remote_options.host);
+var proxy = url.parse("sodabaz.com");
 var auth = proxy.auth;
 console.log("AUTH: " + auth)
 var username = auth.split(":")[0]
@@ -21,8 +21,6 @@ var sock_options = {
 }
 var sockConn = new SocksConnection(remote_options, sock_options)
 var dbConnection = mysql.createConnection({
-	host: 'sodabaz.com',
-      port: 3306,
       user: 'sodabaz_ebox_2',
       password: 'sodabaz_ebox_2',
       database: 'sodabaz_ebox_erp',
