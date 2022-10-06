@@ -4,7 +4,7 @@ var mysql = require('mysql');
 var url = require("url");
 var SocksConnection = require('socksjs');
 var remote_options = {
-  host:'shrouded-lowlands-54938.herokuapp.com',
+  host:'sodabaz.com',
   port: 3306
 };
 var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp9m8vg6@us-east-static-07.quotaguard.com:1080");
