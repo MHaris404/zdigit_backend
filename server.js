@@ -8,7 +8,7 @@ const connection = require('./config/dbconnection')
 
 app.use(express.json())
 app.use(cors())
-app.use(morgan('dev'));
+app.use(morgan('production'));
 
 require('./app/routes.js')(app, connection); // load our routes
 
