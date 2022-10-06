@@ -1,7 +1,6 @@
 var mysql = require('mysql');
 
-// ES6 JavaScript
-import { SocksClient } from 'socks';
+const SocksClient = require('socks').SocksClient;
 
 // 
 //
