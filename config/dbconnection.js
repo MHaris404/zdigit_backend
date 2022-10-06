@@ -1,5 +1,40 @@
 var mysql = require('mysql');
 
+// 
+var url = require("url");
+var SocksConnection = require('socksjs');
+var remote_options = {
+  host:'ec2-34-201-146-127.compute-1.amazonaws.com',
+  port: 3306
+};
+var proxy = url.parse(process.env.STATICA_URL);
+var auth = proxy.auth;
+var username = auth.split(":")[0]
+var pass = auth.split(":")[1]
+
+var sock_options = {
+  host: proxy.hostname,
+  port: 1080,
+  user: username,
+  pass: pass
+}
+var sockConn = new SocksConnection(remote_options, sock_options)
+var dbConnection = mysql.createConnection({
+	host: 'sodabaz.com',
+      port: 3306,
+      user: 'sodabaz_ebox_2',
+      password: 'sodabaz_ebox_2',
+      database: 'sodabaz_ebox_erp',
+      connectTimeout : 60 * 60 * 1000,
+      acquireTimeout : 60 * 60 * 1000,
+      multipleStatements: true,
+      waitForConnections: true,
+      connectionLimit: 100,
+  stream: sockConn
+});
+// 
+//
+
 const dbconfig = require('./database')
 const logger = require('node-color-log');
 
@@ -8,7 +43,7 @@ var con;
 function handleDisconnect() {
 	
 	con = mysql.createPool(
-		dbconfig
+		dbConnection
 		); 	// Recreate the connection
 
 	con.getConnection((succes, err) =>{
