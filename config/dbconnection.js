@@ -9,7 +9,8 @@ var remote_options = {
 };
 var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp9m8vg6@us-east-static-07.quotaguard.com:1080");
 var auth = proxy.auth;
-console.log("AUTH: " + auth)
+console.log("host:" + proxy.hostname);
+console.log("AUTH: " + auth);
 var username = auth.split(":")[0]
 var pass = auth.split(":")[1]
 
