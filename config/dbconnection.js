@@ -1,36 +1,36 @@
 var mysql = require('mysql');
 
 // 
-// var url = require("url");
-// var SocksConnection = require('socksjs');
-// var remote_options = {
-//   host:'sodabaz.com',
-//   port: 3306
-// };
-// var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp@us-east-static-07.quotaguard.com:1080");
-// var auth = proxy.auth;
-// console.log("AUTH: " + auth)
-// var username = auth.split(":")[0]
-// var pass = auth.split(":")[1]
+var url = require("url");
+var SocksConnection = require('socksjs');
+var remote_options = {
+  host:'sodabaz.com',
+  port: 3306
+};
+var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp9m8vg6@us-east-static-07.quotaguard.com:1080");
+var auth = proxy.auth;
+console.log("AUTH: " + auth)
+var username = auth.split(":")[0]
+var pass = auth.split(":")[1]
 
-// var sock_options = {
-//   host: proxy.hostname,
-//   port: 1080,
-//   user: n16vhxv8n4lbst,
-//   pass: pass
-// }
-// var sockConn = new SocksConnection(remote_options, sock_options)
-// var dbConnection = mysql.createConnection({
-//       user: 'sodabaz_ebox_2',
-//       password: 'sodabaz_ebox_2',
-//       database: 'sodabaz_ebox_erp',
-//       connectTimeout : 60 * 60 * 1000,
-//       acquireTimeout : 60 * 60 * 1000,
-//       multipleStatements: true,
-//       waitForConnections: true,
-//       connectionLimit: 100,
-//   stream: sockConn
-// });
+var sock_options = {
+  host: proxy.hostname,
+  port: 1080,
+  user: username,
+  pass: pass
+}
+var sockConn = new SocksConnection(remote_options, sock_options)
+var dbConnection = mysql.createConnection({
+      user: 'sodabaz_ebox_2',
+      password: 'sodabaz_ebox_2',
+      database: 'sodabaz_ebox_erp',
+      connectTimeout : 60 * 60 * 1000,
+      acquireTimeout : 60 * 60 * 1000,
+      multipleStatements: true,
+      waitForConnections: true,
+      connectionLimit: 100,
+  stream: sockConn
+});
 // 
 //
 
@@ -42,7 +42,7 @@ var con;
 function handleDisconnect() {
 	
 	con = mysql.createPool(
-		dbconfig
+		dbConnection
 		); 	// Recreate the connection
 
 	con.getConnection((succes, err) =>{
