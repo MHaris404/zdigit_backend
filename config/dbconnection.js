@@ -1,46 +1,82 @@
 var mysql = require('mysql');
 
-// 
-var url = require("url");
-var SocksConnection = require('socksjs');
-var remote_options = {
-  host:'ec2-3-238-24-27.compute-1.amazonaws.com',
-  port: 3306
-};
-var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp9m8vg6@us-east-static-07.quotaguard.com:1080");
-var auth = proxy.auth;
-var username = auth.split(":")[0]
-var pass = auth.split(":")[1]
+// ES6 JavaScript
+import { SocksClient } from 'socks';
 
-var sock_options = {
-  host: proxy.hostname,
-  port: 1080,
-  user: username,
-  pass: pass
-}
-var sockConn = new SocksConnection(remote_options, sock_options)
-var dbConnection = mysql.createConnection({
-		host: 'sodabaz.com',
-		port: 3306,
-      user: 'sodabaz_ebox_2',
-      password: 'sodabaz_ebox_2',
-      database: 'sodabaz_ebox_erp',
-      connectTimeout : 60 * 60 * 1000,
-      acquireTimeout : 60 * 60 * 1000,
-      multipleStatements: true,
-      waitForConnections: true,
-      connectionLimit: 100,
-  stream: sockConn
-});
-dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
-	if (err) throw err;
-  
-	console.log('Result: ', rows);
-	sockConn.dispose();
-  });
-  dbConnection.end();
 // 
 //
+// var url = require("url");
+// var remote_options = {
+//   host:'ec2-3-238-24-27.compute-1.amazonaws.com',
+//   port: 3306
+// };
+// var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp9m8vg6@us-east-static-07.quotaguard.com:1080");
+// var auth = proxy.auth;
+// var username = auth.split(":")[0]
+// var pass = auth.split(":")[1]
+
+// var sock_options = {
+//   host: proxy.hostname,
+//   port: 1080,
+//   user: username,
+//   pass: pass
+// }
+// var sockConn = new SocksConnection(remote_options, sock_options)
+// var dbConnection = mysql.createConnection({
+// 		host: 'sodabaz.com',
+// 		port: 3306,
+//       user: 'sodabaz_ebox_2',
+//       password: 'sodabaz_ebox_2',
+//       database: 'sodabaz_ebox_erp',
+//       connectTimeout : 60 * 60 * 1000,
+//       acquireTimeout : 60 * 60 * 1000,
+//       multipleStatements: true,
+//       waitForConnections: true,
+//       connectionLimit: 100,
+//   stream: sockConn
+// });
+// dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
+// 	if (err) throw err;
+  
+// 	console.log('Result: ', rows);
+// 	sockConn.dispose();
+//   });
+//   dbConnection.end();
+// 
+//
+
+//
+const options = {
+	proxy: {
+	  host: '54.84.138.60', // ipv4 or ipv6 or hostname
+	  port: 1080,
+	  type: 5 // Proxy version (4 or 5)
+	},
+  
+	command: 'connect', // SOCKS command (createConnection factory function only supports the connect command)
+  
+	destination: {
+	  host: 'sodabaz.com', // github.com (hostname lookups are supported with SOCKS v4a and 5)
+	  port: 80
+	}
+  };
+
+  SocksClient.createConnection(options)
+.then(info => {
+	console.log("SUCCESS")
+  console.log(info.socket);
+  // <Socket ...>  (this is a raw net.Socket that is established to the destination host through the given proxy server)
+})
+.catch(err => {
+	
+	console.log("ERROR")
+	console.log(err)
+  // Handle errors
+});
+  
+
+//
+
 
 const dbconfig = require('./database')
 const logger = require('node-color-log');
@@ -98,6 +134,6 @@ function handleDisconnect() {
 
 }
 
-handleDisconnect();
+// handleDisconnect();
 
 module.exports = con;
