@@ -23,7 +23,7 @@ module.exports = function (app, connection) {
 		
 		connection.getConnection( async (err, connection) => {
 			if (err) {
-				throw (err)
+				throw (err.message)
 			}
 			const sqlSearch = "SELECT * FROM 0_users"
 			
