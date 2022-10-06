@@ -14,7 +14,7 @@ function handleDisconnect() {
 	con.getConnection((succes, err) =>{
 		if(succes) {
 		
-			logger.warn('DB Connection established @ ' + new Date());
+			logger.success('DB Connection established @ ' + new Date());
 		}
 		
 	})
