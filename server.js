@@ -13,4 +13,8 @@ app.use(morgan('dev'));
 require('./app/routes.js')(app, connection); // load our routes
 
 const port = process.env.PORT
-app.listen(port, ()=> logger.success(`Server Started on port ${port} on ` + new Date()))
+//app.listen(port, ()=> logger.success(`Server Started on port ${port} on ` + new Date()))
+
+app.listen(process.env.PORT || 3000, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });
