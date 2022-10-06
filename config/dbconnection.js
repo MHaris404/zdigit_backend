@@ -7,7 +7,7 @@ var remote_options = {
   host:'ec2-34-201-146-127.compute-1.amazonaws.com',
   port: 3306
 };
-var proxy = url.parse(process.env.STATICA_URL);
+var proxy = url.parse(remote_options.host);
 var auth = proxy.auth;
 var username = auth.split(":")[0]
 var pass = auth.split(":")[1]
