@@ -9,6 +9,7 @@ var remote_options = {
 };
 var proxy = url.parse(remote_options.host);
 var auth = proxy.auth;
+console.log("AUTH: " + auth)
 var username = auth.split(":")[0]
 var pass = auth.split(":")[1]
 
