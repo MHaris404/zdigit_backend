@@ -22,7 +22,10 @@ module.exports = function (app, connection) {
 	app.get("/check2", async (req,res) => {
 		
 		connection.getConnection( async (err, connection) => {
-			if (err) throw (err)
+			if (err) {
+				connection.release();
+				throw (err)
+			}
 			const sqlSearch = "SELECT * FROM 0_users"
 			
 			await connection.query (sqlSearch, async (err, result) => {
