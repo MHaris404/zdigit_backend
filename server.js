@@ -7,7 +7,8 @@ const logger = require('node-color-log');
 const connection = require('./config/dbconnection')
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({origin: true, credentials: true}))
+
 app.use(morgan('production'));
 
 require('./app/routes.js')(app, connection); // load our routes
