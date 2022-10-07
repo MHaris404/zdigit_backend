@@ -59,7 +59,7 @@ function handleDisconnect() {
 	con.getConnection((succes, err) =>{
 		if(succes) {
 		
-			logger.success('DB Connection established @ ' + new Date());
+			logger.success('DBb Connection established @ ' + new Date());
 		}
 		
 	})
