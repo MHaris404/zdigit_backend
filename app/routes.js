@@ -30,23 +30,17 @@ module.exports = function (app, connection) {
 
 			connection.promise().query(querySQL).then(([rows,fields])=> {
 
-			if (rows!=undefined) {
-				console.log("The table already exist");
-				console.log(rows)
-			}else {
-
-				querySQL = "SELECT * FROM 0_users where user_id = 1";
-
-				connection.query(querySQL,function(err,rows,field){
-
-				if(err) throw err;
-
-				console.log("The table has been created");
-				console.log(rows);
-
-				});
-
-			}
+				if (rows.length != 0) {
+							res.json({
+									status : true,
+									message : rows
+								})
+						  }else {
+							res.json({
+								status : false,
+								message : "no data"
+							})
+						  }
 
 			})
 			.catch(console.log)
