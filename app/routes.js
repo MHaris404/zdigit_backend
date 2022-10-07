@@ -24,10 +24,10 @@ module.exports = function (app, connection) {
 		connection.getConnection(function(err, connection){
 
 			if(err) {
-				res.json({
-					status : false,
-					message : err
-				})
+				// res.json({
+				// 	status : false,
+				// 	message : err
+				// })
 				throw err
 			};
 		
