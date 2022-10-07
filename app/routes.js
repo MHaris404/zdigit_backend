@@ -30,7 +30,6 @@ module.exports = function (app, connection) {
 			connection.promise().query(querySQL).then(([rows,fields])=> {
 		
 			  if (rows!=undefined) {
-				console.log("The table already exist");
 				console.log(rows)
 				res.json({
 									status : true,
@@ -54,18 +53,18 @@ module.exports = function (app, connection) {
 			})
 			.catch(console.log)
 			.then( ()=> {
-				 console.log("Promise ended")
-			//   querySQL = "SELECT * FROM 0_users where user_id = 2";
 		
-			//   connection.promise().query(querySQL).then(([rows,fields])=> {
+			  querySQL = "SELECT * FROM 0_users where user_id = 2";
 		
-			// 	/*
-			// 	More stuff
-			// 	*/
+			  connection.promise().query(querySQL).then(([rows,fields])=> {
 		
-			//   })
-			//   .catch(console.log)
-			//   .then( ()=> console.log("Promise ended") );
+				/*
+				More stuff
+				*/
+		
+			  })
+			  .catch(console.log)
+			  .then( ()=> console.log("Promise ended") );
 		
 			});
 		
