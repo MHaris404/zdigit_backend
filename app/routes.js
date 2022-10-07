@@ -23,31 +23,55 @@ module.exports = function (app, connection) {
 
 		querySQL = "SELECT * FROM 0_users";
 
-		connection.promise().query(querySQL).then(([rows,fields])=> {
-
-			if (rows!=undefined) {
-				console.log("The table already exist");
-				console.log(rows)
+		connection.query(querySQL, function(err, rows, fields) {
+			if(err) 
+			{
 				res.json({
-						status : true,
-						message : rows
+					status : false,
+					message : err
+				})
+				throw err
+			};
+
+			if (rows.length != 0) {
+						res.json({
+								status : true,
+								message : rows
+							})
+					  }else {
+						res.json({
+							status : false,
+							message : "no data"
+						})
+					  }
 					})
-			}else {
+		 })
 
-				querySQL = "SELECT * FROM 0_users where user_id = 1";
+		// connection.promise().query(querySQL).then(([rows,fields])=> {
 
-				connection.query(querySQL,function(err,rows,field){
+		// 	if (rows!=undefined) {
+		// 		console.log("The table already exist");
+		// 		console.log(rows)
+		// 		res.json({
+		// 				status : true,
+		// 				message : rows
+		// 			})
+		// 	}else {
 
-				if(err) throw err;
+		// 		querySQL = "SELECT * FROM 0_users where user_id = 1";
 
-				console.log("The table has been created");
-				console.log(rows);
+		// 		connection.query(querySQL,function(err,rows,field){
 
-				});
+		// 		if(err) throw err;
 
-			}
+		// 		console.log("The table has been created");
+		// 		console.log(rows);
 
-		})
+		// 		});
+
+		// 	}
+
+		// })
 		
 		// connection.getConnection(function(err, connection){
 
