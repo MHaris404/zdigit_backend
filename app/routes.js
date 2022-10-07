@@ -19,9 +19,9 @@ module.exports = function (app, connection) {
 	});
 
 //check2
-	app.get("/check2", async (req,res) => {
+	app.get("/check2", (req,res) => {
 		
-		connection.promise.getConnection( async (err, connection) => {
+		connection.getConnection( async (err, connection) => {
 			if (err) {
 				throw (err)
 			}

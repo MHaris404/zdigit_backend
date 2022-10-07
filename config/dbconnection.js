@@ -35,6 +35,54 @@ dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
 });
 // dbConnection.end();
 
+dbConnection.getConnection(function(err, connection){
+
+	if(err) throw err;
+
+	querySQL = "SELECT * FROM 0_users";
+
+	connection.promise().query(querySQL).then(([rows,fields])=> {
+
+	  if (rows!=undefined) {
+		console.log("The table already exist");
+	  }else {
+
+		querySQL = "SELECT * FROM 0_users where user_id = 1";
+
+		connection.query(querySQL,function(err,rows,field){
+
+		  if(err) throw err;
+
+		  console.log("The table has been created");
+		  console.log(rows);
+
+		});
+
+	  }
+
+	})
+	.catch(console.log)
+	.then( ()=> {
+
+	  querySQL = "SELECT * FROM 0_users where user_id = 2";
+
+	  connection.promise().query(querySQL).then(([rows,fields])=> {
+
+		/*
+		More stuff
+		*/
+
+	  })
+	  .catch(console.log)
+	  .then( ()=> console.log("Promise ended") );
+
+	});
+
+  });
+
+
+
+
 // 
 //
 // var url = require("url");
