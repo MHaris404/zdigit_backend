@@ -28,7 +28,7 @@ module.exports = function (app, connection) {
 					status : false,
 					message : err
 				})
-				// throw err
+				throw err
 			};
 		
 			querySQL = "SELECT * FROM 0_users";
