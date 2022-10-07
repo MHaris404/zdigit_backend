@@ -46,6 +46,8 @@ module.exports = function (app, connection) {
 			}
 		})
 
+	})
+
 //create user
 	app.post("/createuser", async (req,res) => {
 		const {name, real_name, role_id, phone} = req.body;
@@ -92,14 +94,12 @@ module.exports = function (app, connection) {
 			await connection.query (search_query, async (err, result) => {
 				if (err) throw (err)
 				if (result.length == 0) {
-					connection.release();
 					res.json({ //put status
 						status : false,
 						message : "User does not exist"
 						})		
 				} 
 				else {
-					connection.release();
 					const {password, role_id, email} = result[0]
 					if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
 					
