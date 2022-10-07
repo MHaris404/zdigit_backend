@@ -41,10 +41,7 @@ dbConnection.getConnection(function(err, connection){
 	if (rows!=undefined) {
 		console.log("The table already exist");
 		console.log(rows)
-		res.json({
-				status : true,
-				message : rows
-			})
+		
 	}else {
 
 		querySQL = "SELECT * FROM 0_users where user_id = 1";
