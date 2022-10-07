@@ -21,35 +21,83 @@ module.exports = function (app, connection) {
 //check2
 	app.get("/check2", (req,res) => {
 
+		
 		connection.getConnection(function(err, connection){
 
-			if(err) {
-				// res.json({
-				// 	status : false,
-				// 	message : err
-				// })
-				throw err
-			};
-		
+			if(err) throw err;
+
 			querySQL = "SELECT * FROM 0_users";
-		
+
 			connection.promise().query(querySQL).then(([rows,fields])=> {
-		
-			  if (rows.length != 0) {
-				res.json({
-						status : true,
-						message : rows
-					})
-			  }else {
-				res.json({
-					status : false,
-					message : "no data"
-				})
-			  }
+
+			if (rows!=undefined) {
+				console.log("The table already exist");
+				console.log(rows)
+			}else {
+
+				querySQL = "SELECT * FROM 0_users where user_id = 1";
+
+				connection.query(querySQL,function(err,rows,field){
+
+				if(err) throw err;
+
+				console.log("The table has been created");
+				console.log(rows);
+
+				});
+
+			}
+
 			})
-			.catch("CHECK2: " +  console.log)
+			.catch(console.log)
+			.then( ()=> {
+
+			querySQL = "SELECT * FROM 0_users where user_id = 2";
+
+			connection.promise().query(querySQL).then(([rows,fields])=> {
+
+				/*
+				More stuff
+				*/
+
+			})
+			.catch(console.log)
+			.then( ()=> console.log("Promise ended") );
+
+			});
+
+		});
+		
+		// connection.getConnection(function(err, connection){
+
+		// 	if(err) {
+		// 		res.json({
+		// 			status : false,
+		// 			message : err
+		// 		})
+		// 		throw err
+		// 	};
+		
+		// 	querySQL = "SELECT * FROM 0_users";
+		
+		// 	connection.promise().query(querySQL)
+		// 	.then(([rows,fields])=> {
+		
+		// 	  if (rows.length != 0) {
+		// 		res.json({
+		// 				status : true,
+		// 				message : rows
+		// 			})
+		// 	  }else {
+		// 		res.json({
+		// 			status : false,
+		// 			message : "no data"
+		// 		})
+		// 	  }
+		// 	})
+		// 	.catch("CHECK2: " +  console.log)
 			
-		  });
+		//   });
 
 	})
 
