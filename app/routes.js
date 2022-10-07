@@ -23,14 +23,19 @@ module.exports = function (app, connection) {
 
 		connection.getConnection(function(err, connection){
 
-			if(err) throw err;
+			if(err) {
+				res.json({
+					status : false,
+					message : err.message
+				})
+				throw err
+			};
 		
 			querySQL = "SELECT * FROM 0_users";
 		
 			connection.promise().query(querySQL).then(([rows,fields])=> {
 		
 			  if (rows.length != 0) {
-				console.log(rows)
 				res.json({
 						status : true,
 						message : rows
@@ -40,9 +45,7 @@ module.exports = function (app, connection) {
 					status : false,
 					message : "no data"
 				})
-		
 			  }
-		
 			})
 			.catch("CHECK2: " +  console.log)
 			
