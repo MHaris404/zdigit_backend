@@ -91,8 +91,14 @@ module.exports = function (app, connection) {
 		// connection.getConnection ( async (err, connection)=> {
 			const sqlSearch = "Select * from 0_users where user_id = ?"
 			const search_query = mysql.format(sqlSearch,[user])
-			await connection.query (search_query, async (err, result) => {
-				if (err) throw (err)
+			 connection.query (search_query, (err, result, fields) => {
+				if (err) {
+					res.json({
+						status : false,
+						message : err
+					})
+					throw err
+				}
 				if (result.length == 0) {
 					res.json({ //put status
 						status : false,
