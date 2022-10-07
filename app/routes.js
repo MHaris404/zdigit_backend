@@ -31,21 +31,20 @@ module.exports = function (app, connection) {
 					message : err
 				})
 				throw err
-			};
+			}
 
 			if (rows.length != 0) {
 						res.json({
 								status : true,
 								message : rows
 							})
-					  }else {
+			}else {
 						res.json({
 							status : false,
 							message : "no data"
 						})
-					  }
-					})
-		 })
+			}
+		})
 
 		// connection.promise().query(querySQL).then(([rows,fields])=> {
 
