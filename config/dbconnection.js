@@ -33,7 +33,7 @@ dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
   console.log('Result: ', rows);
   sockConn.dispose();
 });
-dbConnection.end();
+// dbConnection.end();
 
 // 
 //
