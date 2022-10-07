@@ -53,8 +53,8 @@ module.exports = function (app, connection) {
 		
 			})
 			.catch(console.log)
-			// .then( ()=> {
-		
+			.then( ()=> {
+				 console.log("Promise ended")
 			//   querySQL = "SELECT * FROM 0_users where user_id = 2";
 		
 			//   connection.promise().query(querySQL).then(([rows,fields])=> {
@@ -65,7 +65,7 @@ module.exports = function (app, connection) {
 		
 			//   })
 			//   .catch(console.log)
-			  .then( ()=> console.log("Promise ended") );
+			//   .then( ()=> console.log("Promise ended") );
 		
 			});
 		
