@@ -34,7 +34,7 @@ module.exports = function (app, connection) {
 				console.log(rows)
 				res.json({
 									status : true,
-									message : result
+									message : rows
 								})
 			  }else {
 		
