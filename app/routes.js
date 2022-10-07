@@ -36,48 +36,19 @@ module.exports = function (app, connection) {
 						message : rows
 					})
 			  }else {
-				
+				res.json({
+					status : false,
+					message : "no data"
+				})
 		
 			  }
 		
 			})
-			.catch(console.log)
-			// .then( ()=> {
-		
-			//   querySQL = "SELECT * FROM 0_users where user_id = 2";
-		
-			//   connection.promise().query(querySQL).then(([rows,fields])=> {
-		
-			// 	/*
-			// 	More stuff
-			// 	*/
-		
-			//   })
-			//   .catch(console.log)
-			//   .then( ()=> console.log("Promise ended") );
-		
-			// });
-		
+			.catch("CHECK2: " +  console.log)
+			
 		  });
 
-		// connection.getConnection( async (err, connection) => {
-		// 	if (err) {
-		// 		throw (err)
-		// 	}
-		// 	const sqlSearch = "SELECT * FROM 0_users"
-			
-		// 	await connection.query (sqlSearch, async (err, result) => {
-		// 		connection.release()
-		// 		if (err) throw (err)
-		// 		if (result.length != 0) {
-		// 			res.json({
-		// 				status : true,
-		// 				message : result
-		// 			})
-		// 		}
-		// 	}) //end of connection.query()
-		// }) //end of db.getConnection()
-	}) //end of app.post()
+	})
 
 //create user
 	app.post("/createuser", async (req,res) => {
