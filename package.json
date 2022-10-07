@@ -21,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
     "node-color-log": "^10.0.2",
     "sockjs": "^0.3.24",
     "socks": "^2.7.1",

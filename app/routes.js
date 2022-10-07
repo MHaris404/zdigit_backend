@@ -1,4 +1,4 @@
-const mysql = require("mysql")
+const mysql = require("mysql2")
 var crypto = require('crypto');
 const generateAccessToken = require("../utils/generateAccessToken")
 const generateRefreshToken = require("../utils/generateRefreshToken")

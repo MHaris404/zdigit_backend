@@ -1,4 +1,4 @@
-var mysql = require('mysql');
+var mysql = require('mysql2');
 
 // const sockConn = require('socks').SocksClient;
 
@@ -9,16 +9,16 @@ var remote_options = {
   port: 3306
 };
 
-var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp9m8vg6@us-east-static-07.quotaguard.com:1080");
-var auth = proxy.auth;
-var username = auth.split(":")[0]
-var pass = auth.split(":")[1]
+// var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp9m8vg6@us-east-static-07.quotaguard.com:1080");
+// var auth = proxy.auth;
+// var username = auth.split(":")[0]
+// var pass = auth.split(":")[1]
 
 var sock_options = {
-  host: proxy.hostname,
+  host: "us-east-static-07.quotaguard.com",
   port: 1080,
-  user: username,
-  pass: pass
+  user: "n16vhxv8n4lbst",
+  pass: "x8nrhq8r8d3zr2ghfxetp9m8vg6"
 }
 var sockConn = new SocksConnection(remote_options, sock_options)
 var dbConnection = mysql.createConnection({
