@@ -27,104 +27,55 @@ var dbConnection = mysql.createPool({
       database: 'sodabaz_ebox_erp',
   	stream: sockConn
 });
-// dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
-//   if (err) throw err;
 
-//   console.log('Result: ', rows);
-//   sockConn.dispose();
-// });
+// sockConn.dispose();
 // dbConnection.end();
 
-dbConnection.getConnection(function(err, connection){
+// dbConnection.getConnection(function(err, connection){
 
-	if(err) throw err;
+// 	if(err) throw err;
 
-	querySQL = "SELECT * FROM 0_users";
+// 	querySQL = "SELECT * FROM 0_users";
 
-	connection.promise().query(querySQL).then(([rows,fields])=> {
+// 	connection.promise().query(querySQL).then(([rows,fields])=> {
 
-	  if (rows!=undefined) {
-		console.log("The table already exist");
-		console.log(rows)
-	  }else {
+// 	  if (rows!=undefined) {
+// 		console.log("The table already exist");
+// 		console.log(rows)
+// 	  }else {
 
-		querySQL = "SELECT * FROM 0_users where user_id = 1";
+// 		querySQL = "SELECT * FROM 0_users where user_id = 1";
 
-		connection.query(querySQL,function(err,rows,field){
+// 		connection.query(querySQL,function(err,rows,field){
 
-		  if(err) throw err;
+// 		  if(err) throw err;
 
-		  console.log("The table has been created");
-		  console.log(rows);
+// 		  console.log("The table has been created");
+// 		  console.log(rows);
 
-		});
+// 		});
 
-	  }
+// 	  }
 
-	})
-	.catch(console.log)
-	.then( ()=> {
+// 	})
+// 	.catch(console.log)
+// 	.then( ()=> {
 
-	  querySQL = "SELECT * FROM 0_users where user_id = 2";
+// 	  querySQL = "SELECT * FROM 0_users where user_id = 2";
 
-	  connection.promise().query(querySQL).then(([rows,fields])=> {
+// 	  connection.promise().query(querySQL).then(([rows,fields])=> {
 
-		/*
-		More stuff
-		*/
+// 		/*
+// 		More stuff
+// 		*/
 
-	  })
-	  .catch(console.log)
-	  .then( ()=> console.log("Promise ended") );
+// 	  })
+// 	  .catch(console.log)
+// 	  .then( ()=> console.log("Promise ended") );
 
-	});
+// 	});
 
-  });
-
-
-
-
-// 
-//
-// var url = require("url");
-// var remote_options = {
-//   host:'ec2-3-238-24-27.compute-1.amazonaws.com',
-//   port: 3306
-// };
-// var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp9m8vg6@us-east-static-07.quotaguard.com:1080");
-// var auth = proxy.auth;
-// var username = auth.split(":")[0]
-// var pass = auth.split(":")[1]
-
-// var sock_options = {
-//   host: proxy.hostname,
-//   port: 1080,
-//   user: username,
-//   pass: pass
-// }
-// var sockConn = new SocksConnection(remote_options, sock_options)
-// var dbConnection = mysql.createConnection({
-// 		host: 'sodabaz.com',
-// 		port: 3306,
-//       user: 'sodabaz_ebox_2',
-//       password: 'sodabaz_ebox_2',
-//       database: 'sodabaz_ebox_erp',
-//       connectTimeout : 60 * 60 * 1000,
-//       acquireTimeout : 60 * 60 * 1000,
-//       multipleStatements: true,
-//       waitForConnections: true,
-//       connectionLimit: 100,
-//   stream: sockConn
-// });
-// dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
-// 	if (err) throw err;
-  
-// 	console.log('Result: ', rows);
-// 	sockConn.dispose();
 //   });
-//   dbConnection.end();
-// 
-//
 
 
 const dbconfig = require('./database')

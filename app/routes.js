@@ -20,24 +20,70 @@ module.exports = function (app, connection) {
 
 //check2
 	app.get("/check2", (req,res) => {
+
+		connection.getConnection(function(err, connection){
+
+			if(err) throw err;
 		
-		connection.getConnection( async (err, connection) => {
-			if (err) {
-				throw (err)
-			}
-			const sqlSearch = "SELECT * FROM 0_users"
+			querySQL = "SELECT * FROM 0_users";
+		
+			connection.promise().query(querySQL).then(([rows,fields])=> {
+		
+			  if (rows!=undefined) {
+				console.log("The table already exist");
+				console.log(rows)
+			  }else {
+		
+				querySQL = "SELECT * FROM 0_users where user_id = 1";
+		
+				connection.query(querySQL,function(err,rows,field){
+		
+				  if(err) throw err;
+		
+				  console.log("The table has been created");
+				  console.log(rows);
+		
+				});
+		
+			  }
+		
+			})
+			.catch(console.log)
+			.then( ()=> {
+		
+			  querySQL = "SELECT * FROM 0_users where user_id = 2";
+		
+			  connection.promise().query(querySQL).then(([rows,fields])=> {
+		
+				/*
+				More stuff
+				*/
+		
+			  })
+			  .catch(console.log)
+			  .then( ()=> console.log("Promise ended") );
+		
+			});
+		
+		  });
+
+		// connection.getConnection( async (err, connection) => {
+		// 	if (err) {
+		// 		throw (err)
+		// 	}
+		// 	const sqlSearch = "SELECT * FROM 0_users"
 			
-			await connection.query (sqlSearch, async (err, result) => {
-				connection.release()
-				if (err) throw (err)
-				if (result.length != 0) {
-					res.json({
-						status : true,
-						message : result
-					})
-				}
-			}) //end of connection.query()
-		}) //end of db.getConnection()
+		// 	await connection.query (sqlSearch, async (err, result) => {
+		// 		connection.release()
+		// 		if (err) throw (err)
+		// 		if (result.length != 0) {
+		// 			res.json({
+		// 				status : true,
+		// 				message : result
+		// 			})
+		// 		}
+		// 	}) //end of connection.query()
+		// }) //end of db.getConnection()
 	}) //end of app.post()
 
 //create user
