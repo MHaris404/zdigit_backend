@@ -1,6 +1,39 @@
 var mysql = require('mysql');
 
-const sockConn = require('socks').SocksClient;
+// const sockConn = require('socks').SocksClient;
+
+var url = require("url");
+var SocksConnection = require('socksjs');
+var remote_options = {
+  host:'sodabaz.com',
+  port: 3306
+};
+
+var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp9m8vg6@us-east-static-07.quotaguard.com:1080");
+var auth = proxy.auth;
+var username = auth.split(":")[0]
+var pass = auth.split(":")[1]
+
+var sock_options = {
+  host: proxy.hostname,
+  port: 1080,
+  user: username,
+  pass: pass
+}
+var sockConn = new SocksConnection(remote_options, sock_options)
+var dbConnection = mysql.createConnection({
+	user: 'sodabaz_ebox_2',
+      password: 'sodabaz_ebox_2',
+      database: 'sodabaz_ebox_erp',
+  	stream: sockConn
+});
+dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
+  if (err) throw err;
+
+  console.log('Result: ', rows);
+  sockConn.dispose();
+});
+dbConnection.end();
 
 // 
 //
@@ -101,6 +134,6 @@ function handleDisconnect() {
 
 }
 
-handleDisconnect();
+//handleDisconnect();
 
 module.exports = con;
