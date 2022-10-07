@@ -21,14 +21,9 @@ module.exports = function (app, connection) {
 //check2
 	app.get("/check2", (req,res) => {
 
-		
-		connection.getConnection(function(err, connection){
+		querySQL = "SELECT * FROM 0_users";
 
-			if(err) throw err;
-
-			querySQL = "SELECT * FROM 0_users";
-
-			connection.promise().query(querySQL).then(([rows,fields])=> {
+		connection.promise().query(querySQL).then(([rows,fields])=> {
 
 			if (rows!=undefined) {
 				console.log("The table already exist");
@@ -52,10 +47,7 @@ module.exports = function (app, connection) {
 
 			}
 
-			})
-			.catch(console.log)
-			
-		});
+		})
 		
 		// connection.getConnection(function(err, connection){
 
