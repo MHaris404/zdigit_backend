@@ -26,9 +26,9 @@ module.exports = function (app, connection) {
 			if(err) {
 				res.json({
 					status : false,
-					message : err.message
+					message : err
 				})
-				throw err
+				// throw err
 			};
 		
 			querySQL = "SELECT * FROM 0_users";
