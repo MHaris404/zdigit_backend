@@ -29,44 +29,34 @@ module.exports = function (app, connection) {
 		
 			connection.promise().query(querySQL).then(([rows,fields])=> {
 		
-			  if (rows!=undefined) {
+			  if (rows.length != 0) {
 				console.log(rows)
 				res.json({
-									status : true,
-									message : rows
-								})
+						status : true,
+						message : rows
+					})
 			  }else {
-		
-				querySQL = "SELECT * FROM 0_users where user_id = 1";
-		
-				connection.query(querySQL,function(err,rows,field){
-		
-				  if(err) throw err;
-		
-				  console.log("The table has been created");
-				  console.log(rows);
-		
-				});
+				
 		
 			  }
 		
 			})
 			.catch(console.log)
-			.then( ()=> {
+			// .then( ()=> {
 		
-			  querySQL = "SELECT * FROM 0_users where user_id = 2";
+			//   querySQL = "SELECT * FROM 0_users where user_id = 2";
 		
-			  connection.promise().query(querySQL).then(([rows,fields])=> {
+			//   connection.promise().query(querySQL).then(([rows,fields])=> {
 		
-				/*
-				More stuff
-				*/
+			// 	/*
+			// 	More stuff
+			// 	*/
 		
-			  })
-			  .catch(console.log)
-			  .then( ()=> console.log("Promise ended") );
+			//   })
+			//   .catch(console.log)
+			//   .then( ()=> console.log("Promise ended") );
 		
-			});
+			// });
 		
 		  });
 
