@@ -25,7 +25,14 @@ var dbConnection = mysql.createPool({
 	user: 'sodabaz_ebox_2',
       password: 'sodabaz_ebox_2',
       database: 'sodabaz_ebox_erp',
-  	stream: sockConn
+  	stream: sockConn,
+
+	
+      connectTimeout : 60 * 60 * 1000,
+      acquireTimeout : 60 * 60 * 1000,
+      multipleStatements: true,
+      waitForConnections: true,
+      connectionLimit: 100,
 });
 
 // sockConn.dispose();
