@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 
-const SocksClient = require('socks').SocksClient;
+const sockConn = require('socks').SocksClient;
 
 // 
 //
@@ -44,38 +44,6 @@ const SocksClient = require('socks').SocksClient;
 // 
 //
 
-//
-const options = {
-	proxy: {
-	  host: '54.84.138.60', // ipv4 or ipv6 or hostname
-	  port: 1080,
-	  type: 5 // Proxy version (4 or 5)
-	},
-  
-	command: 'connect', // SOCKS command (createConnection factory function only supports the connect command)
-  
-	destination: {
-	  host: 'sodabaz.com', // github.com (hostname lookups are supported with SOCKS v4a and 5)
-	  port: 80
-	}
-  };
-
-  SocksClient.createConnection(options)
-.then(info => {
-	console.log("SUCCESS")
-  console.log(info.socket);
-  // <Socket ...>  (this is a raw net.Socket that is established to the destination host through the given proxy server)
-})
-.catch(err => {
-	
-	console.log("ERROR")
-	console.log(err)
-  // Handle errors
-});
-  
-
-//
-
 
 const dbconfig = require('./database')
 const logger = require('node-color-log');
@@ -85,7 +53,7 @@ var con;
 function handleDisconnect() {
 	
 	con = mysql.createPool(
-		dbConnection
+		dbconfig
 		); 	// Recreate the connection
 
 	con.getConnection((succes, err) =>{
@@ -133,6 +101,6 @@ function handleDisconnect() {
 
 }
 
-// handleDisconnect();
+handleDisconnect();
 
 module.exports = con;
