@@ -21,7 +21,7 @@ var sock_options = {
   pass: "x8nrhq8r8d3zr2ghfxetp9m8vg6"
 }
 var sockConn = new SocksConnection(remote_options, sock_options)
-var dbConnection = mysql.createConnection({
+var dbConnection = mysql.createPool({
 	user: 'sodabaz_ebox_2',
       password: 'sodabaz_ebox_2',
       database: 'sodabaz_ebox_erp',
