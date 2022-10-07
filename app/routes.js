@@ -34,76 +34,17 @@ module.exports = function (app, connection) {
 			}
 
 			if (rows.length != 0) {
-						res.json({
-								status : true,
-								message : rows
-							})
+				res.json({
+						status : true,
+						message : rows
+					})
 			}else {
-						res.json({
-							status : false,
-							message : "no data"
-						})
+				res.json({
+					status : false,
+					message : "no data"
+				})
 			}
 		})
-
-		// connection.promise().query(querySQL).then(([rows,fields])=> {
-
-		// 	if (rows!=undefined) {
-		// 		console.log("The table already exist");
-		// 		console.log(rows)
-		// 		res.json({
-		// 				status : true,
-		// 				message : rows
-		// 			})
-		// 	}else {
-
-		// 		querySQL = "SELECT * FROM 0_users where user_id = 1";
-
-		// 		connection.query(querySQL,function(err,rows,field){
-
-		// 		if(err) throw err;
-
-		// 		console.log("The table has been created");
-		// 		console.log(rows);
-
-		// 		});
-
-		// 	}
-
-		// })
-		
-		// connection.getConnection(function(err, connection){
-
-		// 	if(err) {
-		// 		res.json({
-		// 			status : false,
-		// 			message : err
-		// 		})
-		// 		throw err
-		// 	};
-		
-		// 	querySQL = "SELECT * FROM 0_users";
-		
-		// 	connection.promise().query(querySQL)
-		// 	.then(([rows,fields])=> {
-		
-		// 	  if (rows.length != 0) {
-		// 		res.json({
-		// 				status : true,
-		// 				message : rows
-		// 			})
-		// 	  }else {
-		// 		res.json({
-		// 			status : false,
-		// 			message : "no data"
-		// 		})
-		// 	  }
-		// 	})
-		// 	.catch("CHECK2: " +  console.log)
-			
-		//   });
-
-	})
 
 //create user
 	app.post("/createuser", async (req,res) => {
@@ -145,8 +86,7 @@ module.exports = function (app, connection) {
 //login user
 	app.post("/login", async(req, res)=> {
 		const user = req.body.name
-		connection.getConnection ( async (err, connection)=> {
-			if (err) throw (err)
+		// connection.getConnection ( async (err, connection)=> {
 			const sqlSearch = "Select * from 0_users where user_id = ?"
 			const search_query = mysql.format(sqlSearch,[user])
 			await connection.query (search_query, async (err, result) => {
@@ -183,7 +123,7 @@ module.exports = function (app, connection) {
 					} //end of pass comparion
 				}//end of User exists i.e. results.length==0
 			}) //end of connection.query()
-		}) //end of db.connection()
+		// }) //end of db.connection()
 	}) //end of app.post()
 
 //refresh a access token

@@ -34,38 +34,6 @@ var dbConnection = mysql.createPool({
 
 });
 
-// dbConnection.getConnection(function(err, connection){
-
-// 	if(err) throw err;
-
-// 	querySQL = "SELECT * FROM 0_users";
-
-// 	connection.promise().query(querySQL).then(([rows,fields])=> {
-
-// 	if (rows!=undefined) {
-// 		console.log("The table already exist");
-// 		console.log(rows)
-		
-// 	}else {
-
-// 		querySQL = "SELECT * FROM 0_users where user_id = 1";
-
-// 		connection.query(querySQL,function(err,rows,field){
-
-// 		if(err) throw err;
-
-// 		console.log("The table has been created");
-// 		console.log(rows);
-
-// 		});
-
-// 	}
-
-// 	})
-// 	.catch("ERRORRRR" +console.log)
-	
-// });
-
 // sockConn.dispose();
 // dbConnection.end();
 
