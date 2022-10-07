@@ -23,7 +23,7 @@ module.exports = function (app, connection) {
 
 		querySQL = "SELECT * FROM 0_users";
 
-		connection.query(querySQL).then(([rows,fields])=> {
+		connection.promise().query(querySQL).then(([rows,fields])=> {
 
 			if (rows!=undefined) {
 				console.log("The table already exist");
