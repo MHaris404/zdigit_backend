@@ -25,7 +25,6 @@ var dbConnection = mysql.createPool({
 	user: 'sodabaz_ebox_2',
       password: 'sodabaz_ebox_2',
       database: 'sodabaz_ebox_erp',
-	  connectTimeout : 60 * 60 * 1000,
 
   	stream: sockConn,
 
@@ -92,29 +91,29 @@ function handleDisconnect() {
 	// 	dbconfig
 	// 	); 	// Recreate the connection
 
-	dbConnection.getConnection((succes, err) =>{
-		if(succes) {
+	// dbConnection.getConnection((succes, err) =>{
+	// 	if(succes) {
 		
-			logger.success('DBb Connection established @ ' + new Date());
-		}
+	// 		logger.success('DBb Connection established @ ' + new Date());
+	// 	}
 		
-	})
+	// })
 
 	dbConnection.on('error', function (err) { 
 		if(err.code === 'PROTOCOL_CONNECTION_LOST') {
 			logger.warn('DB type 1:', err + ' @ ' + new Date());
 
 		}else if(err.code === 'PROTOCOL_PACKETS_OUT_OF_ORDER'){
-			logger.error('DB type 2:', err + ' @ ' + new Date());
+			logger.error('DB type 2:' + err + ' @ ' + new Date());
 
 		}else if(err.code === 'PROTOCOL_SEQUENCE_TIMEOUT'){
-			logger.error('DB type 3:', err + ' @ ' + new Date());
+			logger.error('DB type 3:' + err + ' @ ' + new Date());
 
 		}else if(err.code === 'ETIMEDOUT'){
-			logger.error('DB type 4:', err + ' @ ' + new Date());
+			logger.error('DB type 4:'+ err + ' @ ' + new Date());
 
 		}else {
-			logger.error('DB type else:', err + ' @ ' + new Date());
+			logger.error('DB type else:' + err + ' @ ' + new Date());
 			
 		}
 	 })
