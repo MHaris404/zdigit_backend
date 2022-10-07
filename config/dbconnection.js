@@ -27,12 +27,12 @@ var dbConnection = mysql.createPool({
       database: 'sodabaz_ebox_erp',
   	stream: sockConn
 });
-dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
-  if (err) throw err;
+// dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
+//   if (err) throw err;
 
-  console.log('Result: ', rows);
+//   console.log('Result: ', rows);
 //   sockConn.dispose();
-});
+// });
 // dbConnection.end();
 
 dbConnection.getConnection(function(err, connection){
