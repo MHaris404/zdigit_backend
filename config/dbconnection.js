@@ -88,11 +88,11 @@ var con;
 
 function handleDisconnect() {
 	
-	con = mysql.createPool(
-		dbconfig
-		); 	// Recreate the connection
+	// con = mysql.createPool(
+	// 	dbconfig
+	// 	); 	// Recreate the connection
 
-	con.getConnection((succes, err) =>{
+	dbConnection.getConnection((succes, err) =>{
 		if(succes) {
 		
 			logger.success('DBb Connection established @ ' + new Date());
@@ -100,7 +100,7 @@ function handleDisconnect() {
 		
 	})
 
-	con.on('error', function (err) { 
+	dbConnection.on('error', function (err) { 
 		if(err.code === 'PROTOCOL_CONNECTION_LOST') {
 			logger.warn('DB type 1:', err + ' @ ' + new Date());
 
@@ -119,24 +119,24 @@ function handleDisconnect() {
 		}
 	 })
 
-	con.on('acquire', function (connection) {
+	 dbConnection.on('acquire', function (connection) {
 		logger.debug(`Connection ${connection.threadId} acquired`);
 	});
 
-	con.on('connection', function (connection) {
+	dbConnection.on('connection', function (connection) {
 		connection.query('SET SESSION auto_increment_increment=1')
 	});
 
-	con.on('enqueue', function () {
+	dbConnection.on('enqueue', function () {
 		logger.debug('Waiting for available connection slot');
 	});
 
-	con.on('release', function (connection) {
+	dbConnection.on('release', function (connection) {
 		logger.info(`Connection ${connection.threadId} released`);
 	});
 
 }
 
-//handleDisconnect();
+handleDisconnect();
 
 module.exports = dbConnection;

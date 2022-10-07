@@ -24,3 +24,5 @@ const port = process.env.PORT
 app.listen(process.env.PORT || 5000, function(){
     console.log("hellow Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
+
+  app.timeout = 60 * 60 * 1000;
