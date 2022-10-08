@@ -22,6 +22,7 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
+    "newrelic": "^9.2.0",
     "node-color-log": "^10.0.2",
     "socksjs": "^0.5.0"
   },
