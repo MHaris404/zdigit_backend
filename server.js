@@ -1,5 +1,4 @@
 const express = require("express")
-var timeout = express.timeout
 const app = express()
 const cors = require('cors');
 var morgan = require('morgan')
@@ -18,13 +17,7 @@ app.use(express.json())
 // });
 app.use(cors())
 app.use(morgan('production'));
-// app.use(timeout('29s'))
-app.use(timeout(120000));
-
-
-function haltOnTimedout(req, res, next){
-  if (!req.timedout) next();
-}
+app.use(timeout('29s'))
 
 app.use(haltOnTimedout);
 
