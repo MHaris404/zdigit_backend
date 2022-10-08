@@ -31,7 +31,7 @@ module.exports = function (app, connection) {
 					message : err
 				})
 				console.log("check2: " + err)
-				
+
 			} else {
 				conn.query(querySQL, (error, rows, fields) => {
 					conn.release();
@@ -125,7 +125,7 @@ module.exports = function (app, connection) {
 					connection.query (search_query, (err, result, fields) => {
 						conn.release()
 
-						if (result.length == 0) {
+						if (result != 0) {
 							
 							res.json({ //put status
 								status : false,
