@@ -92,10 +92,10 @@ function handleDisconnect() {
 		herokuConfig
 		); 	// Recreate the connection
 
-	dbConnection.getConnection(function(err, conn) {
-		conn.query("Select 1+1");
-		dbConnection.releaseConnection(conn);
-		})
+	// dbConnection.getConnection(function(err, conn) {
+	// 	conn.query("Select 1+1");
+	// 	dbConnection.releaseConnection(conn);
+	// 	})
 
 	dbConnection.on('error', function (err) { 
 		if(err.code === 'PROTOCOL_CONNECTION_LOST') {
@@ -125,7 +125,7 @@ function handleDisconnect() {
 		}
 	 })
 
-	 dbConnection.on('acquire', function (connection) {
+	dbConnection.on('acquire', function (connection) {
 		logger.debug(`Connection ${connection.threadId} acquired`);
 		
 		console.log(`Connection ${connection.threadId} acquired`)
