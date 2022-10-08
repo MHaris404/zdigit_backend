@@ -20,11 +20,13 @@ app.use(cors())
 app.use(morgan('production'));
 // app.use(timeout('29s'))
 app.use(timeout(120000));
-app.use(haltOnTimedout);
+
 
 function haltOnTimedout(req, res, next){
   if (!req.timedout) next();
 }
+
+app.use(haltOnTimedout);
 
 require('./app/routes.js')(app, connection); // load our routes
 
