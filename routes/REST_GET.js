@@ -15,7 +15,6 @@ exports.getPOCOUNT = function (req, res) {
 				console.log("getPOCount: " + err)
 			} else {
 				conn.query (sqlSearch, (err, result, fields) => {
-					conn.release()
 					
 					if (result == 0) {
 						res.json({
@@ -30,6 +29,8 @@ exports.getPOCOUNT = function (req, res) {
 							details : result[0].count
 						})
 					}//end
+
+					conn.release()
 				}) //end of connection.query()
 			}
 		})
