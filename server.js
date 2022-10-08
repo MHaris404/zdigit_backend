@@ -18,6 +18,10 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan('production'));
 app.use(timeout('5s'))
+function errorHandler (err, req, res, next) {
+  console.log("Oops: " + err)
+}
+app.use(errorHandler)
 
 require('./app/routes.js')(app, connection); // load our routes
 
