@@ -17,7 +17,7 @@ exports.getPOCOUNT = function (req, res) {
 				conn.query (sqlSearch, (err, result, fields) => {
 					conn.release()
 					
-					if (result != 0) {
+					if (result == 0) {
 						res.json({
 							status : false,
 							message : "No PO to be processed",
@@ -48,10 +48,11 @@ exports.getPODETAILS = function (req, res) {
 					message : err
 				})
 				console.log("getPODetails: " + err)
+				
 			} else {
 				conn.query (sqlSearch, (err, result, fields)  => {
 					
-					if (result != 0) {
+					if (result == 0) {
 						res.status(200).json({
 							status : false,
 							message : "No PO to be processed"

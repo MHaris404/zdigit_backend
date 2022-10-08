@@ -34,8 +34,7 @@ module.exports = function (app, connection) {
 
 			} else {
 				conn.query(querySQL, (error, rows, fields) => {
-					conn.release();
-					if (rows.length != 0) {
+					if (rows != 0) {
 						res.json({
 								status : true,
 								message : rows
@@ -46,6 +45,8 @@ module.exports = function (app, connection) {
 							message : "no data"
 						})
 					}
+					
+					conn.release();
 				});
 			}
 		})
@@ -72,19 +73,19 @@ module.exports = function (app, connection) {
 					status : false,
 					message : err
 				})
-				throw err
+				console.log("createuser: "  + err)
 			} else {
 				conn.query (search_query, async(err, result, fields) => {
 			
-					if (result.length != 0) {
-						conn.release()
+					if (result == 0) {
 						res.status(409).json({
 							status : false,
 							message : "User already exists"
 						})
+						
+						conn.release()
 					} else {
 						await conn.query (insert_query, (err, result)=> {
-							conn.release()
 							if(err) {
 								res.json({
 									status : false,
@@ -99,6 +100,8 @@ module.exports = function (app, connection) {
 								})
 							}
 						})
+						
+						conn.release()
 					}
 				}) //end of connection.query()
 			}
@@ -115,7 +118,6 @@ module.exports = function (app, connection) {
 			connection.getConnection((err, conn) => {
 				if(err) 
 				{
-					conn.release()
 					res.json({
 						status : false,
 						message : err
@@ -124,7 +126,7 @@ module.exports = function (app, connection) {
 				} else {
 					conn.query (search_query, (err, result, fields) => {
 
-						if (result != 0) {
+						if (result == 0) {
 							
 							res.json({ //put status
 								status : false,
