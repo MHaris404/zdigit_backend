@@ -101,8 +101,9 @@ module.exports = function (app, connection) {
 							}
 						})
 						
-						conn.release()
 					}
+					
+					conn.release()
 				}) //end of connection.query()
 			}
 		})
