@@ -122,8 +122,7 @@ module.exports = function (app, connection) {
 					})
 					console.log("login: " + err)
 				} else {
-					connection.query (search_query, (err, result, fields) => {
-						conn.release()
+					conn.query (search_query, (err, result, fields) => {
 
 						if (result != 0) {
 							
@@ -155,6 +154,8 @@ module.exports = function (app, connection) {
 								})
 							} //end of pass comparion
 						}//end of User exists i.e. results.length==0
+						
+						conn.release()
 					}) //end of connection.query()
 				}
 			})
