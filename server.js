@@ -17,20 +17,9 @@ app.use(express.json())
 // });
 app.use(cors())
 app.use(morgan('production'));
-app.use(timeout('5s'))
-function errorHandler (err, req, res, next) {
-  console.log("Oops: " + err)
-}
-app.use(errorHandler)
+app.use(timeout('35s'))
 
 require('./app/routes.js')(app, connection); // load our routes
-
-// const port = process.env.PORT
-//app.listen(port, ()=> logger.success(`Server Started on port ${port} on ` + new Date()))
-
-// app.listen(process.env.PORT || 5000, function(){
-//     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
-//   });
 
 app.listen(process.env.PORT || 5000, function(){
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
