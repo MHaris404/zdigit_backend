@@ -55,7 +55,7 @@ module.exports = function (app, connection) {
 				})
 				throw err
 			} else {
-				conn.query(statement, (error, results, fields) => {
+				conn.query(querySQL, (error, results, fields) => {
 					conn.release();
 					// callback(error, results, fields);
 					if (rows.length != 0) {
