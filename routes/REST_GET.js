@@ -50,7 +50,6 @@ exports.getPODETAILS = function (req, res) {
 				console.log("getPODetails: " + err)
 			} else {
 				conn.query (sqlSearch, (err, result, fields)  => {
-					conn.release()
 					
 					if (result != 0) {
 						res.status(200).json({
@@ -64,6 +63,8 @@ exports.getPODETAILS = function (req, res) {
 							details : result
 						})
 					}//end
+					
+					conn.release()
 				}) //end of connection.query()
 			}
 		})
