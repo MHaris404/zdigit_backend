@@ -23,29 +23,6 @@ module.exports = function (app, connection) {
 
 		querySQL = "SELECT * FROM 0_users";
 
-		// connection.query(querySQL, function(err, rows, fields) {
-			// if(err) 
-			// {
-			// 	res.json({
-			// 		status : false,
-			// 		message : err
-			// 	})
-			// 	throw err
-			// }
-
-			// if (rows.length != 0) {
-			// 	res.json({
-			// 			status : true,
-			// 			message : rows
-			// 		})
-			// }else {
-			// 	res.json({
-			// 		status : false,
-			// 		message : "no data"
-			// 	})
-			// }
-		// })
-
 		connection.getConnection((err, conn) => {
 			if(err) 
 			{
@@ -53,11 +30,11 @@ module.exports = function (app, connection) {
 					status : false,
 					message : err
 				})
-				throw err
+				console.log("check2: " + err)
+				
 			} else {
 				conn.query(querySQL, (error, rows, fields) => {
 					conn.release();
-					// callback(error, results, fields);
 					if (rows.length != 0) {
 						res.json({
 								status : true,
@@ -87,7 +64,8 @@ module.exports = function (app, connection) {
 		const insert_query = mysql.format(sqlInsert,[count, name, hashedPassword, real_name, role_id, phone])
 		// ? will be replaced by values
 		// ?? will be replaced by string
-		connection.query (search_query, async(err, result, fields) => {
+		
+		connection.getConnection((err, conn) => {
 			if(err) 
 			{
 				res.json({
@@ -95,24 +73,37 @@ module.exports = function (app, connection) {
 					message : err
 				})
 				throw err
-			}
-
-			if (result.length != 0) {
-				res.status(409).json({
-					status : false,
-					message : "User already exists"
-				})
 			} else {
-				await connection.query (insert_query, (err, result)=> {
-					if (err) throw (err)
-					res.status(201).json({
-						status : true,
-						message : "Created new User",
-						userid : result.insertId,
-					})
-				})
+				conn.query (search_query, async(err, result, fields) => {
+			
+					if (result.length != 0) {
+						conn.release()
+						res.status(409).json({
+							status : false,
+							message : "User already exists"
+						})
+					} else {
+						await conn.query (insert_query, (err, result)=> {
+							conn.release()
+							if(err) {
+								res.json({
+									status : false,
+									message : err
+								})
+								throw err
+							} else {
+								res.status(201).json({
+									status : true,
+									message : "Created new User",
+									userid : result.insertId,
+								})
+							}
+						})
+					}
+				}) //end of connection.query()
 			}
-		}) //end of connection.query()
+		})
+
 	}) //end of app.post()
 
 //login user
@@ -120,45 +111,55 @@ module.exports = function (app, connection) {
 		const user = req.body.name
 			const sqlSearch = "Select * from 0_users where user_id = ?"
 			const search_query = mysql.format(sqlSearch,[user])
-			 connection.query (search_query, (err, result, fields) => {
-				if (err) {
+
+			connection.getConnection((err, conn) => {
+				if(err) 
+				{
+					conn.release()
 					res.json({
 						status : false,
 						message : err
 					})
-					console.log(err)
-					throw err
+					console.log("login: " + err)
+				} else {
+					connection.query (search_query, (err, result, fields) => {
+						conn.release()
+
+						if (result.length == 0) {
+							
+							res.json({ //put status
+								status : false,
+								message : "User does not exist"
+								})	
+									
+						} else {
+							const {password, role_id, email} = result[0]
+							if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
+							
+								const accessToken = generateAccessToken ({user})
+								const refreshToken = generateRefreshToken ({user})
+								refreshTokens.push(refreshToken);
+								res.status(200).json({
+									status : true,
+									message : "login successful",
+									details : {
+										user,
+										role_id,
+										email,
+										tokens : {accessToken, refreshToken},
+									}})
+							} else {
+								res.json({ //res.status(401)
+									status : false,
+									message : "Password incorrect!",
+								})
+							} //end of pass comparion
+						}//end of User exists i.e. results.length==0
+					}) //end of connection.query()
 				}
-				if (result.length == 0) {
-					res.json({ //put status
-						status : false,
-						message : "User does not exist"
-						})		
-				} 
-				else {
-					const {password, role_id, email} = result[0]
-					if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
-					
-						const accessToken = generateAccessToken ({user})
-						const refreshToken = generateRefreshToken ({user})
-						refreshTokens.push(refreshToken);
-						res.status(200).json({
-							status : true,
-							message : "login successful",
-							details : {
-								user,
-								role_id,
-								email,
-								tokens : {accessToken, refreshToken},
-							}})
-					} else {
-						res.json({ //res.status(401)
-							status : false,
-							message : "Password incorrect!",
-						})
-					} //end of pass comparion
-				}//end of User exists i.e. results.length==0
-			}) //end of connection.query()
+			})
+
+			 
 	}) //end of app.post()
 
 //refresh a access token
