@@ -19,8 +19,6 @@ app.use(cors())
 app.use(morgan('production'));
 app.use(timeout('29s'))
 
-app.use(haltOnTimedout);
-
 require('./app/routes.js')(app, connection); // load our routes
 
 app.listen(process.env.PORT || 5000, function(){
