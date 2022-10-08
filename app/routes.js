@@ -45,7 +45,6 @@ module.exports = function (app, connection) {
 				})
 			}
 		})
-		connection.destroy()
 
 	})
 
