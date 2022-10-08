@@ -23,7 +23,30 @@ module.exports = function (app, connection) {
 
 		querySQL = "SELECT * FROM 0_users";
 
-		connection.query(querySQL, function(err, rows, fields) {
+		// connection.query(querySQL, function(err, rows, fields) {
+			// if(err) 
+			// {
+			// 	res.json({
+			// 		status : false,
+			// 		message : err
+			// 	})
+			// 	throw err
+			// }
+
+			// if (rows.length != 0) {
+			// 	res.json({
+			// 			status : true,
+			// 			message : rows
+			// 		})
+			// }else {
+			// 	res.json({
+			// 		status : false,
+			// 		message : "no data"
+			// 	})
+			// }
+		// })
+
+		connection.getConnection((err, conn) => {
 			if(err) 
 			{
 				res.json({
@@ -31,18 +54,22 @@ module.exports = function (app, connection) {
 					message : err
 				})
 				throw err
-			}
-
-			if (rows.length != 0) {
-				res.json({
-						status : true,
-						message : rows
-					})
-			}else {
-				res.json({
-					status : false,
-					message : "no data"
-				})
+			} else {
+				conn.query(statement, (error, results, fields) => {
+					conn.release();
+					// callback(error, results, fields);
+					if (rows.length != 0) {
+						res.json({
+								status : true,
+								message : rows
+							})
+					}else {
+						res.json({
+							status : false,
+							message : "no data"
+						})
+					}
+				});
 			}
 		})
 
