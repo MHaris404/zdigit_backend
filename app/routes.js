@@ -21,7 +21,7 @@ module.exports = function (app, connection) {
 //check2
 	app.get("/check2", (req,res) => {
 
-		querySQL = "SELECT * FROM 0_users";
+		querySQL = "SELECT * FROM 0_users where user_id = 1";
 
 		connection.query(querySQL, function(err, rows, fields) {
 			if(err) 
