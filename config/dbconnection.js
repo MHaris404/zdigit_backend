@@ -92,35 +92,43 @@ function handleDisconnect() {
 		herokuConfig
 		); 	// Recreate the connection
 
-	dbConnection.getConnection((succes, err) =>{
-		if(succes) {
-		
-			logger.success('DBb Connection established @ ' + new Date());
-		}
-		
-	})
+	dbConnection.getConnection(function(err, conn) {
+		conn.query("Select 1+1");
+		dbConnection.releaseConnection(conn);
+		})
 
 	dbConnection.on('error', function (err) { 
 		if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-			logger.warn('DB type 1:', err + ' @ ' + new Date());
+			console.log('DB type 1:', err + ' @ ' + new Date())
+			// logger.warn('DB type 1:', err + ' @ ' + new Date());
 
 		}else if(err.code === 'PROTOCOL_PACKETS_OUT_OF_ORDER'){
-			logger.error('DB type 2:' + err + ' @ ' + new Date());
+			// logger.error('DB type 2:' + err + ' @ ' + new Date());
+			
+			console.log('DB type 2:', err + ' @ ' + new Date())
 
 		}else if(err.code === 'PROTOCOL_SEQUENCE_TIMEOUT'){
-			logger.error('DB type 3:' + err + ' @ ' + new Date());
+			// logger.error('DB type 3:' + err + ' @ ' + new Date());
+			
+			console.log('DB type 3:', err + ' @ ' + new Date())
 
 		}else if(err.code === 'ETIMEDOUT'){
-			logger.error('DB type 4:'+ err + ' @ ' + new Date());
+			// logger.error('DB type 4:'+ err + ' @ ' + new Date());
+			
+			console.log('DB type 4:', err + ' @ ' + new Date())
 
 		}else {
-			logger.error('DB type else:' + err + ' @ ' + new Date());
+			// logger.error('DB type else:' + err + ' @ ' + new Date());
+			
+			console.log('DB type else:', err + ' @ ' + new Date())
 			
 		}
 	 })
 
 	 dbConnection.on('acquire', function (connection) {
 		logger.debug(`Connection ${connection.threadId} acquired`);
+		
+		console.log(`Connection ${connection.threadId} acquired`)
 	});
 
 	dbConnection.on('connection', function (connection) {
@@ -128,11 +136,13 @@ function handleDisconnect() {
 	});
 
 	dbConnection.on('enqueue', function () {
-		logger.debug('Waiting for available connection slot');
+		// logger.debug('Waiting for available connection slot');
+		console.log('Waiting for available connection slot')
 	});
 
 	dbConnection.on('release', function (connection) {
-		logger.info(`Connection ${connection.threadId} released`);
+		// logger.info(`Connection ${connection.threadId} released`);
+		console.log(`Connection ${connection.threadId} released`)
 	});
 
 }
