@@ -1,18 +1,10 @@
 var mysql = require('mysql2');
 
-// const sockConn = require('socks').SocksClient;
-
-var url = require("url");
 var SocksConnection = require('socksjs');
 var remote_options = {
   host:'sodabaz.com',
   port: 3306
 };
-
-// var proxy = url.parse("socks5://n16vhxv8n4lbst:x8nrhq8r8d3zr2ghfxetp9m8vg6@us-east-static-07.quotaguard.com:1080");
-// var auth = proxy.auth;
-// var username = auth.split(":")[0]
-// var pass = auth.split(":")[1]
 
 var sock_options = {
   host: "us-east-static-07.quotaguard.com",
@@ -20,19 +12,23 @@ var sock_options = {
   user: "n16vhxv8n4lbst",
   pass: "x8nrhq8r8d3zr2ghfxetp9m8vg6"
 }
+
+
 var sockConn = new SocksConnection(remote_options, sock_options)
-var dbConnection = mysql.createPool({
+
+var herokuConfig = {
 	user: 'sodabaz_ebox_2',
-      password: 'sodabaz_ebox_2',
-      database: 'sodabaz_ebox_erp',
-      connectTimeout : 60 * 60 * 1000,
-      multipleStatements: true,
-      waitForConnections: true,
-      connectionLimit: 100,
+	  password: 'sodabaz_ebox_2',
+	  database: 'sodabaz_ebox_erp',
+	  connectTimeout : 60 * 60 * 1000,
+	  multipleStatements: true,
+	  waitForConnections: true,
+	  connectionLimit: 100,
 
-  	stream: sockConn,
+	  stream: sockConn,
+}
 
-});
+var dbConnection = mysql.createPool(herokuConfig);
 
 // sockConn.dispose();
 // dbConnection.end();
@@ -87,21 +83,22 @@ var dbConnection = mysql.createPool({
 const dbconfig = require('./database')
 const logger = require('node-color-log');
 
-var con;
+var dbConnection;
 
 function handleDisconnect() {
 	
-	// con = mysql.createPool(
-	// 	dbconfig
-	// 	); 	// Recreate the connection
+	dbConnection = mysql.createPool(
+		//dbconfig
+		herokuConfig
+		); 	// Recreate the connection
 
-	// dbConnection.getConnection((succes, err) =>{
-	// 	if(succes) {
+	dbConnection.getConnection((succes, err) =>{
+		if(succes) {
 		
-	// 		logger.success('DBb Connection established @ ' + new Date());
-	// 	}
+			logger.success('DBb Connection established @ ' + new Date());
+		}
 		
-	// })
+	})
 
 	dbConnection.on('error', function (err) { 
 		if(err.code === 'PROTOCOL_CONNECTION_LOST') {
@@ -140,6 +137,6 @@ function handleDisconnect() {
 
 }
 
-// handleDisconnect();
+handleDisconnect();
 
 module.exports = dbConnection;

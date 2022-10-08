@@ -99,6 +99,7 @@ module.exports = function (app, connection) {
 						status : false,
 						message : err
 					})
+					console.log(err)
 					throw err
 				}
 				if (result.length == 0) {
