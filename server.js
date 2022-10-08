@@ -3,7 +3,7 @@ const app = express()
 const cors = require('cors');
 var morgan = require('morgan')
 var timeout = require('connect-timeout')
-require ('newrelic');
+require ('./newrelic');
 
 const logger = require('node-color-log');
 const connection = require('./config/dbconnection')
