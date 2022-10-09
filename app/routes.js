@@ -124,6 +124,7 @@ module.exports = function (app, connection) {
 						message : err
 					})
 					console.log("login: " + err)
+					throw err
 				} else {
 					conn.query (search_query, (err, result, fields) => {
 
