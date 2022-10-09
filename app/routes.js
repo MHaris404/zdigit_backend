@@ -117,7 +117,6 @@ module.exports = function (app, connection) {
 				} else {
 					conn.query (search_query, (err, result, fields) => {
 
-						console.log(result[0].email)
 						if (result == 0 || result == null) {
 							
 							conn.release()
@@ -128,6 +127,7 @@ module.exports = function (app, connection) {
 									
 						} else {
 							
+							console.log(result[0].email)
 							conn.release()
 							const {password, role_id, email} = result[0]
 							if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
