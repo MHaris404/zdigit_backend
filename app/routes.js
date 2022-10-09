@@ -128,6 +128,7 @@ module.exports = function (app, connection) {
 				} else {
 					conn.query (search_query, (err, result, fields) => {
 
+						done();
 						if (result == 0) {
 							
 							res.json({ //put status
@@ -158,8 +159,7 @@ module.exports = function (app, connection) {
 								})
 							} //end of pass comparion
 						}//end of User exists i.e. results.length==0
-						done();
-						conn.release()
+						// conn.release()
 					}) //end of connection.query()
 				}
 			})
