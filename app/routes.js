@@ -105,19 +105,23 @@ module.exports = function (app, connection) {
 	}) //end of app.post()
 
 //login user
-	app.post("/login", async(req, res)=> {
+	app.post("/login", async (req, res)=> {
 		const user = req.body.name
 			const sqlSearch = "Select * from 0_users where user_id = ?"
 			const search_query = mysql.format(sqlSearch,[user])
 
-			connection.getConnection((err, conn) => {
-				if(err) 
-				{
-					console.log("login: " + err + " " + new Date())
-				} else {
-					conn.query (search_query, (err, result, fields) => {
+			// await connection.getConnection((err, conn) => {
+			// 	if(err) 
+			// 	{
+			// 		console.log("login: " + err + " " + new Date())
+			// 	} else {
+					conn.query (search_query, async(err, result, fields) => {
 
-						conn.release()
+						await conn.release()
+						if(err) 
+						{
+							console.log("login: " + err + " " + new Date())
+						}
 						if (result == 0 || result == null) {
 							
 							res.json({ //put status
@@ -151,8 +155,8 @@ module.exports = function (app, connection) {
 							} //end of pass comparion
 						}//end of User exists i.e. results.length==0
 					}) //end of connection.query()
-				}
-			})
+			// 	}
+			// })
 
 			 
 	}) //end of app.post()
