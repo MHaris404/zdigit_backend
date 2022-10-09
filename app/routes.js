@@ -119,17 +119,18 @@ module.exports = function (app, connection) {
 
 						if (result == 0) {
 							
-						conn.release()
+							conn.release()
 							res.json({ //put status
 								status : false,
 								message : "User does not exist"
 								})	
 									
 						} else {
+							console.log(result)
 							const {password, role_id, email} = result[0]
 							if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
 							
-						conn.release()
+								conn.release()
 								const accessToken = generateAccessToken ({user})
 								const refreshToken = generateRefreshToken ({user})
 								refreshTokens.push(refreshToken);
