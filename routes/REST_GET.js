@@ -8,14 +8,12 @@ exports.getPOCOUNT = function (req, res) {
 		connection.getConnection((err, conn) => {
 			if(err) 
 			{
-				res.json({
-					status : false,
-					message : err
-				})
-				console.log("getPOCount: " + err)
+				console.log("getPOCount: " + err + " " + new Date())
 			} else {
 				conn.query (sqlSearch, (err, result, fields) => {
 					
+					conn.release()
+
 					if (result == 0) {
 						res.json({
 							status : false,
@@ -30,7 +28,6 @@ exports.getPOCOUNT = function (req, res) {
 						})
 					}//end
 
-					conn.release()
 				}) //end of connection.query()
 			}
 		})
@@ -44,15 +41,12 @@ exports.getPODETAILS = function (req, res) {
 		connection.getConnection((err, conn) => {
 			if(err) 
 			{
-				res.json({
-					status : false,
-					message : err
-				})
-				console.log("getPODetails: " + err)
+				console.log("getPODetails: " + err+ " " + new Date())
 				
 			} else {
 				conn.query (sqlSearch, (err, result, fields)  => {
 					
+					conn.release()
 					if (result == 0) {
 						res.status(200).json({
 							status : false,
@@ -66,7 +60,6 @@ exports.getPODETAILS = function (req, res) {
 						})
 					}//end
 					
-					conn.release()
 				}) //end of connection.query()
 			}
 		})

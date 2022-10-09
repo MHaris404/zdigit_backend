@@ -69,11 +69,7 @@ module.exports = function (app, connection) {
 		connection.getConnection((err, conn) => {
 			if(err) 
 			{
-				res.json({
-					status : false,
-					message : err
-				})
-				console.log("createuser: "  + err)
+				console.log("createuser: "  + err+ " " + new Date())
 			} else {
 				conn.query (search_query, async(err, result, fields) => {
 			
@@ -103,7 +99,6 @@ module.exports = function (app, connection) {
 						
 					}
 					
-					conn.release()
 				}) //end of connection.query()
 			}
 		})
@@ -119,13 +114,7 @@ module.exports = function (app, connection) {
 			connection.getConnection((err, conn) => {
 				if(err) 
 				{
-					// res.json({
-					// 	status : false,
-					// 	message : err
-					// })
-					
 					console.log("login: " + err + " " + new Date())
-					// throw err
 				} else {
 					conn.query (search_query, (err, result, fields) => {
 
