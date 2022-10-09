@@ -124,7 +124,6 @@ module.exports = function (app, connection) {
 					// 	message : err
 					// })
 					
-					conn.release()
 					console.log("login: " + err + " " + new Date())
 					// throw err
 				} else {
