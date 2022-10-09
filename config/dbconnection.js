@@ -143,6 +143,7 @@ function handleDisconnect() {
 
 	dbConnection.on('connection', function (connection) {
 		connection.query('SET SESSION auto_increment_increment=1 ')
+		console.log(`Connection ${connection.threadId} connected ` + new Date())
 	});
 
 	dbConnection.on('enqueue', function () {
