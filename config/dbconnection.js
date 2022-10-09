@@ -118,6 +118,11 @@ function handleDisconnect() {
 			
 	// 		console.log('DB type 4:', err + ' @ ' + new Date())
 
+	// 	}else if(err.code === 'EPIPE'){
+	// 		// logger.error('DB type 5:'+ err + ' @ ' + new Date());
+			
+	// 		console.log('DB type 5:', err + ' @ ' + new Date())
+
 	// 	}else {
 	// 		// logger.error('DB type else:' + err + ' @ ' + new Date());
 			
