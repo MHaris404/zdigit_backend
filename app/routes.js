@@ -26,14 +26,13 @@ module.exports = function (app, connection) {
 		connection.getConnection((err, conn) => {
 			if(err) 
 			{
-				res.json({
-					status : false,
-					message : err
-				})
+				
 				console.log("check2: " + err)
 
 			} else {
 				conn.query(querySQL, (error, rows, fields) => {
+					
+					conn.release();
 					if (rows != 0) {
 						res.json({
 								status : true,
@@ -46,7 +45,6 @@ module.exports = function (app, connection) {
 						})
 					}
 					
-					conn.release();
 				});
 			}
 		})
