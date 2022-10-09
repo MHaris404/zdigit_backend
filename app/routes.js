@@ -117,7 +117,7 @@ module.exports = function (app, connection) {
 				} else {
 					conn.query (search_query, (err, result, fields) => {
 
-						if (result == 0) {
+						if (result == 0 || result == null) {
 							
 							conn.release()
 							res.json({ //put status
