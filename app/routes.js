@@ -115,9 +115,9 @@ module.exports = function (app, connection) {
 			// 	{
 			// 		console.log("login: " + err + " " + new Date())
 			// 	} else {
-					conn.query (search_query, async(err, result, fields) => {
+					connection.query (search_query, async(err, result, fields) => {
 
-						await conn.release()
+						// await conn.release()
 						if(err) 
 						{
 							console.log("login: " + err + " " + new Date())
