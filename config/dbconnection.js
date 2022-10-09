@@ -94,11 +94,11 @@ function handleDisconnect() {
 		herokuConfig
 		); 	// Recreate the connection
 
-	dbConnection.getConnection(function(err, conn) {
-		conn.query("Select 1+1");
-		conn.release()
-		dbConnection.releaseConnection(conn);
-		})
+	// dbConnection.getConnection(function(err, conn) {
+	// 	conn.query("Select 1+1");
+	// 	conn.release()
+	// 	dbConnection.releaseConnection(conn);
+	// 	})
 
 	// dbConnection.on('error', function (err) { 
 	// 	if(err.code === 'PROTOCOL_CONNECTION_LOST') {
