@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const cors = require('cors');
 var morgan = require('morgan')
-var timeout = require('connect-timeout')
+// var timeout = require('connect-timeout')
 
 const logger = require('node-color-log');
 const connection = require('./config/dbconnection')
@@ -17,7 +17,7 @@ app.use(express.json())
 // });
 app.use(cors())
 app.use(morgan('production'));
-app.use(timeout('29s'))
+// app.use(timeout('29s'))
 
 require('./app/routes.js')(app, connection); // load our routes
 
