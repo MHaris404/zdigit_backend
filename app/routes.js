@@ -126,11 +126,12 @@ module.exports = function (app, connection) {
 								})	
 									
 						} else {
+							
+							conn.release()
 							console.log(result)
 							const {password, role_id, email} = result[0]
 							if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
 							
-								conn.release()
 								const accessToken = generateAccessToken ({user})
 								const refreshToken = generateRefreshToken ({user})
 								refreshTokens.push(refreshToken);
