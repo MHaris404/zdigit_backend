@@ -158,7 +158,7 @@ module.exports = function (app, connection) {
 								})
 							} //end of pass comparion
 						}//end of User exists i.e. results.length==0
-						
+						done();
 						conn.release()
 					}) //end of connection.query()
 				}
