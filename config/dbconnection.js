@@ -126,23 +126,23 @@ function handleDisconnect() {
 	 })
 
 	dbConnection.on('acquire', function (connection) {
-		logger.debug(`Connection ${connection.threadId} acquired`);
+		// logger.debug(`Connection ${connection.threadId} acquired`);
 		
-		console.log(`Connection ${connection.threadId} acquired`)
+		console.log(`Connection ${connection.threadId} acquired ` + new Date())
 	});
 
 	dbConnection.on('connection', function (connection) {
-		connection.query('SET SESSION auto_increment_increment=1')
+		connection.query('SET SESSION auto_increment_increment=1 ' + new Date())
 	});
 
 	dbConnection.on('enqueue', function () {
 		// logger.debug('Waiting for available connection slot');
-		console.log('Waiting for available connection slot')
+		console.log('Waiting for available connection slot ' + new Date())
 	});
 
 	dbConnection.on('release', function (connection) {
 		// logger.info(`Connection ${connection.threadId} released`);
-		console.log(`Connection ${connection.threadId} released`)
+		console.log(`Connection ${connection.threadId} released ` + new Date())
 	});
 
 }
