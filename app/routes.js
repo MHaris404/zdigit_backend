@@ -123,6 +123,8 @@ module.exports = function (app, connection) {
 					// 	status : false,
 					// 	message : err
 					// })
+					
+					conn.release()
 					console.log("login: " + err + " " + new Date())
 					// throw err
 				} else {
@@ -159,7 +161,7 @@ module.exports = function (app, connection) {
 								})
 							} //end of pass comparion
 						}//end of User exists i.e. results.length==0
-						// conn.release()
+						conn.release()
 					}) //end of connection.query()
 				}
 			})
