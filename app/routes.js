@@ -117,7 +117,7 @@ module.exports = function (app, connection) {
 				} else {
 					conn.query (search_query, (err, result, fields) => {
 
-						console.log(result)
+						console.log(result.email)
 						if (result == 0 || result == null) {
 							
 							conn.release()
