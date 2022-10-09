@@ -25,7 +25,6 @@ var herokuConfig = {
 	  waitForConnections: true,
 	  connectionLimit: 15,
 	  queueLimit: 30,
-	  acquireTimeout: 1000000,
 
 	  stream: sockConn,
 }
