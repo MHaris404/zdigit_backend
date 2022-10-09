@@ -98,33 +98,37 @@ function handleDisconnect() {
 		dbConnection.releaseConnection(conn);
 		})
 
-	dbConnection.on('error', function (err) { 
-		if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-			console.log('DB type 1:', err + ' @ ' + new Date())
-			// logger.warn('DB type 1:', err + ' @ ' + new Date());
+	// dbConnection.on('error', function (err) { 
+	// 	if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+	// 		console.log('DB type 1:', err + ' @ ' + new Date())
+	// 		// logger.warn('DB type 1:', err + ' @ ' + new Date());
 
-		}else if(err.code === 'PROTOCOL_PACKETS_OUT_OF_ORDER'){
-			// logger.error('DB type 2:' + err + ' @ ' + new Date());
+	// 	}else if(err.code === 'PROTOCOL_PACKETS_OUT_OF_ORDER'){
+	// 		// logger.error('DB type 2:' + err + ' @ ' + new Date());
 			
-			console.log('DB type 2:', err + ' @ ' + new Date())
+	// 		console.log('DB type 2:', err + ' @ ' + new Date())
 
-		}else if(err.code === 'PROTOCOL_SEQUENCE_TIMEOUT'){
-			// logger.error('DB type 3:' + err + ' @ ' + new Date());
+	// 	}else if(err.code === 'PROTOCOL_SEQUENCE_TIMEOUT'){
+	// 		// logger.error('DB type 3:' + err + ' @ ' + new Date());
 			
-			console.log('DB type 3:', err + ' @ ' + new Date())
+	// 		console.log('DB type 3:', err + ' @ ' + new Date())
 
-		}else if(err.code === 'ETIMEDOUT'){
-			// logger.error('DB type 4:'+ err + ' @ ' + new Date());
+	// 	}else if(err.code === 'ETIMEDOUT'){
+	// 		// logger.error('DB type 4:'+ err + ' @ ' + new Date());
 			
-			console.log('DB type 4:', err + ' @ ' + new Date())
+	// 		console.log('DB type 4:', err + ' @ ' + new Date())
 
-		}else {
-			// logger.error('DB type else:' + err + ' @ ' + new Date());
+	// 	}else {
+	// 		// logger.error('DB type else:' + err + ' @ ' + new Date());
 			
-			console.log('DB type else:', err + ' @ ' + new Date())
+	// 		console.log('DB type else:', err + ' @ ' + new Date())
 			
-		}
-	 })
+	// 	}
+	//  })
+
+	dbConnection.on('error', function(error) {
+		console.log('error', error);
+	});
 
 	dbConnection.on('acquire', function (connection) {
 		// logger.debug(`Connection ${connection.threadId} acquired`);
@@ -133,7 +137,7 @@ function handleDisconnect() {
 	});
 
 	dbConnection.on('connection', function (connection) {
-		connection.query('SET SESSION auto_increment_increment=1 ' + new Date())
+		connection.query('SET SESSION auto_increment_increment=1 ')
 	});
 
 	dbConnection.on('enqueue', function () {
