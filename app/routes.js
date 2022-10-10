@@ -24,16 +24,14 @@ module.exports = function (app, connection) {
 		querySQL = "SELECT * FROM 0_users";
 
 		connection.getConnection((err, conn) => {
+			
+			conn.release();
 			if(err) 
 			{
-				conn.release();
-				
 				console.log("check2: " + err)
-
 			} else {
 				conn.query(querySQL, (error, rows, fields) => {
 					
-					conn.release();
 					if (rows != 0) {
 						res.json({
 								status : true,
@@ -115,7 +113,36 @@ module.exports = function (app, connection) {
 			conn.release()
 			if(err) 
 			{
-				console.log("login: " + err + " " + new Date())
+				if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+					console.log('DB type 1:', err + ' @ ' + new Date())
+					// logger.warn('DB type 1:', err + ' @ ' + new Date());
+		
+				}else if(err.code === 'PROTOCOL_PACKETS_OUT_OF_ORDER'){
+					// logger.error('DB type 2:' + err + ' @ ' + new Date());
+					
+					console.log('DB type 2:', err + ' @ ' + new Date())
+		
+				}else if(err.code === 'PROTOCOL_SEQUENCE_TIMEOUT'){
+					// logger.error('DB type 3:' + err + ' @ ' + new Date());
+					
+					console.log('DB type 3:', err + ' @ ' + new Date())
+		
+				}else if(err.code === 'ETIMEDOUT'){
+					// logger.error('DB type 4:'+ err + ' @ ' + new Date());
+					
+					console.log('DB type 4:', err + ' @ ' + new Date())
+		
+				}else if(err.code === 'EPIPE'){
+					// logger.error('DB type 5:'+ err + ' @ ' + new Date());
+					
+					console.log('DB type 5:', err + ' @ ' + new Date())
+		
+				}else {
+					// logger.error('DB type else:' + err + ' @ ' + new Date());
+					
+					console.log('DB type else:', err + ' @ ' + new Date())
+					
+				}
 			} else {
 				conn.query (search_query,  (err, result, fields) => {
 
