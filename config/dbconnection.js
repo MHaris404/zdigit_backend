@@ -195,7 +195,6 @@ function handleDisconnect() {
 
 }
 
-// handleDisconnect();
-
+handleDisconnect();
 
 module.exports = dbConnection;
