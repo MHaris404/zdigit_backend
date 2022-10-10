@@ -110,7 +110,7 @@ module.exports = function (app, connection) {
 
 		 connection.getConnection(async(err, conn) => {
 			
-			conn.release()
+			connection.release()
 			if(err) 
 			{
 				if(err.code === 'PROTOCOL_CONNECTION_LOST') {
