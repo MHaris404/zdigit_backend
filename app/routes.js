@@ -111,13 +111,14 @@ module.exports = function (app, connection) {
 		const search_query = mysql.format(sqlSearch,[user])
 
 		 connection.getConnection((err, conn) => {
+			
+			conn.release()
 			if(err) 
 			{
 				console.log("login: " + err + " " + new Date())
 			} else {
 				conn.query (search_query,  (err, result, fields) => {
 
-					conn.release()
 					if(err) 
 					{
 						console.log("login inner: " + err + " " + new Date())
