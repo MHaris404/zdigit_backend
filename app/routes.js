@@ -103,12 +103,12 @@ module.exports = function (app, connection) {
 	}) //end of app.post()
 
 //login user
-	app.post("/login",  (req, res)=> {
+	app.post("/login", (req, res)=> {
 		const user = req.body.name
 		const sqlSearch = "Select * from 0_users where user_id = ?"
 		const search_query = mysql.format(sqlSearch,[user])
 
-		 connection.getConnection((err, conn) => {
+		 connection.getConnection(async(err, conn) => {
 			
 			conn.release()
 			if(err) 
@@ -144,7 +144,7 @@ module.exports = function (app, connection) {
 					
 				}
 			} else {
-				conn.query (search_query,  (err, result, fields) => {
+				await conn.query (search_query, async (err, result, fields) => {
 
 					if(err) 
 					{
