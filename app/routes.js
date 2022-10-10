@@ -122,7 +122,7 @@ module.exports = function (app, connection) {
 						{
 							console.log("login: " + err + " " + new Date())
 						}
-						if (result == 0 || result == null) {
+						if ( result == null) {
 							
 							res.json({ //put status
 								status : false,
