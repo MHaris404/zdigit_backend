@@ -157,6 +157,11 @@ function handleDisconnect() {
 		console.log(`Connection ${connection.threadId} released ` + new Date())
 	});
 
+	dbConnection.on('close', function (connection) {
+		// logger.info(`Connection ${connection.threadId} released`);
+		console.log(`Connection ${connection.threadId} closed ` + new Date())
+	});
+
 }
 
 handleDisconnect();
