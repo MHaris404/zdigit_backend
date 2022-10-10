@@ -115,7 +115,7 @@ module.exports = function (app, connection) {
 			{
 				console.log("login: " + err + " " + new Date())
 			} else {
-				connection.query (search_query,  (err, result, fields) => {
+				conn.query (search_query,  (err, result, fields) => {
 
 					conn.release()
 					if(err) 
