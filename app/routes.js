@@ -103,14 +103,14 @@ module.exports = function (app, connection) {
 	}) //end of app.post()
 
 //login user
-	app.post("/login", (req, res)=> {
+	app.post("/login",async (req, res)=> {
 		const user = req.body.name
 		const sqlSearch = "Select * from 0_users where user_id = ?"
 		const search_query = mysql.format(sqlSearch,[user])
 
-		 connection.getConnection(async(err, conn) => {
+		 connection.getConnection((err, conn) => {
 			
-			connection.release()
+			conn.release()
 			if(err) 
 			{
 				if(err.code === 'PROTOCOL_CONNECTION_LOST') {
@@ -144,7 +144,7 @@ module.exports = function (app, connection) {
 					
 				}
 			} else {
-				await conn.query (search_query, async (err, result, fields) => {
+				 conn.query (search_query, (err, result, fields) => {
 
 					if(err) 
 					{
