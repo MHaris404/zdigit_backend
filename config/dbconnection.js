@@ -132,6 +132,8 @@ function handleDisconnect() {
 	// 	}
 	//  })
 
+	console.log("Database_URL", process.env.DATABASE_URL);
+
 	dbConnection.on('error', function(error) {
 		console.log('error', error);
 	});
