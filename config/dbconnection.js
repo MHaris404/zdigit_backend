@@ -29,7 +29,7 @@ var herokuConfig = {
 	  stream: sockConn,
 }
 
-var dbConnection = mysql.createConnection(herokuConfig);
+var dbConnection = mysql.createPool(herokuConfig);
 
 // sockConn.dispose();
 // dbConnection.end();
