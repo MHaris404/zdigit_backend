@@ -22,7 +22,6 @@ var herokuConfig = {
 	  database: 'sodabaz_ebox_erp',
 	  connectTimeout : 60 * 60 * 1000,
 	  multipleStatements: true,
-	  waitForConnections: true,
 	  connectionLimit: 15,
 	  queueLimit: 30,
 
