@@ -87,11 +87,7 @@ var dbConnection;
 
 function handleDisconnect() {
 	
-	dbConnection = mysql.createPool(
-		//dbconfig
-		herokuConfig
-		); 	// Recreate the connection
-
+	
 	// dbConnection.getConnection(function(err, conn) {
 	// 	conn.query("Select 1+1");
 	// 	conn.release()
@@ -164,6 +160,13 @@ function handleDisconnect() {
 	// 	}
 	//  })
 
+
+	dbConnection = mysql.createPool(
+		//dbconfig
+		herokuConfig
+		); 	// Recreate the connection
+	
+
 	dbConnection.on('acquire', function (connection) {
 		// logger.debug(`Connection ${connection.threadId} acquired`);
 		
@@ -192,6 +195,7 @@ function handleDisconnect() {
 
 }
 
-handleDisconnect();
+// handleDisconnect();
+
 
 module.exports = dbConnection;

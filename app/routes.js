@@ -109,81 +109,47 @@ module.exports = function (app, connection) {
 		const search_query = mysql.format(sqlSearch,[user])
 
 		 connection.getConnection((err, conn) => {
-			
-			conn.release()
 			if(err) 
-			{
-				if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-					console.log('DB type 1:', err + ' @ ' + new Date())
-					// logger.warn('DB type 1:', err + ' @ ' + new Date());
-		
-				}else if(err.code === 'PROTOCOL_PACKETS_OUT_OF_ORDER'){
-					// logger.error('DB type 2:' + err + ' @ ' + new Date());
-					
-					console.log('DB type 2:', err + ' @ ' + new Date())
-		
-				}else if(err.code === 'PROTOCOL_SEQUENCE_TIMEOUT'){
-					// logger.error('DB type 3:' + err + ' @ ' + new Date());
-					
-					console.log('DB type 3:', err + ' @ ' + new Date())
-		
-				}else if(err.code === 'ETIMEDOUT'){
-					// logger.error('DB type 4:'+ err + ' @ ' + new Date());
-					
-					console.log('DB type 4:', err + ' @ ' + new Date())
-		
-				}else if(err.code === 'EPIPE'){
-					// logger.error('DB type 5:'+ err + ' @ ' + new Date());
-					
-					console.log('DB type 5:', err + ' @ ' + new Date())
-		
-				}else {
-					// logger.error('DB type else:' + err + ' @ ' + new Date());
-					
-					console.log('DB type else:', err + ' @ ' + new Date())
-					
+				{
+					console.log("login inner: " + err + " " + new Date())
 				}
-			} else {
-				 conn.query (search_query, (err, result, fields) => {
+			conn.query (search_query, (err, result, fields) => {
+				conn.release()
+				if (err) throw err;
 
-					if(err) 
-					{
-						console.log("login inner: " + err + " " + new Date())
-					}
-					if ( result == null) {
-						
-						res.json({ //put status
-							status : false,
-							message : "User does not exist"
-							})	
-								
+				if ( result == null) {
+					res.json({ //put status
+						status : false,
+						message : "User does not exist"
+						})	
+							
+				} else {
+					
+					console.log(result[0].email)
+					const {password, role_id, email} = result[0]
+					if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
+					
+						const accessToken = generateAccessToken ({user})
+						const refreshToken = generateRefreshToken ({user})
+						refreshTokens.push(refreshToken);
+						res.status(200).json({
+							status : true,
+							message : "login successful",
+							details : {
+								user,
+								role_id,
+								email,
+								tokens : {accessToken, refreshToken},
+							}})
 					} else {
-						
-						console.log(result[0].email)
-						const {password, role_id, email} = result[0]
-						if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
-						
-							const accessToken = generateAccessToken ({user})
-							const refreshToken = generateRefreshToken ({user})
-							refreshTokens.push(refreshToken);
-							res.status(200).json({
-								status : true,
-								message : "login successful",
-								details : {
-									user,
-									role_id,
-									email,
-									tokens : {accessToken, refreshToken},
-								}})
-						} else {
-							res.json({ //res.status(401)
-								status : false,
-								message : "Password incorrect!",
-							})
-						} //end of pass comparion
-					}//end of User exists i.e. results.length==0
-				}) //end of connection.query()
-			}
+						res.json({ //res.status(401)
+							status : false,
+							message : "Password incorrect!",
+						})
+					} //end of pass comparion
+				}//end of User exists i.e. results.length==0
+			}) //end of connection.query()
+			
 		})
 			 
 	}) //end of app.post()
