@@ -107,57 +107,56 @@ module.exports = function (app, connection) {
 //login user
 	app.post("/login", async (req, res)=> {
 		const user = req.body.name
-			const sqlSearch = "Select * from 0_users where user_id = ?"
-			const search_query = mysql.format(sqlSearch,[user])
+		const sqlSearch = "Select * from 0_users where user_id = ?"
+		const search_query = mysql.format(sqlSearch,[user])
 
-			// await connection.getConnection((err, conn) => {
-			// 	if(err) 
-			// 	{
-			// 		console.log("login: " + err + " " + new Date())
-			// 	} else {
-					 	connection.query (search_query,  (err, result, fields) => {
+		await connection.getConnection((err, conn) => {
+			if(err) 
+			{
+				console.log("login: " + err + " " + new Date())
+			} else {
+				connection.query (search_query,  (err, result, fields) => {
 
-						// await conn.release()
-						if(err) 
-						{
-							console.log("login: " + err + " " + new Date())
-						}
-						if ( result == null) {
-							
-							res.json({ //put status
-								status : false,
-								message : "User does not exist"
-								})	
-									
+					conn.release()
+					if(err) 
+					{
+						console.log("login inner: " + err + " " + new Date())
+					}
+					if ( result == null) {
+						
+						res.json({ //put status
+							status : false,
+							message : "User does not exist"
+							})	
+								
+					} else {
+						
+						console.log(result[0].email)
+						const {password, role_id, email} = result[0]
+						if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
+						
+							const accessToken = generateAccessToken ({user})
+							const refreshToken = generateRefreshToken ({user})
+							refreshTokens.push(refreshToken);
+							res.status(200).json({
+								status : true,
+								message : "login successful",
+								details : {
+									user,
+									role_id,
+									email,
+									tokens : {accessToken, refreshToken},
+								}})
 						} else {
-							
-							console.log(result[0].email)
-							const {password, role_id, email} = result[0]
-							if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
-							
-								const accessToken = generateAccessToken ({user})
-								const refreshToken = generateRefreshToken ({user})
-								refreshTokens.push(refreshToken);
-								res.status(200).json({
-									status : true,
-									message : "login successful",
-									details : {
-										user,
-										role_id,
-										email,
-										tokens : {accessToken, refreshToken},
-									}})
-							} else {
-								res.json({ //res.status(401)
-									status : false,
-									message : "Password incorrect!",
-								})
-							} //end of pass comparion
-						}//end of User exists i.e. results.length==0
-					}) //end of connection.query()
-			// 	}
-			// })
-
+							res.json({ //res.status(401)
+								status : false,
+								message : "Password incorrect!",
+							})
+						} //end of pass comparion
+					}//end of User exists i.e. results.length==0
+				}) //end of connection.query()
+			}
+		})
 			 
 	}) //end of app.post()
 
