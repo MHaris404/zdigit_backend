@@ -1,22 +1,24 @@
 var mysql = require('mysql2');
 
 var SocksConnection = require('socksjs');
-var remote_options = {
-  host:'sodabaz.com',
-  port: 3306
-};
+// var remote_options = {
+//   host:'sodabaz.com',
+//   port: 3306
+// };
 
-var sock_options = {
-  host: "us-east-static-07.quotaguard.com",
-  port: 1080,
-  user: "n16vhxv8n4lbst",
-  pass: "x8nrhq8r8d3zr2ghfxetp9m8vg6"
-}
+// var sock_options = {
+//   host: "us-east-static-07.quotaguard.com",
+//   port: 1080,
+//   user: "n16vhxv8n4lbst",
+//   pass: "x8nrhq8r8d3zr2ghfxetp9m8vg6"
+// }
 
 
-var sockConn = new SocksConnection(remote_options, sock_options)
+// var sockConn = new SocksConnection(remote_options, sock_options)
 
 var herokuConfig = {
+	host:'sodabaz.com',
+	port: 3306,
 	user: 'sodabaz_ebox_2',
 	  password: 'sodabaz_ebox_2',
 	  database: 'sodabaz_ebox_erp',
