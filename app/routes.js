@@ -108,12 +108,12 @@ module.exports = function (app, connection) {
 		const sqlSearch = "Select * from 0_users where user_id = ?"
 		const search_query = mysql.format(sqlSearch,[user])
 
-		 connection.getConnection((err, conn) => {
+		await connection.getConnection( async(err, conn) => {
 			if(err) 
 				{
 					console.log("login: " + err + " " + new Date())
 				}
-			conn.query (search_query, (err, result, fields) => {
+				await conn.query (search_query,  (err, result, fields) => {
 				conn.release()
 				if (err) throw err;
 
