@@ -117,36 +117,36 @@ module.exports = function (app, connection) {
 				conn.release()
 				if (err) throw err;
 
-					console.log(result)
-				if ( result == null) {
+				console.log(result)
+				if ( result == null || result.length >= 0) {
 					res.json({ //put status
 						status : false,
 						message : "User does not exist"
 						})	
 							
 				} else {
+					console.log("sucess")
+					// const {password, role_id, email} = result[0]
+					// if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
 					
-					const {password, role_id, email} = result[0]
-					if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
-					
-						const accessToken = generateAccessToken ({user})
-						const refreshToken = generateRefreshToken ({user})
-						refreshTokens.push(refreshToken);
-						res.status(200).json({
-							status : true,
-							message : "login successful",
-							details : {
-								user,
-								role_id,
-								email,
-								tokens : {accessToken, refreshToken},
-							}})
-					} else {
-						res.json({ //res.status(401)
-							status : false,
-							message : "Password incorrect!",
-						})
-					} //end of pass comparion
+					// 	const accessToken = generateAccessToken ({user})
+					// 	const refreshToken = generateRefreshToken ({user})
+					// 	refreshTokens.push(refreshToken);
+					// 	res.status(200).json({
+					// 		status : true,
+					// 		message : "login successful",
+					// 		details : {
+					// 			user,
+					// 			role_id,
+					// 			email,
+					// 			tokens : {accessToken, refreshToken},
+					// 		}})
+					// } else {
+					// 	res.json({ //res.status(401)
+					// 		status : false,
+					// 		message : "Password incorrect!",
+					// 	})
+					// } //end of pass comparion
 				}//end of User exists i.e. results.length==0
 			}) //end of connection.query()
 			
