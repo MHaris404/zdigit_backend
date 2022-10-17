@@ -13,7 +13,7 @@ module.exports = function (app, connection) {
 	app.get('/check', function (req, res) {
 		res.send({ 
 			status: true, 
-			message: 'backend checkd' 
+			message: 'backend check' 
 		}
 		);
 	});
