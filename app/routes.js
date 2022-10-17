@@ -103,17 +103,17 @@ module.exports = function (app, connection) {
 	}) //end of app.post()
 
 //login user
-	app.post("/login",async (req, res)=> {
+	app.post("/login", (req, res)=> {
 		const user = req.body.name
 		const sqlSearch = "Select * from 0_users where user_id = ?"
 		const search_query = mysql.format(sqlSearch,[user])
 
-		await connection.getConnection( async(err, conn) => {
+		 connection.getConnection( (err, conn) => {
 			if(err) 
 				{
 					console.log("login: " + err + " " + new Date())
 				}
-				await conn.query (search_query,  (err, result, fields) => {
+				conn.query (search_query,  (err, result, fields) => {
 				conn.release()
 				if (err) throw err;
 
