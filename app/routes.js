@@ -70,7 +70,7 @@ module.exports = function (app, connection) {
 			} else {
 				conn.query (search_query, async(err, result, fields) => {
 			
-					if (result == 0) {
+					if ( result == null || result.length <= 0) {
 						res.status(409).json({
 							status : false,
 							message : "User already exists"
@@ -117,7 +117,6 @@ module.exports = function (app, connection) {
 				conn.release()
 				if (err) throw err;
 
-				console.log(result)
 				if ( result == null || result.length <= 0) {
 					res.json({ //put status
 						status : false,
