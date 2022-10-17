@@ -117,6 +117,7 @@ module.exports = function (app, connection) {
 				conn.release()
 				if (err) throw err;
 
+					console.log(result)
 				if ( result == null) {
 					res.json({ //put status
 						status : false,
@@ -125,7 +126,6 @@ module.exports = function (app, connection) {
 							
 				} else {
 					
-					console.log(result[0].email)
 					const {password, role_id, email} = result[0]
 					if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
 					
