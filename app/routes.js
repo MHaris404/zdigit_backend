@@ -118,7 +118,7 @@ module.exports = function (app, connection) {
 				if (err) throw err;
 
 				console.log(result)
-				if ( result == null || result.length >= 0) {
+				if ( result == null || result.length <= 0) {
 					res.json({ //put status
 						status : false,
 						message : "User does not exist"
