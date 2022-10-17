@@ -27,7 +27,7 @@ var herokuConfig = {
 	  connectionLimit: 15,
 	  queueLimit: 30,
 
-	  stream: sockConn,
+	//   stream: sockConn,
 }
 
 var dbConnection = mysql.createPool(herokuConfig);
