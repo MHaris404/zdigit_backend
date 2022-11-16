@@ -105,6 +105,7 @@ module.exports = function (app, connection) {
 //login user
 	app.post("/login", (req, res)=> {
 		const user = req.body.name
+		const company = req.body.company
 		const sqlSearch = "Select * from 0_users where user_id = ?"
 		const search_query = mysql.format(sqlSearch,[user])
 
@@ -139,6 +140,7 @@ module.exports = function (app, connection) {
 								role_id,
 								email,
 								tokens : {accessToken, refreshToken},
+								company
 							}})
 					} else {
 						res.json({ //res.status(401)
