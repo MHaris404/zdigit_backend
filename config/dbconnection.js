@@ -17,11 +17,16 @@ var SocksConnection = require('socksjs');
 // var sockConn = new SocksConnection(remote_options, sock_options)
 
 var herokuConfig = {
-	host:'sodabaz.com',
+	host:'zdigits-retailo.com',
 	port: 3306,
-	user: 'sodabaz_ebox_2',
-	  password: 'sodabaz_ebox_2',
-	  database: 'sodabaz_ebox_erp',
+	user: 'zdigitsretailo',
+	password: 'R3t@ilo!@',
+	database: 'zdigitsretailo_live',
+	// host:'sodabaz.com',
+	// port: 3306,
+	// user: 'sodabaz_ebox_2',
+	// password: 'sodabaz_ebox_2',
+	// database: 'sodabaz_ebox_erp',
 	  connectTimeout : 60 * 60 * 1000,
 	  multipleStatements: true,
 	  connectionLimit: 15,
