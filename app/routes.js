@@ -25,7 +25,7 @@ module.exports = function (app, connection) {
 
 		connection.getConnection((err, conn) => {
 			
-			conn.release();
+			//conn.release();
 			if(err) 
 			{
 				console.log("check2: " + err)
