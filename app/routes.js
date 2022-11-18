@@ -106,7 +106,7 @@ module.exports = function (app, connection) {
 	app.post("/login", (req, res)=> {
 		const user = req.body.name
 		const company = req.body.company
-		const sqlSearch = "Select * from 0_users where user_id = ?"
+		const sqlSearch = "Select * from 0_users where user_id = ?"	
 		const search_query = mysql.format(sqlSearch,[user])
 
 		 connection.getConnection( (err, conn) => {
@@ -126,7 +126,7 @@ module.exports = function (app, connection) {
 							
 				} else {
 					console.log("sucess")
-					const {password, role_id, email} = result[0]
+					const {id,password, role_id, email} = result[0]
 					if (crypto.createHash('md5').update(req.body.password).digest('hex') === password) {
 					
 						const accessToken = generateAccessToken ({user})
@@ -140,7 +140,8 @@ module.exports = function (app, connection) {
 								role_id,
 								email,
 								tokens : {accessToken, refreshToken},
-								company
+								company,
+								id
 							}})
 					} else {
 						res.json({ //res.status(401)
