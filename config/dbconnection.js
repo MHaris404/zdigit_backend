@@ -21,7 +21,7 @@ var herokuConfig = {
 	port: 3306,
 	user: 'zdigitsretailo',
 	password: 'R3t@ilo!@',
-	database: 'zdigitsretailo_live',
+	database: 'zdigitsretailo_staging',
 	// host:'sodabaz.com',
 	// port: 3306,
 	// user: 'sodabaz_ebox_2',
