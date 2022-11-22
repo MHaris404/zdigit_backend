@@ -23,6 +23,7 @@ exports.getPOCOUNT = function (req, res) {
 							details : result[0].count1
 							})
 					} else {
+						console.log(result[0])
 						res.status(200).json({
 							status : true,
 							message : "PO found",
