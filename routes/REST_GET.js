@@ -5,7 +5,7 @@ exports.getPOCOUNT = function (req, res) {
 
 		//const sqlSearch = "Select count(order_no) as count from 0_purch_orders"
 		const sqlSearch0  = "SELECT concat_ws('', pomaster.id, '') `order_no`, concat_ws('', detail.id, '') `po_detail_item`,items.item_code, grn.description,concat_ws('', detail.required_del_date, '') `delivery_date`,concat_ws('', detail.price_before_tax, '') `unit_price`, concat_ws('', detail.qty, '') `quantity_ordered`,grn.qty_recd as quantity_received, concat_ws('', pomaster.supplier_id, '') `supplier_id`,concat_ws('', DATE_FORMAT(pomaster.order_date, '%Y/%c/%d %H:%i'), '') `ord_date`, concat_ws('', pomaster.order_reference, '') `reference`, concat_ws('', pomaster.delivered_to, '') `delivery_address`, pomaster.approval_1,pomaster.approval_2, pomaster.rejection_reason_1,pomaster.rejection_reason_2, concat_ws('', vendor.name, '') `supp_name` from `0_vendor_master` vendor ,`0_po_master` pomaster, `0_user_auth_matrix_for_po` pomatrix, `0_items` items right join `0_po_detail` detail  on detail.item_id = items.id left join `0_grn_items` grn on detail.id = grn.po_detail_item where pomaster.id = detail.po_id and pomaster.supplier_id = vendor.id group by detail.id"
-		const sqlSearch = "SELECT count(*) as count from (" + sqlSearch0 + ")";
+		const sqlSearch = "SELECT count(*) from (" + sqlSearch0 + ")  as count ";
 
 		connection.getConnection((err, conn) => {
 			if(err) 
