@@ -20,14 +20,14 @@ exports.getPOCOUNT = function (req, res) {
 						res.json({
 							status : false,
 							message : "No PO to be processed",
-							details : result[0].count
+							details : result[0].count.value
 							})
 					} else {
 						console.log(result[0])
 						res.status(200).json({
 							status : true,
 							message : "PO found",
-							details : result[0].count
+							details : result[0].count.value
 						})
 					}//end
 
