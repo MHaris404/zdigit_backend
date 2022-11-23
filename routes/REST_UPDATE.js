@@ -18,25 +18,25 @@ exports.updatePOapproval1 = function (req, res) {
 
             console.log(rows[0])
 
-            // if (rows[0] != null && rows[0].approval1.length > 0) {
-            //     res.json({
-            //         status : false,
-            //         message : "already approved",
-            //     })
-            // }
-            // if (rows[0] == null) {
+            if (rows[0] != null && rows[0].approval_1.equals("approved") && rows[0].rejection_reason_1.equals("")) {
+                res.json({
+                    status : false,
+                    message : "already approved",
+                })
+            }
+            if (rows[0] == null) {
                 
-            //     conn.query(sqlSearch1, (err, result, fields) => {
-            //         if (err) throw err;
+                conn.query(sqlSearch1, (err, result, fields) => {
+                    if (err) throw err;
 
-            //         res.status(201).json({
-            //             status: true,
-            //             message: `Approved Level 1 of PO# ${po} `,
+                    res.status(201).json({
+                        status: true,
+                        message: `Approved Level 1 of PO# ${po} `,
                         
-            //         })
+                    })
                     
-            //     })
-            // }
+                })
+            }
            
             conn.release();
         });
