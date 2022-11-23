@@ -17,7 +17,7 @@ exports.updatePOapproval1 = function (req, res) {
                 message: err
             })
         }
-         conn.query(sqlSearch0, async (err, result, fields) => {
+        conn.query(sqlSearch0, async (err, result, fields) => {
 
             console.log("query")
             console.log(result)
@@ -28,6 +28,13 @@ exports.updatePOapproval1 = function (req, res) {
                     message: err
                 })
                 conn.release()
+            }
+
+            if (result != null || result[0].approval1.length == 0) {
+                res.json({
+                    status : false,
+                    message : "already approved",
+                })
             }
 
             if ( result == null || result.length <= 0) {
@@ -52,15 +59,8 @@ exports.updatePOapproval1 = function (req, res) {
                     
                     conn.release()
                 })
-            } else if (result != null || result[0].approval1.length == 0) {
-                res.json({
-                    status : false,
-                    message : "already approved",
-                })
+            }
                 
-                 
-            }//end
-
         }) //end of connection.query()
     })
 
