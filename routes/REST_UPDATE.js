@@ -16,17 +16,17 @@ exports.updatePOapproval1 = function (req, res) {
         conn.query(sqlSearch0, function(err, rows, fields) {
             if (err) throw err;
 
-            if (result != null || result[0].approval1.length == 0) {
+            if (result[0].approval1.length > 0) {
                 res.json({
                     status : false,
                     message : "already approved",
                 })
             }
-            if ( result == null || result.length <= 0) {
+            if (result.length <= 0) {
                 
                 conn.query(sqlSearch1, (err, result, fields) => {
                     if (err) throw err;
-                    
+
                     res.status(201).json({
                         status: true,
                         message: `Approved Level 1 of PO# ${po} `,
