@@ -30,7 +30,7 @@ exports.updatePOapproval1 = function (req, res) {
                 })
                 conn.release()
             }
-            if (result != null | result.length > 0) {
+            if (result == null | result.length <= 0) {
             //     res.json({
             //         status: false,
             //         message: "no match found"
@@ -46,7 +46,7 @@ exports.updatePOapproval1 = function (req, res) {
                             })
                             conn.release()
                 } else {
-                    
+
                     await conn.query(sqlSearch1_formatted, (err, result) => {
 
                         console.log("inner query")
