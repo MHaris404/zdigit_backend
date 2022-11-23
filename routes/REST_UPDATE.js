@@ -21,8 +21,10 @@ exports.updatePOapproval1 = function (req, res) {
             if (rows[0] != null && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null) {
                 res.json({
                     status : false,
-                    message : "already approved",
+                    message : `PO# ${po} is already approved at L1`,
                 })
+
+                //TODO: check for approval of level2
             }
             else if (rows[0] != null && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null) {
                  
@@ -31,7 +33,7 @@ exports.updatePOapproval1 = function (req, res) {
 
                     res.json({
                         status: true,
-                        message: `Approved Level 1 of PO# ${po} `,
+                        message: `Approved PO# ${po} at L1`,
                         
                     })
                     
@@ -39,7 +41,7 @@ exports.updatePOapproval1 = function (req, res) {
             }else {
                 res.status(401).json({
                     status: false,
-                    message: `user is not authorized for approval of PO# ${po}`, 
+                    message: `user is not authorized to approve PO# ${po} at L1`, 
                 })
             }
            
