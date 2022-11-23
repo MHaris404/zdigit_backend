@@ -23,7 +23,7 @@ exports.updatePOapproval1 = function (req, res) {
                     message : "already approved",
                 })
             }
-            if (rows[0].length <= 0) {
+            if (rows[0] == null) {
                 
                 conn.query(sqlSearch1, (err, result, fields) => {
                     if (err) throw err;
