@@ -30,7 +30,14 @@ exports.updatePOapproval1 = function (req, res) {
                 })
                 conn.release()
             }
-            if (result != null && result[0].approval1.length == 0) {
+
+            if ( result == null || result.length <= 0) {
+                res.json({
+                    status : false,
+                    message : "No PO to be processed",
+                    
+                    })
+            } else if (result != null && result[0].approval1.length == 0) {
                     
                 await conn.query(sqlSearch1, (err, result) => {
 
