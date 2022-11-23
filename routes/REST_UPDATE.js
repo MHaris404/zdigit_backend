@@ -11,14 +11,14 @@ exports.updatePOapproval1 = function (req, res) {
     const sqlSearch1 = "update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?"
     const sqlSearch1_formatted = mysql.format(sqlSearch1, [userid, po])
 
-    connection.getConnection(async (err, conn) => {
+    connection.getConnection( (err, conn) => {
         if (err) {
             res.json({
                 status: false,
                 message: err
             })
         }
-        await conn.query(sqlSearch0_formatted, async (err, result, fields) => {
+         conn.query(sqlSearch0_formatted, async (err, result, fields) => {
 
             console.log("query")
             console.log(result)
