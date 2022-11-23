@@ -15,7 +15,7 @@ exports.updatePOapproval1 = function (req, res) {
             conn.release()
             if (err) throw err;
 
-            if ( result == null || result.length <= 0) {
+            if ( result == null | result.length <= 0) {
                 res.json({ //put status
                     status : false,
                     message : "failed for a reason"
@@ -24,7 +24,7 @@ exports.updatePOapproval1 = function (req, res) {
                 console.log("sucess")
                 res.status(200).json({
                     status : true,
-                    message : `Approved Level 1 PO # ${po}`
+                    message : `Approved Level 1 of PO# ${po}`
                 })
             }//end
             
