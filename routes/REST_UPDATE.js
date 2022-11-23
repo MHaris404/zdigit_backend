@@ -30,18 +30,23 @@ exports.updatePOapproval1 = function (req, res) {
                 })
                 conn.release()
             }
-            if (result == null | result.length <= 0) {
-                res.json({
-                    status: false,
-                    message: "no match found"
-                })
+            if (result != null | result.length > 0) {
+            //     res.json({
+            //         status: false,
+            //         message: "no match found"
+            //     })
                 
-                conn.release()
+            //     conn.release()
 
-            } else {
-                if (result.approval1 == null | result.approval1.length <= 0) {
-
+            // } else {
+                if (result.approval1 != null | result.approval1.length > 0) {
+                    res.json({
+                                status: false,
+                                message: "asa"
+                            })
+                            conn.release()
                 } else {
+                    
                     await conn.query(sqlSearch1_formatted, (err, result) => {
 
                         console.log("inner query")
