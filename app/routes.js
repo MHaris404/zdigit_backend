@@ -4,6 +4,7 @@ const generateAccessToken = require("../utils/generateAccessToken")
 const generateRefreshToken = require("../utils/generateRefreshToken")
 const validateToken = require("../utils/validateToken")
 const REST_GET = require('../routes/REST_GET')
+const REST_UPDATE = require('../routes/REST_UPDATE')
 
 let refreshTokens = []
 

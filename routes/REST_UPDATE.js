@@ -1,6 +1,6 @@
 var connection = require('../config/dbconnection');
 
-app.post("/pdsadsa", (req, res)=> {
+app.update("/poapproval_l1", (req, res)=> {
 	const {userid,po} = req.body;
 
 	const sqlSearch = "update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?"
@@ -24,7 +24,7 @@ app.post("/pdsadsa", (req, res)=> {
 					console.log("sucess")
 					res.status(200).json({
 						status : true,
-						message : "Approved Level 1 PO # ?", po
+						message : `Approved Level 1 PO # ${po}
 					})
 					
 				}//end
