@@ -13,7 +13,8 @@ exports.updatePOapproval1 = function (req, res) {
         }
         conn.query (sqlSearch,  (err, result, fields) => {
             conn.release()
-            if (err) throw err;
+            if (err)
+                console.log("poapproval inner: " + err + " " + new Date())
 
             if ( result == null | result.length <= 0) {
                 res.json({ //put status
