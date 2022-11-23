@@ -18,7 +18,7 @@ exports.updatePOapproval1 = function (req, res) {
 
             console.log(rows[0])
 
-            if (rows[0] != null && rows[0].approval_1.equals("approved") && rows[0].rejection_reason_1.equals("")) {
+            if (rows[0] != null && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 =="") {
                 res.json({
                     status : false,
                     message : "already approved",
