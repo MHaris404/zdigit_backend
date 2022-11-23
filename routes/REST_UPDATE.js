@@ -4,7 +4,7 @@ const mysql = require("mysql2")
 exports.updatePOapproval1 = function (req, res) {
     const { userid, po } = req.body;
 
-    const sqlSearch0 = "select ifnull(pomaster.approval_1, '') as approval1 from `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix where pomaster.created_by = pomatrix.user_id and IfNull(pomaster.approval_1, '') != '' and pomaster.rejection_reason_1 is null and pomaster.id = "+ po +" and pomatrix.approver_level_1 = " + userid
+    const sqlSearch0 = "select ifnull(pomaster.approval_1, '') as approval1 from `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is null and pomaster.id = "+ po +" and pomatrix.approver_level_1 = " + userid
     //const sqlSearch0_formatted = mysql.format(sqlSearch0, [userid, po])
 
     const sqlSearch1 = "update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.id = "+ po +" and pomatrix.approver_level_1 = " + userid
