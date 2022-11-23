@@ -24,17 +24,22 @@ exports.updatePOapproval1 = function (req, res) {
                     message : "already approved",
                 })
             }
-            if (rows[0] != null && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null) {
+            else if (rows[0] != null && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null) {
                  
                 conn.query(sqlSearch1, (err, result, fields) => {
                     if (err) throw err;
 
-                    res.status(201).json({
+                    res.json({
                         status: true,
                         message: `Approved Level 1 of PO# ${po} `,
                         
                     })
                     
+                })
+            }else {
+                res.status(401).json({
+                    status: false,
+                    message: `user is not authorized for approval of PO# ${po}`, 
                 })
             }
            
