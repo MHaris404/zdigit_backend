@@ -33,38 +33,38 @@ exports.updatePOapproval1 = function (req, res) {
             if (result != null | result.length > 0) {
                 
                 console.log("in")
-                // if (result.approval1 != null | result.approval1.length > 0) {
+                if (result.approval1 != null | result.approval1.length > 0) {
                     
-                //     await conn.query(sqlSearch1_formatted, (err, result) => {
+                    await conn.query(sqlSearch1_formatted, (err, result) => {
 
-                //         console.log("inner query")
-                //         console.log(result)
+                        console.log("inner query")
+                        console.log(result)
 
-                //         if (err) {
-                //             res.json({
-                //                 status: false,
-                //                 message: err
-                //             })
-                //         } else {
-                //             res.status(201).json({
-                //                 status: true,
-                //                 message: `Approved Level 1 of PO# ${po} `,
+                        if (err) {
+                            res.json({
+                                status: false,
+                                message: err
+                            })
+                        } else {
+                            res.status(201).json({
+                                status: true,
+                                message: `Approved Level 1 of PO# ${po} `,
                                 
-                //             })
-                //         }
+                            })
+                        }
                         
-                //         conn.release()
-                //     })
+                        conn.release()
+                    })
                     
                     
-                // } else {
-                //     res.json({
-                //         status: false,
-                //         message: "asa"
-                //     })
-                //     conn.release()
+                } else {
+                    res.json({
+                        status: false,
+                        message: "asa"
+                    })
+                    conn.release()
                     
-                // }
+                }
             }//end
 
         }) //end of connection.query()
