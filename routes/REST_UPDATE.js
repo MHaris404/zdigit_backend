@@ -30,17 +30,10 @@ exports.updatePOapproval1 = function (req, res) {
                 })
                 conn.release()
             }
-            if (result == null | result.length <= 0) {
+            if (result != null | result.length > 0) {
                 
-                console.log(result)
                 if (result.approval1 != null | result.approval1.length > 0) {
-                    res.json({
-                                status: false,
-                                message: "asa"
-                            })
-                            conn.release()
-                } else {
-
+                    
                     await conn.query(sqlSearch1_formatted, (err, result) => {
 
                         console.log("inner query")
@@ -51,7 +44,6 @@ exports.updatePOapproval1 = function (req, res) {
                                 status: false,
                                 message: err
                             })
-                            conn.release()
                         } else {
                             res.status(201).json({
                                 status: true,
@@ -59,7 +51,18 @@ exports.updatePOapproval1 = function (req, res) {
                                 
                             })
                         }
+                        
+                        conn.release()
                     })
+                    
+                    
+                } else {
+                    res.json({
+                        status: false,
+                        message: "asa"
+                    })
+                    conn.release()
+                    
                 }
             }//end
 
