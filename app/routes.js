@@ -208,6 +208,6 @@ app.get('/pocount', validateToken, REST_GET.getPOCOUNT);
 app.get('/podetails', validateToken, REST_GET.getPODETAILS);
 
 //PO approval level 1
-app.update('/poapproval_l1', validateToken, REST_UPDATE.updatePOapproval1);
+app.put('/poapproval_l1', validateToken, REST_UPDATE.updatePOapproval1);
 	
 }
