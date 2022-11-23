@@ -32,7 +32,13 @@ exports.updatePOapproval1 = function (req, res) {
             }
             if (result != null | result.length > 0) {
                 
+                
+                
                 console.log("in")
+                console.log(result.approval1)
+                console.log("in")
+                
+
                 if (result.approval1 != null | result.approval1.length > 0) {
                     
                     await conn.query(sqlSearch1_formatted, (err, result) => {
