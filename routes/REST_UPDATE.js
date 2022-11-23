@@ -16,13 +16,14 @@ exports.updatePOapproval1 = function (req, res) {
         conn.query(sqlSearch0, function(err, rows, fields) {
             if (err) throw err;
 
-            if (rows[0].approval1.length > 0) {
+            console.log(rows[0])
+            if (rows[0] != null && rows[0].approval1.length > 0) {
                 res.json({
                     status : false,
                     message : "already approved",
                 })
             }
-            if (rows.length <= 0) {
+            if (rows[0].length <= 0) {
                 
                 conn.query(sqlSearch1, (err, result, fields) => {
                     if (err) throw err;
