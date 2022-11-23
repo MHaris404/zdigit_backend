@@ -33,7 +33,7 @@ exports.updatePOapproval1 = function (req, res) {
 
                     res.json({
                         status: true,
-                        message: `Approved PO# ${po} at L1`,
+                        message: `PO# ${po} approved at L1`,
                         
                     })
                     
@@ -41,7 +41,7 @@ exports.updatePOapproval1 = function (req, res) {
             }else {
                 res.status(401).json({
                     status: false,
-                    message: `user is not authorized to approve PO# ${po} at L1`, 
+                    message: `PO# ${po} cannot be approved by current user at L1`, 
                 })
             }
            
