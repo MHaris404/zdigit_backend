@@ -1,4 +1,5 @@
 var connection = require('../config/dbconnection');
+const mysql = require("mysql2")
 
 exports.updatePOapproval1 = function (req, res) {
     const { userid, po } = req.body;
