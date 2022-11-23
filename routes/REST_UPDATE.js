@@ -35,6 +35,8 @@ exports.updatePOapproval1 = function (req, res) {
                     status : false,
                     message : "already approved",
                 })
+                
+                conn.release()
             }
 
             if ( result == null || result.length <= 0) {
