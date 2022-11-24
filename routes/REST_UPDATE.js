@@ -74,15 +74,10 @@ exports.updatePOapproval = function (req, res) {
                 })
             }else if (rows[0] != null && rows[0].id != userid ) {
                  
-                conn.query(sqlSearch1, (err, result, fields) => {
-                    if (err) throw err;
-
-                    res.status(401).json({
-                        status: false,
-                        message: `PO# ${po} cannot be approved by current user`, 
-                        code: 0
-                    })
-                    
+                res.status(401).json({
+                    status: false,
+                    message: `PO# ${po} cannot be approved by current user`, 
+                    code: 0
                 })
             }else {
                 res.status(401).json({
