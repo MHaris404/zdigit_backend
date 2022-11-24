@@ -96,7 +96,8 @@ exports.updatePOapproval = function (req, res) {
                 res.status(401).json({
                     status: false,
                     message: `PO# ${po} cannot be approved by current user at L1`, 
-                    code: 0
+                    code: 0,
+                    result: rows[0]
                 })
             }
            
