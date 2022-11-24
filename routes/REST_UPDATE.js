@@ -14,8 +14,7 @@ exports.updatePOapproval = function (req, res) {
         conn.query(sqlSearch0, function(err, rows, fields) {
             if (err) throw err;
 
-            
-            if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == "approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
+            else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == "approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
                     if (err) throw err;
@@ -29,7 +28,7 @@ exports.updatePOapproval = function (req, res) {
                 })
 
             }
-            if (rows[0] != null && rows[0].id == po && rows[0].approval_1 != null && rows[0].rejection_reason_1 == null && rows[0].approval_2 != null && rows[0].rejection_reason_1 == null)  {
+            else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 != null && rows[0].rejection_reason_1 == null && rows[0].approval_2 != null && rows[0].rejection_reason_1 == null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
                     if (err) throw err;
@@ -43,7 +42,7 @@ exports.updatePOapproval = function (req, res) {
                 })
 
             }
-            if (rows[0] != null && rows[0].id == po && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
+            else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
                     if (err) throw err;
@@ -85,32 +84,21 @@ exports.updatePOapproval = function (req, res) {
                 })
             }else if (rows[0] != null && rows[0].id != po) {
 
-                conn.query("select 1", (err, result, fields) => {
-                    if (err) throw err;
-
                     res.json({
                         status: false,
                         message: `PO# ${po} cannot be approved by current user`, 
                         code: 0
                     })
                     
-                })
-
-                
             }else {
-
-                conn.query("select 1", (err, result, fields) => {
-                    if (err) throw err;
-
-                    res.json({
-                        status: false,
-                        message: `PO# ${po} cannot be approved by current user at L1`, 
-                        code: 0,
-                        result: rows[0]
-                    })
-                    
+ 
+                res.json({
+                    status: false,
+                    message: `PO# ${po} cannot be approved by current user at L1`, 
+                    code: 0,
+                    result: rows[0]
                 })
-                
+               
             }
            
             conn.release();
