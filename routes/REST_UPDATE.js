@@ -11,21 +11,14 @@ exports.updatePOapproval = function (req, res) {
     connection.getConnection( (err, conn) => {
         if (err) throw err;
 
-        conn.query(sqlSearch1, function(err, rows, fields) {
+        conn.query(sqlSearch0, function(err, rows, fields) {
             if (err) throw err;
 
-            conn.query(sqlSearch2, (err, result, fields) => {
-                if (err) throw err;
-
-                console.log(result)
-                res.json({
+            res.status(200).json({
                     status: true,
-                    message: `PO# ${po} approved at L1`,
+                    message: `PO# ${po} approved at L2`,
                     code: 1
-                    
                 })
-                
-            })
 
             // else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == "approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
                 
