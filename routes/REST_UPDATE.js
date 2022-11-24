@@ -38,9 +38,9 @@ exports.updatePOapproval = function (req, res) {
                     if (err) throw err;
 
                     res.json({
-                        status: true,
+                        status: false,
                         message: `PO# ${po} is already rejected at L2 with reason: ${rows[0].rejection_reason_2}`,
-                        
+                        code: -1
                     })
                     
                 })
@@ -54,6 +54,7 @@ exports.updatePOapproval = function (req, res) {
                     res.json({
                         status: true,
                         message: `PO# ${po} approved at L1`,
+                        code: 2
                         
                     })
                     
