@@ -33,7 +33,7 @@ exports.updatePOapproval = function (req, res) {
                 else {
                     res.status(401).json({
                         status: false,
-                        message: `PO# ${po} cannot be approved by current user`,
+                        message: `PO# ${po} cannot be approved by current user at L2`,
                         code: 0
                     }).end()
                 }
@@ -62,21 +62,18 @@ exports.updatePOapproval = function (req, res) {
                     conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [po, userid], (err, result, fields) => {
                         if (err) throw err;
 
-                        //if (result.ResultSetHeader.changedRows > 0) {
                             res.status(200).json({
                                 status: true,
                                 message: `PO# ${po} approved at L1`,
                                 code: 1
 
                             }).end()
-                            console.log(result)
-                        //}
                     })
                 }
                 else {
                     res.status(401).json({
                         status: false,
-                        message: `PO# ${po} cannot be approved by current user`,
+                        message: `PO# ${po} cannot be approved by current user at L1`,
                         code: 0
                     }).end()
                 }
@@ -102,7 +99,7 @@ exports.updatePOapproval = function (req, res) {
 
                 res.status(401).json({
                     status: false,
-                    message: `PO# ${po} cannot be approved by current user at L1`,
+                    message: `PO# ${po} cannot be approved by current user`,
                     code: 0,
                     result: rows[0]
                 }).end()
