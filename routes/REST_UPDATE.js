@@ -18,7 +18,7 @@ exports.updatePOapproval = function (req, res) {
             if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == "approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
-                    if (err) throw err;
+                    if (err) return res("1:" +err);
 
                    return res.json({
                         status: true,
@@ -32,7 +32,7 @@ exports.updatePOapproval = function (req, res) {
             if (rows[0] != null && rows[0].id == po && rows[0].approval_1 != null && rows[0].rejection_reason_1 == null && rows[0].approval_2 != null && rows[0].rejection_reason_1 == null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
-                    if (err) throw err;
+                    if (err) return res("1:" +err);
 
                     return res.json({
                         status: false,
@@ -46,7 +46,7 @@ exports.updatePOapproval = function (req, res) {
             if (rows[0] != null && rows[0].id == po && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
-                    if (err) throw err;
+                    if (err) return res("1:" +err);
 
                     return res.json({
                         status: false,
@@ -60,7 +60,7 @@ exports.updatePOapproval = function (req, res) {
             else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
                  
                 conn.query(sqlSearch1, (err, result, fields) => {
-                    if (err) throw err;
+                    if (err) return res("1:" +err);
 
                     return res.json({
                         status: true,
@@ -73,7 +73,7 @@ exports.updatePOapproval = function (req, res) {
             }else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 != null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
                  
                 conn.query(sqlSearch1, (err, result, fields) => {
-                    if (err) throw err;
+                    if (err) return res("1:" +err);
 
                     return res.json({
                         status: false,
@@ -86,7 +86,7 @@ exports.updatePOapproval = function (req, res) {
             }else if (rows[0] != null && rows[0].id != po) {
 
                 conn.query("select 1", (err, result, fields) => {
-                    if (err) throw err;
+                    if (err) return res("1:" +err);
 
                     return res.json({
                         status: false,
@@ -100,7 +100,7 @@ exports.updatePOapproval = function (req, res) {
             }else {
 
                 conn.query("select 1", (err, result, fields) => {
-                    if (err) throw err;
+                    if (err) return res("1:" +err);
 
                     return res.json({
                         status: false,
