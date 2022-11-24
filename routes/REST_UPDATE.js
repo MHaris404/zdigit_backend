@@ -17,7 +17,7 @@ exports.updatePOapproval = function (req, res) {
             if (err) throw err;
 
             console.log(rows[0])
-            console(rows[0].id == userid)
+            console.log(rows[0].id == userid)
 
             if (rows[0] != null && rows[0].id == userid && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
                 
