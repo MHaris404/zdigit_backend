@@ -29,38 +29,29 @@ exports.updatePOapproval = function (req, res) {
 
             }
             else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 != null && rows[0].rejection_reason_1 == null && rows[0].approval_2 != null && rows[0].rejection_reason_1 == null)  {
-                
-                conn.query(sqlSearch2, (err, result, fields) => {
-                    if (err) throw err;
-
+             
                     res.json({
                         status: false,
                         message: `PO# ${po} is already approved at L2`,
                         code: 0
                     })
-                    
-                })
-
+                   
             }
             else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
                 
-                conn.query(sqlSearch2, (err, result, fields) => {
-                    if (err) throw err;
-
                     res.json({
                         status: false,
                         message: `PO# ${po} is already rejected at L2 with reason: ${rows[0].rejection_reason_2}`,
                         code: -1
                     })
                     
-                })
-
             }
             else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
                  
                 conn.query(sqlSearch1, (err, result, fields) => {
                     if (err) throw err;
 
+                    console.log(result)
                     res.json({
                         status: true,
                         message: `PO# ${po} approved at L1`,
@@ -71,17 +62,15 @@ exports.updatePOapproval = function (req, res) {
                 })
             }else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 != null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
                  
-                conn.query(sqlSearch1, (err, result, fields) => {
-                    if (err) throw err;
-
+             
                     res.json({
                         status: false,
                         message: `PO# ${po} is already rejected at L1 with reason: ${rows[0].rejection_reason_1}`,
                         code: -1
                         
                     })
-                    
-                })
+                    conn.release();
+                
             }else if (rows[0] != null && rows[0].id != po) {
 
                     res.json({
@@ -89,6 +78,7 @@ exports.updatePOapproval = function (req, res) {
                         message: `PO# ${po} cannot be approved by current user`, 
                         code: 0
                     })
+                    conn.release();
                     
             }else {
  
@@ -98,10 +88,10 @@ exports.updatePOapproval = function (req, res) {
                     code: 0,
                     result: rows[0]
                 })
+                conn.release();
                
             }
            
-            conn.release();
         });
 
     })
