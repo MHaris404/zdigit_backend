@@ -6,9 +6,9 @@ exports.updatePOapproval = function (req, res) {
 
     const sqlSearch0 = "select pomaster.id ,pomaster.approval_1, pomaster.approval_2, pomaster.rejection_reason_1 ,pomaster.rejection_reason_2 from `0_po_master` pomaster left join `0_user_auth_matrix_for_po` pomatrix on pomaster.created_by = pomatrix.user_id where pomaster.id = "+ po +" and pomatrix.approver_level_1 = "+userid+" or pomatrix.approver_level_2 = " + userid    
     
-    const sqlSearch1 = "update `0_po_master pomaster` ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = "+userid+" and pomatrix.approver_level_1 = " + userid 
+    const sqlSearch1 = "update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = "+userid+" and pomatrix.approver_level_1 = " + userid 
 
-    const sqlSearch2 = "update `0_po_master pomaster` ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is not null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = "+userid+" and pomatrix.approver_level_2 = " + userid 
+    const sqlSearch2 = "update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is not null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = "+userid+" and pomatrix.approver_level_2 = " + userid 
     
     connection.getConnection( (err, conn) => {
         if (err) throw err;
