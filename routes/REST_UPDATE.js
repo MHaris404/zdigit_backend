@@ -16,10 +16,10 @@ exports.updatePOapproval = function (req, res) {
         conn.query(sqlSearch0, function(err, rows, fields) {
             if (err) throw err;
 
-            console.log(rows[0])
-            console.log(rows[0].id == parseInt(userid))
+            console.log(rows[0], typeof(rows[0].id))
+            console.log(rows[0].id == userid + "")
 
-            if (rows[0] != null && rows[0].id == parseInt(userid) && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
+            if (rows[0] != null && rows[0].id ==  userid + "" && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
                     if (err) throw err;
@@ -33,7 +33,7 @@ exports.updatePOapproval = function (req, res) {
                 })
 
             }
-            if (rows[0] != null && rows[0].id == parseInt(userid) && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
+            if (rows[0] != null && rows[0].id ==  userid + "" && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
                     if (err) throw err;
@@ -47,7 +47,7 @@ exports.updatePOapproval = function (req, res) {
                 })
 
             }
-            else if (rows[0] != null && rows[0].id == parseInt(userid) && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null) {
+            else if (rows[0] != null && rows[0].id ==  userid + "" && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null) {
                  
                 conn.query(sqlSearch1, (err, result, fields) => {
                     if (err) throw err;
@@ -60,7 +60,7 @@ exports.updatePOapproval = function (req, res) {
                     })
                     
                 })
-            }else if (rows[0] != null && rows[0].id == parseInt(userid) && rows[0].approval_1 == null && rows[0].rejection_reason_1 != null) {
+            }else if (rows[0] != null && rows[0].id ==  userid + "" && rows[0].approval_1 == null && rows[0].rejection_reason_1 != null) {
                  
                 conn.query(sqlSearch1, (err, result, fields) => {
                     if (err) throw err;
@@ -73,7 +73,7 @@ exports.updatePOapproval = function (req, res) {
                     })
                     
                 })
-            }else if (rows[0] != null && rows[0].id != parseInt(userid) ) {
+            }else if (rows[0] != null && rows[0].id !=  userid + "") {
                  
                 res.status(401).json({
                     status: false,
