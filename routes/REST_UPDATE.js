@@ -47,7 +47,7 @@ exports.updatePOapproval = function (req, res) {
                     code: 0
                 }).end()
             }
-            else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == "approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null) {
+            else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 != null && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null) {
 
                 res.status(200).json({
                     status: false,
