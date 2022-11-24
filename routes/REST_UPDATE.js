@@ -50,7 +50,7 @@ exports.updatePOapproval = function (req, res) {
             }
             else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
                  
-                conn.query(sqlSearch1, (err, result, fields) => {
+                conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?",[po, userid] ,(err, result, fields) => {
                     if (err) throw err;
 
                     res.status(200).json({
