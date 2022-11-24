@@ -23,7 +23,8 @@ exports.updatePOapproval = function (req, res) {
                             res.status(200).json({
                                 status: true,
                                 message: `PO# ${po} approved at L2`,
-                                code: 1
+                                code: 1,
+                                level: 2
                             }).end()
 
                     })
@@ -62,7 +63,8 @@ exports.updatePOapproval = function (req, res) {
                             res.status(200).json({
                                 status: true,
                                 message: `PO# ${po} approved at L1`,
-                                code: 1
+                                code: 1,
+                                level: 1
 
                             }).end()
                     })
