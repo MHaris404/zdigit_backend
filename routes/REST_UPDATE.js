@@ -32,6 +32,20 @@ exports.updatePOapproval = function (req, res) {
                 })
 
             }
+            if (rows[0] != null && rows[0].id == userid && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
+                
+                conn.query(sqlSearch2, (err, result, fields) => {
+                    if (err) throw err;
+
+                    res.json({
+                        status: true,
+                        message: `PO# ${po} is already rejected at L2 with reason: ${rows[0].rejection_reason_2}`,
+                        
+                    })
+                    
+                })
+
+            }
             else if (rows[0] != null && rows[0].id == userid && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null) {
                  
                 conn.query(sqlSearch1, (err, result, fields) => {
