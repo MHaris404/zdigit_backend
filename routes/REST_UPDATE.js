@@ -86,19 +86,33 @@ exports.updatePOapproval = function (req, res) {
                     
                 })
             }else if (rows[0] != null && rows[0].id != po) {
-                 
-                res.json({
-                    status: false,
-                    message: `PO# ${po} cannot be approved by current user`, 
-                    code: 0
+
+                conn.query("select 1", (err, result, fields) => {
+                    if (err) throw err;
+
+                    res.json({
+                        status: false,
+                        message: `PO# ${po} cannot be approved by current user`, 
+                        code: 0
+                    })
+                    
                 })
+
+                
             }else {
-                res.json({
-                    status: false,
-                    message: `PO# ${po} cannot be approved by current user at L1`, 
-                    code: 0,
-                    result: rows[0]
+
+                conn.query("select 1", (err, result, fields) => {
+                    if (err) throw err;
+
+                    res.json({
+                        status: false,
+                        message: `PO# ${po} cannot be approved by current user at L1`, 
+                        code: 0,
+                        result: rows[0]
+                    })
+                    
                 })
+                
             }
            
             conn.release();
