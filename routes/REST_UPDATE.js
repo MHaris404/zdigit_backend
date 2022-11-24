@@ -9,27 +9,18 @@ exports.updatePOapproval = function (req, res) {
     const sqlSearch2 = "update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is not null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = "+userid+" and pomatrix.approver_level_2 = " + userid 
     
     connection.getConnection( (err, conn) => {
-        if (err) {
-            res.json("9:" +err);
-            return;
-        }
+        if (err) throw err;
 
         conn.query(sqlSearch0, function(err, rows, fields) {
-            if (err) {
-                res.json("8:" +err);
-                return;
-            }
+            if (err) throw err;
 
             
             if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == "approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
-                    if (err) {
-                        res.json("7:" +err);
-                        return;
-                    }
+                    if (err) throw err;
 
-                   return res.json({
+                    res.json({
                         status: true,
                         message: `PO# ${po} approved at L2`,
                         code: 1
@@ -41,12 +32,9 @@ exports.updatePOapproval = function (req, res) {
             if (rows[0] != null && rows[0].id == po && rows[0].approval_1 != null && rows[0].rejection_reason_1 == null && rows[0].approval_2 != null && rows[0].rejection_reason_1 == null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
-                    if (err) {
-                        res.json("6:" +err);
-                        return;
-                    }
+                    if (err) throw err;
 
-                    return res.json({
+                    res.json({
                         status: false,
                         message: `PO# ${po} is already approved at L2`,
                         code: 0
@@ -58,12 +46,9 @@ exports.updatePOapproval = function (req, res) {
             if (rows[0] != null && rows[0].id == po && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
-                    if (err) {
-                        res.json("5:" +err);
-                        return;
-                    }
+                    if (err) throw err;
 
-                    return res.json({
+                    res.json({
                         status: false,
                         message: `PO# ${po} is already rejected at L2 with reason: ${rows[0].rejection_reason_2}`,
                         code: -1
@@ -75,12 +60,9 @@ exports.updatePOapproval = function (req, res) {
             else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
                  
                 conn.query(sqlSearch1, (err, result, fields) => {
-                    if (err) {
-                        res.json("4:" +err);
-                        return;
-                    }
+                    if (err) throw err;
 
-                    return res.json({
+                    res.json({
                         status: true,
                         message: `PO# ${po} approved at L1`,
                         code: 1
@@ -91,12 +73,9 @@ exports.updatePOapproval = function (req, res) {
             }else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 != null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
                  
                 conn.query(sqlSearch1, (err, result, fields) => {
-                    if (err) {
-                        res.json("3:" +err);
-                        return;
-                    }
+                    if (err) throw err;
 
-                    return res.json({
+                    res.json({
                         status: false,
                         message: `PO# ${po} is already rejected at L1 with reason: ${rows[0].rejection_reason_1}`,
                         code: -1
@@ -107,12 +86,9 @@ exports.updatePOapproval = function (req, res) {
             }else if (rows[0] != null && rows[0].id != po) {
 
                 conn.query("select 1", (err, result, fields) => {
-                    if (err) {
-                        res.json("2:" +err);
-                        return;
-                    }
+                    if (err) throw err;
 
-                    return res.json({
+                    res.json({
                         status: false,
                         message: `PO# ${po} cannot be approved by current user`, 
                         code: 0
@@ -124,12 +100,9 @@ exports.updatePOapproval = function (req, res) {
             }else {
 
                 conn.query("select 1", (err, result, fields) => {
-                    if (err) {
-                        res.json("1:" +err);
-                        return;
-                    }
+                    if (err) throw err;
 
-                    return res.json({
+                    res.json({
                         status: false,
                         message: `PO# ${po} cannot be approved by current user at L1`, 
                         code: 0,
