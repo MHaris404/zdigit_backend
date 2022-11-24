@@ -51,7 +51,7 @@ exports.updatePOapproval = function (req, res) {
 
                     res.json({
                         status: false,
-                        message: `PO# ${po} is already rejected at L1`,
+                        message: `PO# ${po} is already rejected at L1 with reason: ${rows[0].rejection_reason_1}`,
                         code: -1
                         
                     })
@@ -62,9 +62,9 @@ exports.updatePOapproval = function (req, res) {
                 conn.query(sqlSearch1, (err, result, fields) => {
                     if (err) throw err;
 
-                    res.status(403).json({
+                    res.status(401).json({
                         status: false,
-                        message: `PO# ${po} cannot be approved by current user at L1`, 
+                        message: `PO# ${po} cannot be approved by current user`, 
                         code: 0
                     })
                     
