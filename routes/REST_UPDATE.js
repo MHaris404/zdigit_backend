@@ -14,92 +14,87 @@ exports.updatePOapproval = function (req, res) {
         conn.query(sqlSearch0, function(err, rows, fields) {
             if (err) throw err;
 
-            res.status(200).json({
-                    status: true,
-                    message: `PO# ${po} approved at L2`,
-                    code: 1
+            else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == "approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
+                
+                conn.query(sqlSearch2, (err, result, fields) => {
+                    if (err) throw err;
+
+                    res.status(200).json({
+                        status: true,
+                        message: `PO# ${po} approved at L2`,
+                        code: 1
+                    })
+                    console.log(result)
+                    
                 })
+                conn.release();
 
-            // else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == "approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
-                
-            //     conn.query(sqlSearch2, (err, result, fields) => {
-            //         if (err) throw err;
-
-            //         res.json({
-            //             status: true,
-            //             message: `PO# ${po} approved at L2`,
-            //             code: 1
-            //         })
-                    
-            //     })
-
-            // }
-            // else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 != null && rows[0].rejection_reason_1 == null && rows[0].approval_2 != null && rows[0].rejection_reason_1 == null)  {
+            }
+            else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 != null && rows[0].rejection_reason_1 == null && rows[0].approval_2 != null && rows[0].rejection_reason_1 == null)  {
              
-            //         res.json({
-            //             status: false,
-            //             message: `PO# ${po} is already approved at L2`,
-            //             code: 0
-            //         })
+                    res.status(200).json({
+                        status: false,
+                        message: `PO# ${po} is already approved at L2`,
+                        code: 0
+                    })
+                    conn.release();
                    
-            // }
-            // else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
+            }
+            else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
                 
-            //         res.json({
-            //             status: false,
-            //             message: `PO# ${po} is already rejected at L2 with reason: ${rows[0].rejection_reason_2}`,
-            //             code: -1
-            //         })
+                    res.status(200).json({
+                        status: false,
+                        message: `PO# ${po} is already rejected at L2 with reason: ${rows[0].rejection_reason_2}`,
+                        code: -1
+                    })
+                    conn.release();
                     
-            // }
-            // else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
+            }
+            else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
                  
-            //     conn.query(sqlSearch1, (err, result, fields) => {
-            //         if (err) throw err;
+                conn.query(sqlSearch1, (err, result, fields) => {
+                    if (err) throw err;
 
-            //         console.log(result)
-            //         res.json({
-            //             status: true,
-            //             message: `PO# ${po} approved at L1`,
-            //             code: 1
+                    res.status(200).json({
+                        status: true,
+                        message: `PO# ${po} approved at L1`,
+                        code: 1
                         
-            //         })
-                    
-            //     })
-            // }
-            // else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 != null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
-                 
-             
-            //         res.json({
-            //             status: false,
-            //             message: `PO# ${po} is already rejected at L1 with reason: ${rows[0].rejection_reason_1}`,
-            //             code: -1
-                        
-            //         })
-            //         conn.release();
+                    })
+                    console.log(result)  
+                })
+                conn.release();
                 
-            // }
-            // else if (rows[0] != null && rows[0].id != po) {
+            }else if (rows[0] != null && rows[0].id == po && rows[0].approval_1 == null && rows[0].rejection_reason_1 != null && rows[0].approval_2 == null && rows[0].rejection_reason_2 == null) {
+                 
+                    res.status(200).json({
+                        status: false,
+                        message: `PO# ${po} is already rejected at L1 with reason: ${rows[0].rejection_reason_1}`,
+                        code: -1
+                        
+                    })
+                    conn.release();
+                
+            }else if (rows[0] != null && rows[0].id != po) {
 
-            //         res.json({
-            //             status: false,
-            //             message: `PO# ${po} cannot be approved by current user`, 
-            //             code: 0
-            //         })
-            //         conn.release();
+                    res.status(200).json({
+                        status: false,
+                        message: `PO# ${po} cannot be approved by current user`, 
+                        code: 0
+                    })
+                    conn.release();
                     
-            // }
-            // else {
+            }else {
  
-            //     res.json({
-            //         status: false,
-            //         message: `PO# ${po} cannot be approved by current user at L1`, 
-            //         code: 0,
-            //         result: rows[0]
-            //     })
-            //     conn.release();
+                res.status(200).json({
+                    status: false,
+                    message: `PO# ${po} cannot be approved by current user at L1`, 
+                    code: 0,
+                    result: rows[0]
+                })
+                conn.release();
                
-            // }
+            }
            
         });
 
