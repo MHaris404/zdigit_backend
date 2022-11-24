@@ -44,7 +44,7 @@ exports.updatePOapproval = function (req, res) {
                     })
                     
                 // })
-                conn.release();
+                //conn.release();
 
             }
             if (rows[0] != null && rows[0].id == po && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_2 != null)  {
