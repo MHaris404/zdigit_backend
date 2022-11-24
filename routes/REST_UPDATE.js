@@ -34,8 +34,8 @@ exports.updatePOapproval = function (req, res) {
             }
             if (rows[0] != null && rows[0].id == po && rows[0].approval_1 != null && rows[0].rejection_reason_1 == null && rows[0].approval_2 != null && rows[0].rejection_reason_1 == null)  {
                 
-                conn.query(sqlSearch2, (err, result, fields) => {
-                    if (err) throw err;
+                // conn.query(sqlSearch2, (err, result, fields) => {
+                //     if (err) throw err;
 
                     res.json({
                         status: false,
@@ -43,7 +43,7 @@ exports.updatePOapproval = function (req, res) {
                         code: 0
                     })
                     
-                })
+                // })
                 conn.release();
 
             }
