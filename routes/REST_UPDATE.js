@@ -11,10 +11,10 @@ exports.updatePOapproval = function (req, res) {
     connection.getConnection( (err, conn) => {
         if (err) throw err;
 
-        conn.query(sqlSearch0, function(err, rows, fields) {
+        conn.query(sqlSearch1, function(err, rows, fields) {
             if (err) throw err;
 
-            conn.query(sqlSearch1, (err, result, fields) => {
+            conn.query(sqlSearch2, (err, result, fields) => {
                 if (err) throw err;
 
                 console.log(result)
