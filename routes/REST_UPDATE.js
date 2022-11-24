@@ -18,12 +18,12 @@ exports.updatePOapproval = function (req, res) {
 
             console.log(rows[0], typeof(rows[0].id), typeof(userid))
             console.log("abc")
-            console.log(rows[0] != null,rows[0].id == userid , rows[0].approval_1 == "approved", rows[0].rejection_reason_1 == null , rows[0].approval_2 == null ,rows[0].rejection_reason_1 == null)
-            console.log(rows[0] != null , rows[0].id == userid , rows[0].approval_1 =="approved" , rows[0].rejection_reason_1 == null , rows[0].approval_2 == "approved" , rows[0].rejection_reason_1 == null)
-            console.log(rows[0] != null , rows[0].id == userid , rows[0].approval_1 =="approved" , rows[0].rejection_reason_1 == null , rows[0].approval_2 == null , rows[0].rejection_reason_2 != null)
-            console.log(rows[0] != null , rows[0].id == userid , rows[0].approval_1 == null , rows[0].rejection_reason_1 == null)
-            console.log(rows[0] != null , rows[0].id == userid , rows[0].approval_1 == null , rows[0].rejection_reason_1 != null)
-            console.log(rows[0] != null,rows[0].id != userid)
+            console.log(rows[0] != null , rows[0].id*1 == userid*1 , rows[0].approval_1 == "approved", rows[0].rejection_reason_1 == null , rows[0].approval_2 == null ,rows[0].rejection_reason_1 == null)
+            console.log(rows[0] != null , rows[0].id*1 == userid*1 , rows[0].approval_1 =="approved" , rows[0].rejection_reason_1 == null , rows[0].approval_2 == "approved" , rows[0].rejection_reason_1 == null)
+            console.log(rows[0] != null , rows[0].id*1 == userid*1 , rows[0].approval_1 =="approved" , rows[0].rejection_reason_1 == null , rows[0].approval_2 == null , rows[0].rejection_reason_2 != null)
+            console.log(rows[0] != null , rows[0].id*1 == userid*1 , rows[0].approval_1 == null , rows[0].rejection_reason_1 == null)
+            console.log(rows[0] != null , rows[0].id*1 == userid*1 , rows[0].approval_1 == null , rows[0].rejection_reason_1 != null)
+            console.log(rows[0] != null , rows[0].id*1 == userid*1)
 
             if (rows[0] != null && rows[0].id == userid && rows[0].approval_1 == "approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == null && rows[0].rejection_reason_1 == null)  {
                 
