@@ -105,6 +105,8 @@ exports.updatePOapproval = function (req, res) {
 
         });
 
+        conn.release();
+
     })
 
 };
