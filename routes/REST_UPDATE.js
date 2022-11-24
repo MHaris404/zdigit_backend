@@ -31,7 +31,7 @@ exports.updatePOapproval = function (req, res) {
                 })
 
             }
-            if (rows[0] != null && rows[0].id == po && rows[0].approval_1 =="approved" && rows[0].rejection_reason_1 == null && rows[0].approval_2 == "approved" && rows[0].rejection_reason_1 == null)  {
+            if (rows[0] != null && rows[0].id == po && rows[0].approval_1 != null && rows[0].rejection_reason_1 == null && rows[0].approval_2 != null && rows[0].rejection_reason_1 == null)  {
                 
                 conn.query(sqlSearch2, (err, result, fields) => {
                     if (err) throw err;
@@ -87,13 +87,13 @@ exports.updatePOapproval = function (req, res) {
                 })
             }else if (rows[0] != null && rows[0].id != po) {
                  
-                res.status(401).json({
+                res.json({
                     status: false,
                     message: `PO# ${po} cannot be approved by current user`, 
                     code: 0
                 })
             }else {
-                res.status(401).json({
+                res.json({
                     status: false,
                     message: `PO# ${po} cannot be approved by current user at L1`, 
                     code: 0,
