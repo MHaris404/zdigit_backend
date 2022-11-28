@@ -131,16 +131,17 @@ exports.updatePOrejection = function (req, res) {
     connection.getConnection((err, conn) => {
         if (err) throw err;
 
-        var rowsFiltered =  rows.filter(row => {
-            return row.id == po
-        })
-
         conn.query(sqlSearch0, function (err, rows, fields) {
             console.log(rows)
 
             if (err) throw err;
 
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == null && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
+            
+            var rowsFiltered =  rows.filter(row => {
+                return row.id == po
+            })
+
+            if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == null && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                 // if (rows[0].approver_level_2 == userid)
                     
