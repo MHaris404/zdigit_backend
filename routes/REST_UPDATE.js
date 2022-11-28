@@ -96,6 +96,9 @@ exports.updatePOapproval = function (req, res) {
                     code: 0
                 }).end()
 
+                console.log("ROWS")
+                console.log(rows[0])
+
             } 
             else {
 
