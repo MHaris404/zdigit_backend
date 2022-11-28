@@ -12,9 +12,12 @@ exports.updatePOapproval = function (req, res) {
         conn.query(sqlSearch0, function (err, rows, fields) {
             console.log(rows)
 
+            console.log(userid, po)
             var rowsFiltered =  rows.filter(row => {
                 return row.id == po
             })
+            console.log("FILTERED")
+            console.log(rowsFiltered)
             
             if (err) throw err;
 
