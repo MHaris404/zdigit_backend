@@ -14,7 +14,7 @@ exports.updatePOapproval = function (req, res) {
 
             console.log(userid, po)
             var rowsFiltered =  rows.filter(row => {
-                row.id == po
+                return row.id == po
             })
             console.log("FILTERED")
             console.log(rowsFiltered)
