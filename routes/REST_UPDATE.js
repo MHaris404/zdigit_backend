@@ -10,21 +10,16 @@ exports.updatePOapproval = function (req, res) {
         if (err) throw err;
 
         conn.query(sqlSearch0, function (err, rows, fields) {
-            console.log(rows)
+            if (err) throw err;
 
-            console.log(userid, po)
             var rowsFiltered =  rows.filter(row => {
                 return row.id == po
             })
-            console.log("FILTERED")
-            console.log(rowsFiltered)
-            
-            if (err) throw err;
 
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 != null && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
+            if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                 if (rowsFiltered[0].approver_level_2 == userid)
-                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is not null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [po, userid], (err, result, fields) => {
+                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 = 'apprvoved' and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [po, userid], (err, result, fields) => {
                         if (err) throw err;
 
                             res.status(200).json({
@@ -44,7 +39,7 @@ exports.updatePOapproval = function (req, res) {
                 }
 
             }
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 != null && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 != null && rowsFiltered[0].rejection_reason_2 == null) {
+            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == "approved" && rowsFiltered[0].rejection_reason_2 == null) {
 
                 res.status(200).json({
                     status: false,
@@ -52,7 +47,7 @@ exports.updatePOapproval = function (req, res) {
                     code: 0
                 }).end()
             }
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 != null && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 != null) {
+            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == "rejected" && rowsFiltered[0].rejection_reason_2 != null) {
 
                 res.status(200).json({
                     status: false,
@@ -85,7 +80,7 @@ exports.updatePOapproval = function (req, res) {
                 }
 
             } 
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == null && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
+            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                 res.status(200).json({
                     status: false,
@@ -144,7 +139,7 @@ exports.updatePOrejection = function (req, res) {
                 return row.id == po
             })
 
-            if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == null && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
+            if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                 // if (rows[0].approver_level_2 == userid)
                     
@@ -175,7 +170,7 @@ exports.updatePOrejection = function (req, res) {
 
             }
             
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 != null) {
+            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].approval_2 == "rejected" && rowsFiltered[0].rejection_reason_2 != null) {
 
                 res.status(200).json({
                     status: false,
@@ -184,7 +179,7 @@ exports.updatePOrejection = function (req, res) {
                 }).end()
 
             }
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 != null && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 != null && rowsFiltered[0].rejection_reason_2 == null) {
+            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == "approved" && rowsFiltered[0].rejection_reason_2 == null) {
 
                 res.status(200).json({
                     status: false,
@@ -197,7 +192,7 @@ exports.updatePOrejection = function (req, res) {
             {
 
                 if (rowsFiltered[0].approver_level_1 == userid) {
-                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.rejection_reason_1 = 'reject' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [po, userid], (err, result, fields) => {
+                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'rejected' , pomaster.rejection_reason_1 = 'rejection reason 1' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [po, userid], (err, result, fields) => {
                         if (err) throw err;
 
                             res.status(200).json({
@@ -218,12 +213,12 @@ exports.updatePOrejection = function (req, res) {
                 }
 
             } 
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 != null && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) 
+            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) 
             {
 
                 if (rowsFiltered[0].approver_level_2 == userid)
                     
-                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.rejection_reason_2 = 'reject' where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is null and pomaster.approval_1 is not null and pomaster.rejection_reason_2 is null and pomaster.approval_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [po, userid], (err, result, fields) => {
+                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'rejected', pomaster.rejection_reason_2 = 'rejection reason 2' where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is null and pomaster.approval_1 = 'approved' and pomaster.rejection_reason_2 is null and pomaster.approval_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [po, userid], (err, result, fields) => {
                         if (err) throw err;
 
                             res.status(200).json({
