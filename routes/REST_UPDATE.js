@@ -153,126 +153,136 @@ exports.updatePOrejection = function (req, res) {
 
             if (err) throw err;
 
-            
             var rowsFiltered =  rows.filter(row => {
                 return row.id == po
             })
 
-            if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
+            if(rowsFiltered.level > 0){
+                if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
-                // if (rows[0].approver_level_2 == userid)
-                    
-                //     conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.rejection_reason_2 = 'reject' where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is not null and pomaster.approval_1 is null and pomaster.rejection_reason_2 is null and pomaster.approval_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [po, userid], (err, result, fields) => {
-                //         if (err) throw err;
+                    // if (rows[0].approver_level_2 == userid)
+                        
+                    //     conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.rejection_reason_2 = 'reject' where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is not null and pomaster.approval_1 is null and pomaster.rejection_reason_2 is null and pomaster.approval_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [po, userid], (err, result, fields) => {
+                    //         if (err) throw err;
 
-                //             res.status(200).json({
-                //                 status: true,
-                //                 message: `PO# ${po} rejected at L2`,
-                //                 code: 1,
-                //                 level: 2
-                //             }).end()
+                    //             res.status(200).json({
+                    //                 status: true,
+                    //                 message: `PO# ${po} rejected at L2`,
+                    //                 code: 1,
+                    //                 level: 2
+                    //             }).end()
 
-                //     })
-                // else {
-                //     res.status(401).json({
-                //         status: false,
-                //         message: `PO# ${po} cannot be rejected by current user at L2`,
-                //         code: 0
-                //     }).end()
-                // }
+                    //     })
+                    // else {
+                    //     res.status(401).json({
+                    //         status: false,
+                    //         message: `PO# ${po} cannot be rejected by current user at L2`,
+                    //         code: 0
+                    //     }).end()
+                    // }
 
-                res.status(200).json({
-                    status: false,
-                    message: `PO# ${po} is already rejected at L1 with reason: ${rowsFiltered[0].rejection_reason_1}`,
-                    code: -1
-                }).end()
+                    res.status(200).json({
+                        status: false,
+                        message: `PO# ${po} is already rejected at L1 with reason: ${rowsFiltered[0].rejection_reason_1}`,
+                        code: -1
+                    }).end()
 
-            }
-            
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].approval_2 == "rejected" && rowsFiltered[0].rejection_reason_2 != null) {
+                }           
+                else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].approval_2 == "rejected" && rowsFiltered[0].rejection_reason_2 != null) {
 
-                res.status(200).json({
-                    status: false,
-                    message: `PO# ${po} is already rejected at L2 with reason: ${rowsFiltered[0].rejection_reason_2}`,
-                    code: -1
-                }).end()
+                    res.status(200).json({
+                        status: false,
+                        message: `PO# ${po} is already rejected at L2 with reason: ${rowsFiltered[0].rejection_reason_2}`,
+                        code: -1
+                    }).end()
 
-            }
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == "approved" && rowsFiltered[0].rejection_reason_2 == null) {
-
-                res.status(200).json({
-                    status: false,
-                    message: `PO# ${po} is already approved at L2}`,
-                    code: -1
-                }).end()
-
-            }
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == null && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) 
-            {
-
-                if (rowsFiltered[0].approver_level_1 == userid) {
-                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'rejected' , pomaster.rejection_reason_1 = ? where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [reason, po, userid], (err, result, fields) => {
-                        if (err) throw err;
-
-                            res.status(200).json({
-                                status: true,
-                                message: `PO# ${po} rejected at L1`,
-                                code: 1,
-                                level: 1
-
-                            }).end()
-                    })
                 }
-                else {
+                else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == "approved" && rowsFiltered[0].rejection_reason_2 == null) {
+
+                    res.status(200).json({
+                        status: false,
+                        message: `PO# ${po} is already approved at L2}`,
+                        code: -1
+                    }).end()
+
+                }
+                else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == null && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) 
+                {
+
+                    if (rowsFiltered[0].approver_level_1 == userid) {
+                        conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'rejected' , pomaster.rejection_reason_1 = ? where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [reason, po, userid], (err, result, fields) => {
+                            if (err) throw err;
+
+                                res.status(200).json({
+                                    status: true,
+                                    message: `PO# ${po} rejected at L1`,
+                                    code: 1,
+                                    level: 1
+
+                                }).end()
+                        })
+                    }
+                    else {
+                        res.status(401).json({
+                            status: false,
+                            message: `PO# ${po} cannot be rejected by current user at L1`,
+                            code: 0
+                        }).end()
+                    }
+
+                } 
+                else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) 
+                {
+
+                    if (rowsFiltered[0].approver_level_2 == userid)
+                        
+                        conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'rejected', pomaster.rejection_reason_2 = ? where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is null and pomaster.approval_1 = 'approved' and pomaster.rejection_reason_2 is null and pomaster.approval_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [reason, po, userid], (err, result, fields) => {
+                            if (err) throw err;
+
+                                res.status(200).json({
+                                    status: true,
+                                    message: `PO# ${po} rejected at L2`,
+                                    code: 1,
+                                    level: 2
+                                }).end()
+
+                        })
+                    else {
+                        res.status(401).json({
+                            status: false,
+                            message: `PO# ${po} cannot be rejected by current user at L2`,
+                            code: 0
+                        }).end()
+                    }
+
+                }
+                else if (rows[0] != null && rowsFiltered[0].id != po) 
+                {
                     res.status(401).json({
                         status: false,
-                        message: `PO# ${po} cannot be rejected by current user at L1`,
+                        message: `PO# ${po} cannot be rejected by current user`,
                         code: 0
                     }).end()
-                }
-
-            } 
-            else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) 
-            {
-
-                if (rowsFiltered[0].approver_level_2 == userid)
-                    
-                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'rejected', pomaster.rejection_reason_2 = ? where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is null and pomaster.approval_1 = 'approved' and pomaster.rejection_reason_2 is null and pomaster.approval_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [reason, po, userid], (err, result, fields) => {
-                        if (err) throw err;
-
-                            res.status(200).json({
-                                status: true,
-                                message: `PO# ${po} rejected at L2`,
-                                code: 1,
-                                level: 2
-                            }).end()
-
-                    })
-                else {
+                } 
+                else 
+                {
                     res.status(401).json({
                         status: false,
-                        message: `PO# ${po} cannot be rejected by current user at L2`,
-                        code: 0
+                        message: `PO# ${po} cannot be rejected by current user`,
+                        code: 0,
+                        result: rows[0]
                     }).end()
                 }
-
             }
-            else if (rows[0] != null && rowsFiltered[0].id != po) 
-            {
+            else{
                 res.status(401).json({
                     status: false,
-                    message: `PO# ${po} cannot be rejected by current user`,
+                    message: `PO# ${po} cannot be approved by current user`,
                     code: 0
                 }).end()
-            } 
-            else 
-            {
-                res.status(401).json({
-                    status: false,
-                    message: `PO# ${po} cannot be rejected by current user`,
-                    code: 0,
-                    result: rows[0]
-                }).end()
+
+                console.log("ROWS 1")
+                console.log(rowsFiltered[0])
             }
 
         });
