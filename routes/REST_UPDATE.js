@@ -19,7 +19,7 @@ exports.updatePOapproval = function (req, res) {
             console.log("FILTERED")
             console.log(rowsFiltered)
 
-            if(rowsFiltered.level > 0){
+            //if(rowsFiltered.level > 0){
                 if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                     if (rowsFiltered[0].approver_level_2 == userid)
@@ -120,17 +120,17 @@ exports.updatePOapproval = function (req, res) {
                     }).end()
 
                 }
-            }
-            else{
-                res.status(401).json({
-                    status: false,
-                    message: `PO# ${po} cannot be approved by current user`,
-                    code: 0
-                }).end()
+            // }
+            // else{
+            //     res.status(401).json({
+            //         status: false,
+            //         message: `PO# ${po} cannot be approved by current user`,
+            //         code: 0
+            //     }).end()
 
-                console.log("ROWS 1")
-                console.log(rowsFiltered[0])
-            }
+            //     console.log("ROWS 1")
+            //     console.log(rowsFiltered[0])
+            // }
 
         });
 
@@ -157,7 +157,7 @@ exports.updatePOrejection = function (req, res) {
                 return row.id == po
             })
 
-            if(rowsFiltered.level > 0){
+            //if(rowsFiltered.level > 0){
                 if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                     // if (rows[0].approver_level_2 == userid)
@@ -273,17 +273,17 @@ exports.updatePOrejection = function (req, res) {
                         result: rows[0]
                     }).end()
                 }
-            }
-            else{
-                res.status(401).json({
-                    status: false,
-                    message: `PO# ${po} cannot be approved by current user`,
-                    code: 0
-                }).end()
+            // }
+            // else{
+            //     res.status(401).json({
+            //         status: false,
+            //         message: `PO# ${po} cannot be approved by current user`,
+            //         code: 0
+            //     }).end()
 
-                console.log("ROWS 1")
-                console.log(rowsFiltered[0])
-            }
+            //     console.log("ROWS 1")
+            //     console.log(rowsFiltered[0])
+            // }
 
         });
 
