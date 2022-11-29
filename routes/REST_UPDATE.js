@@ -122,7 +122,7 @@ exports.updatePOapproval = function (req, res) {
 };
 
 exports.updatePOrejection = function (req, res) {
-    const { userid, po } = req.body;
+    const { userid, po, reason } = req.body;
 
     const sqlSearch0 = "select pomaster.id ,pomaster.approval_1, pomaster.approval_2, pomaster.rejection_reason_1 ,pomaster.rejection_reason_2, pomatrix.approver_level_1, pomatrix.approver_level_2 from `0_po_master` pomaster left join `0_user_auth_matrix_for_po` pomatrix on pomaster.created_by = pomatrix.user_id where pomaster.id = " + po + " and pomatrix.approver_level_1 = " + userid + " or pomatrix.approver_level_2 = " + userid
 
@@ -192,7 +192,7 @@ exports.updatePOrejection = function (req, res) {
             {
 
                 if (rowsFiltered[0].approver_level_1 == userid) {
-                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'rejected' , pomaster.rejection_reason_1 = 'rejection reason 1' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [po, userid], (err, result, fields) => {
+                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'rejected' , pomaster.rejection_reason_1 = ? where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [reason, po, userid], (err, result, fields) => {
                         if (err) throw err;
 
                             res.status(200).json({
@@ -218,7 +218,7 @@ exports.updatePOrejection = function (req, res) {
 
                 if (rowsFiltered[0].approver_level_2 == userid)
                     
-                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'rejected', pomaster.rejection_reason_2 = 'rejection reason 2' where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is null and pomaster.approval_1 = 'approved' and pomaster.rejection_reason_2 is null and pomaster.approval_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [po, userid], (err, result, fields) => {
+                    conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'rejected', pomaster.rejection_reason_2 = ? where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is null and pomaster.approval_1 = 'approved' and pomaster.rejection_reason_2 is null and pomaster.approval_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [reason, po, userid], (err, result, fields) => {
                         if (err) throw err;
 
                             res.status(200).json({
