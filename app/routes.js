@@ -214,7 +214,7 @@ module.exports = function (app, connection) {
 	//PO approval level 1,2 Multiple
 	app.put('/poapprovalmultiple', validateToken, REST_UPDATE.updatePOapprovalMultiple);
 
-	//PO approval level 1,2 Multiple
-	app.put('/porejectionmultiple', validateToken, REST_UPDATE.updatePOapprovalMultiple);
+	//PO rejection level 1,2 Multiple
+	app.put('/porejectionmultiple', validateToken, REST_UPDATE.updatePOrejectionMultiple);
 
 }
