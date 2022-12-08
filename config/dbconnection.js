@@ -17,11 +17,13 @@ var SocksConnection = require('socksjs');
 // var sockConn = new SocksConnection(remote_options, sock_options)
 
 var herokuConfig = {
+	
 	host:'zdigits-retailo.com',
 	port: 3306,
 	user: 'zdigitsretailo',
 	password: 'R3t@ilo!@',
 	database: 'zdigitsretailo_staging',
+	//
 	// host:'sodabaz.com',
 	// port: 3306,
 	// user: 'sodabaz_ebox_2',
@@ -35,7 +37,15 @@ var herokuConfig = {
 	//   stream: sockConn,
 }
 
-var dbConnection = mysql.createPool(herokuConfig);
+const localconfig ={
+	host:'localhost',
+	port: 81,
+	user: 'zdigitsretailo',
+	password: '',
+	database: 'zdigitsretailo_staging',
+}
+
+var dbConnection = mysql.createPool(localconfig);
 
 // sockConn.dispose();
 // dbConnection.end();

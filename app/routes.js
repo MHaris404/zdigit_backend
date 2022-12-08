@@ -211,4 +211,10 @@ module.exports = function (app, connection) {
 	//PO rejection level 1,2
 	app.put('/porejection', validateToken, REST_UPDATE.updatePOrejection);
 
+	//PO approval level 1,2 Multiple
+	app.put('/poapprovalmultiple', validateToken, REST_UPDATE.updatePOapprovalMultiple);
+
+	//PO approval level 1,2 Multiple
+	app.put('/porejectionmultiple', validateToken, REST_UPDATE.updatePOapprovalMultiple);
+
 }

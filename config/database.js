@@ -9,11 +9,16 @@ const DB_DATABASE = process.env.DB_DATABASE
 const DB_PORT = process.env.DB_PORT
 
 module.exports = {
-      host: 'sodabaz.com',
-      port: 3306,
-      user: 'sodabaz_ebox_2',
-      password: 'sodabaz_ebox_2',
-      database: 'sodabaz_ebox_erp',
+      host:'zdigits-retailo.com',
+	port: 3306,
+	user: 'zdigitsretailo',
+	password: 'R3t@ilo!@',
+	database: 'zdigitsretailo_staging',
+      // host: 'sodabaz.com',
+      // port: 3306,
+      // user: 'sodabaz_ebox_2',
+      // password: 'sodabaz_ebox_2',
+      // database: 'sodabaz_ebox_erp',
       connectTimeout : 60 * 60 * 1000,
       acquireTimeout : 60 * 60 * 1000,
       multipleStatements: true,

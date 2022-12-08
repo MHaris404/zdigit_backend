@@ -1,5 +1,6 @@
 var connection = require('../config/dbconnection');
-const mysql = require("mysql2")
+const mysql = require("mysql2");
+const { user } = require('../config/database');
 
 exports.updatePOapproval = function (req, res) {
     const { userid, po } = req.body;
@@ -13,13 +14,13 @@ exports.updatePOapproval = function (req, res) {
             if (err) throw err;
 
             console.log(userid, po)
-            var rowsFiltered =  rows.filter(row => {
+            var rowsFiltered = rows.filter(row => {
                 return row.id == po
             })
             console.log("FILTERED")
             console.log(rowsFiltered)
 
-            if(rowsFiltered.length > 0){
+            if (rowsFiltered.length > 0) {
                 if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                     if (rowsFiltered[0].approver_level_2 == userid)
@@ -70,13 +71,13 @@ exports.updatePOapproval = function (req, res) {
                         conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [po, userid], (err, result, fields) => {
                             if (err) throw err;
 
-                                res.status(200).json({
-                                    status: true,
-                                    message: `PO# ${po} approved at L1`,
-                                    code: 1,
-                                    level: 1
+                            res.status(200).json({
+                                status: true,
+                                message: `PO# ${po} approved at L1`,
+                                code: 1,
+                                level: 1
 
-                                }).end()
+                            }).end()
                         })
                     }
                     else {
@@ -87,7 +88,7 @@ exports.updatePOapproval = function (req, res) {
                         }).end()
                     }
 
-                } 
+                }
                 else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                     res.status(200).json({
@@ -97,7 +98,7 @@ exports.updatePOapproval = function (req, res) {
 
                     }).end()
 
-                } 
+                }
                 else if (rows[0] != null && rowsFiltered[0].id != po) {
 
                     res.status(401).json({
@@ -109,7 +110,7 @@ exports.updatePOapproval = function (req, res) {
                     console.log("ROWS")
                     console.log(rowsFiltered[0])
 
-                } 
+                }
                 else {
 
                     res.status(401).json({
@@ -121,7 +122,7 @@ exports.updatePOapproval = function (req, res) {
 
                 }
             }
-            else{
+            else {
                 res.status(401).json({
                     status: false,
                     message: `PO# ${po} cannot be approved by current user`,
@@ -153,15 +154,15 @@ exports.updatePOrejection = function (req, res) {
 
             if (err) throw err;
 
-            var rowsFiltered =  rows.filter(row => {
+            var rowsFiltered = rows.filter(row => {
                 return row.id == po
             })
 
-            if(rowsFiltered.length > 0){
+            if (rowsFiltered.length > 0) {
                 if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                     // if (rows[0].approver_level_2 == userid)
-                        
+
                     //     conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.rejection_reason_2 = 'reject' where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is not null and pomaster.approval_1 is null and pomaster.rejection_reason_2 is null and pomaster.approval_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [po, userid], (err, result, fields) => {
                     //         if (err) throw err;
 
@@ -187,7 +188,7 @@ exports.updatePOrejection = function (req, res) {
                         code: -1
                     }).end()
 
-                }           
+                }
                 else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].rejection_reason_1 != null && rowsFiltered[0].approval_1 == "rejected" && rowsFiltered[0].approval_2 == "rejected" && rowsFiltered[0].rejection_reason_2 != null) {
 
                     res.status(200).json({
@@ -206,20 +207,19 @@ exports.updatePOrejection = function (req, res) {
                     }).end()
 
                 }
-                else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == null && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) 
-                {
+                else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == null && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                     if (rowsFiltered[0].approver_level_1 == userid) {
                         conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'rejected' , pomaster.rejection_reason_1 = ? where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [reason, po, userid], (err, result, fields) => {
                             if (err) throw err;
 
-                                res.status(200).json({
-                                    status: true,
-                                    message: `PO# ${po} rejected at L1`,
-                                    code: 1,
-                                    level: 1
+                            res.status(200).json({
+                                status: true,
+                                message: `PO# ${po} rejected at L1`,
+                                code: 1,
+                                level: 1
 
-                                }).end()
+                            }).end()
                         })
                     }
                     else {
@@ -230,21 +230,20 @@ exports.updatePOrejection = function (req, res) {
                         }).end()
                     }
 
-                } 
-                else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) 
-                {
+                }
+                else if (rows[0] != null && rowsFiltered[0].id == po && rowsFiltered[0].approval_1 == "approved" && rowsFiltered[0].rejection_reason_1 == null && rowsFiltered[0].approval_2 == null && rowsFiltered[0].rejection_reason_2 == null) {
 
                     if (rowsFiltered[0].approver_level_2 == userid)
-                        
+
                         conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'rejected', pomaster.rejection_reason_2 = ? where pomaster.created_by = pomatrix.user_id and pomaster.rejection_reason_1 is null and pomaster.approval_1 = 'approved' and pomaster.rejection_reason_2 is null and pomaster.approval_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [reason, po, userid], (err, result, fields) => {
                             if (err) throw err;
 
-                                res.status(200).json({
-                                    status: true,
-                                    message: `PO# ${po} rejected at L2`,
-                                    code: 1,
-                                    level: 2
-                                }).end()
+                            res.status(200).json({
+                                status: true,
+                                message: `PO# ${po} rejected at L2`,
+                                code: 1,
+                                level: 2
+                            }).end()
 
                         })
                     else {
@@ -256,16 +255,14 @@ exports.updatePOrejection = function (req, res) {
                     }
 
                 }
-                else if (rows[0] != null && rowsFiltered[0].id != po) 
-                {
+                else if (rows[0] != null && rowsFiltered[0].id != po) {
                     res.status(401).json({
                         status: false,
                         message: `PO# ${po} cannot be rejected by current user`,
                         code: 0
                     }).end()
-                } 
-                else 
-                {
+                }
+                else {
                     res.status(401).json({
                         status: false,
                         message: `PO# ${po} cannot be rejected by current user`,
@@ -274,7 +271,7 @@ exports.updatePOrejection = function (req, res) {
                     }).end()
                 }
             }
-            else{
+            else {
                 res.status(401).json({
                     status: false,
                     message: `PO# ${po} cannot be approved by current user`,
@@ -285,6 +282,144 @@ exports.updatePOrejection = function (req, res) {
                 console.log(rowsFiltered[0])
             }
 
+        });
+
+        conn.release();
+
+    })
+
+};
+
+exports.updatePOapprovalMultiple = function (req, res) {
+    const { userid, poarray } = req.body;
+    var pos = poarray.join(",") + ")"
+
+    var multipleResult = []
+
+    const sqlSearch0 = "SELECT pomaster.id, pomaster.approval_1, pomaster.approval_2, pomaster.rejection_reason_1, pomaster.rejection_reason_2, pomatrix.approver_level_1, pomatrix.approver_level_2 FROM `0_po_master` pomaster INNER JOIN `0_user_auth_matrix_for_po` pomatrix ON pomaster.created_by = pomatrix.user_id WHERE pomaster.id in (" + pos
+
+    connection.getConnection((err, conn) => {
+        if (err) throw err;
+
+        conn.query(sqlSearch0, function (err, rows, fields) {
+            if (err) throw err;
+
+            var rowsFiltered = rows.filter((row, i) => {
+                return row.approver_level_1 == userid || row.approver_level_2 == userid
+            })
+
+            if (rowsFiltered.length > 0) {
+
+                rowsFiltered.map((item, i) => {
+
+                    if (rows[0] != null && item.approval_1 == "approved" && item.rejection_reason_1 == null && item.approval_2 == null && item.rejection_reason_2 == null) {
+
+                        if (item.approver_level_2 == userid)
+                            conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 = 'approved' and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [item.id, userid], (err, result, fields) => {
+                                if (err) throw err;
+
+                                multipleResult.push({
+                                        status: true,
+                                        message: `PO# ${item.id} approved at L2`,
+                                        code: 1,
+                                        level: 2
+                                    })
+
+                            })
+                        else {
+                            
+                            multipleResult.push({
+                                status: false,
+                                message: `PO# ${item.id} cannot be approved by current user at L2`,
+                                code: 0
+                            })
+                        }
+
+                    }
+                    else if (rows[0] != null && item.approval_1 == "approved" && item.rejection_reason_1 == null && item.approval_2 == "approved" && item.rejection_reason_2 == null) {
+
+                        multipleResult.push({
+                            status: false,
+                            message: `PO# ${item.id} is already approved at L2`,
+                            code: 0
+                        })
+
+                    }
+                    else if (rows[0] != null && item.approval_1 == "approved" && item.rejection_reason_1 == null && item.approval_2 == "rejected" && item.rejection_reason_2 != null) {
+
+                        multipleResult.push({
+                            status: false,
+                            message: `PO# ${item.id} is already rejected at L2 with reason: ${item.rejection_reason_2}`,
+                            code: -1
+                        })
+
+                    }
+                    else if (rows[0] != null && item.approval_1 == null && item.rejection_reason_1 == null && item.approval_2 == null && item.rejection_reason_2 == null) {
+
+                        if (rowsFiltered[0].approver_level_1 == userid) {
+                            conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [item.id, userid], (err, result, fields) => {
+                                if (err) throw err;
+
+                                multipleResult.push({
+                                    status: true,
+                                    message: `PO# ${item.id} approved at L1`,
+                                    code: 1,
+                                    level: 1
+
+                                })
+                            })
+                        }
+                        else {
+                            
+                            multipleResult.push({
+                                status: false,
+                                message: `PO# ${item.id} cannot be approved by current user at L1`,
+                                code: 0
+                            })
+                        }
+
+                    }
+                    else if (rows[0] != null && item.approval_1 == "rejected" && item.rejection_reason_1 != null && item.approval_2 == null && item.rejection_reason_2 == null) {
+
+                        multipleResult.push({
+                            status: false,
+                            message: `PO# ${item.id} is already rejected at L1 with reason: ${item.rejection_reason_1}`,
+                            code: -1
+
+                        })
+
+                    }
+                    else{
+
+                        multipleResult.push({
+                            status: false,
+                            message: `PO# ${item.id} cannot be approved by current user`,
+                            code: 0
+                        })
+                    }
+                    
+                })  
+            }
+            else {
+                
+                multipleResult.push({
+                    status: false,
+                    message: `PO ${poarray[0]} cannot be approved by current user`,
+                    code: 0
+                })
+
+            }
+
+            if(poarray.length - multipleResult.length > 0){
+
+                multipleResult.push({
+                    status: false,
+                    message: `Other POs cannot be approved by current user`,
+                    code: 0
+                })
+            }
+
+            res.json({"check": multipleResult}).end()
         });
 
         conn.release();
