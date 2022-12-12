@@ -37,16 +37,6 @@ var herokuConfig = {
 	//   stream: sockConn,
 }
 
-const localconfig ={
-	host:'localhost',
-	port: 81,
-	user: 'zdigitsretailo',
-	password: '',
-	database: 'zdigitsretailo_staging',
-}
-
-var dbConnection = mysql.createPool(localconfig);
-
 // sockConn.dispose();
 // dbConnection.end();
 
