@@ -300,6 +300,7 @@ exports.updatePOapprovalMultiple = function (req, res) {
     // }
 
     const sqlSearch0 = "SELECT pomaster.id, pomaster.approval_1, pomaster.approval_2, pomaster.rejection_reason_1, pomaster.rejection_reason_2, pomatrix.approver_level_1, pomatrix.approver_level_2 FROM `0_po_master` pomaster INNER JOIN `0_user_auth_matrix_for_po` pomatrix ON pomaster.created_by = pomatrix.user_id WHERE pomaster.id in (" + pos
+    console.log(sqlSearch0)
 
     connection.getConnection((err, conn) => {
         if (err) throw err;
@@ -307,9 +308,10 @@ exports.updatePOapprovalMultiple = function (req, res) {
         conn.promise().query(sqlSearch0)
             .then(async function (result) {
 
-                var rowsFiltered0 = result[0].filter((row, i) => {
-                    return row.approver_level_1 == userid || row.approver_level_2 == userid
-                })
+                var rowsFiltered0 = result[0]
+                // .filter((row, i) => {
+                //     return row.approver_level_1 == userid || row.approver_level_2 == userid
+                // })
 
                 let p1, p2, p3, p4, p5, p6, p7, p8, p9;
                 // var flagp1 = true,flagp2 = true,flagp3 = true,flagp4 = true,flagp5 = true,
@@ -464,14 +466,16 @@ exports.updatePOapprovalMultiple = function (req, res) {
                                 message: `POs cannot be approved by current user`,
                                 code: 0
                             })
+                            
+                            console.log("91", multipleResult.length)
                         } else {
                             resolve({
                                 status: false,
                                 message: `PO cannot be approved by current user`,
                                 code: 0
                             })
+                            console.log("92", multipleResult.length)
                         }
-                        console.log("9", multipleResult.length)
                     })
                 }
 
