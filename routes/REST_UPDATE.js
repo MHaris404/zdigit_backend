@@ -336,7 +336,8 @@ exports.updatePOapprovalMultiple = function (req, res) {
                                             status: true,
                                             message: `PO# ${item.id} approved at L2`,
                                             code: 1,
-                                            level: 2
+                                            level: 2,
+                                            po: item.id
                                         })
 
                                     })
@@ -400,7 +401,6 @@ exports.updatePOapprovalMultiple = function (req, res) {
                         }
                         else if (item.approval_1 == null && item.rejection_reason_1 == null && item.approval_2 == null && item.rejection_reason_2 == null) {
 
-                            console.log("HELLO")
                             if (item.approver_level_1 == userid) {
 
                                 p5 = new Promise((resolve, reject) => {
@@ -411,7 +411,8 @@ exports.updatePOapprovalMultiple = function (req, res) {
                                             status: true,
                                             message: `PO# ${item.id} approved at L1`,
                                             code: 1,
-                                            level: 1
+                                            level: 1,
+                                            po: item.id
                                         })
                                     })
                                 })
@@ -556,7 +557,6 @@ exports.updatePOrejectionMultiple = function (req, res) {
                     }
                     else if (item.approval_1 == 'approved' && item.rejection_reason_1 == null && item.approval_2 == "approved" && item.rejection_reason_2 == null) {
 
-                        console.log("ERROR")
                         p3 = new Promise((resolve, reject) => {
 
                             resolve({
@@ -581,7 +581,8 @@ exports.updatePOrejectionMultiple = function (req, res) {
                                         status: true,
                                         message: `PO# ${item.id} rejected at L1`,
                                         code: 1,
-                                        level: 1
+                                        level: 1,
+                                        po: item.id
 
                                     })
                                 })
@@ -616,7 +617,8 @@ exports.updatePOrejectionMultiple = function (req, res) {
                                         status: true,
                                         message: `PO# ${item.id} rejected at L2`,
                                         code: 1,
-                                        level: 2
+                                        level: 2,
+                                        po: item.id
                                     })
 
                                 })
