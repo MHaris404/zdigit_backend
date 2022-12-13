@@ -12,6 +12,7 @@ module.exports = function (app, connection) {
 
 	//check
 	app.get('/check', function (req, res) {
+		console.log("CHECK")
 		res.send({
 			status: true,
 			message: 'backend check'
