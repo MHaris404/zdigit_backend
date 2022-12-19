@@ -292,15 +292,7 @@ exports.updatePOapprovalMultiple = function (req, res) {
     var pos = poarray.join(",") + ")"
     var multipleResult = []
 
-    // var dynamicPs = []
-    // function randomIntFromInterval() { // min and max included 
-    //     var rps = "p" + Math.floor(Math.random() * (9999 - 10 + 1) + 10)
-    //     dynamicPs.push(rps)
-    //     return rps;
-    // }
-
     const sqlSearch0 = "SELECT pomaster.id, pomaster.approval_1, pomaster.approval_2, pomaster.rejection_reason_1, pomaster.rejection_reason_2, pomatrix.approver_level_1, pomatrix.approver_level_2 FROM `0_po_master` pomaster INNER JOIN `0_user_auth_matrix_for_po` pomatrix ON pomaster.created_by = pomatrix.user_id WHERE pomaster.id in (" + pos
-    console.log(sqlSearch0)
 
     connection.getConnection((err, conn) => {
         if (err) throw err;
@@ -308,14 +300,11 @@ exports.updatePOapprovalMultiple = function (req, res) {
         conn.promise().query(sqlSearch0)
             .then(async function (result) {
 
-                var rowsFiltered0 = result[0]
-                // .filter((row, i) => {
-                //     return row.approver_level_1 == userid || row.approver_level_2 == userid
-                // })
+                var rowsFiltered0 = result[0].filter((row, i) => {
+                    return row.approver_level_1 == userid || row.approver_level_2 == userid
+                })
 
-                let p1, p2, p3, p4, p5, p6, p7, p8, p9;
-                // var flagp1 = true,flagp2 = true,flagp3 = true,flagp4 = true,flagp5 = true,
-                //     flagp6 = true,flagp7 = true,flagp8 = true,flagp9 = true;
+                let p1 =[], p2 =[], p3 =[], p4 =[], p5 =[], p6 =[], p7 =[],p8 =[], p9 =[];
 
                 if (rowsFiltered0.length > 0) {
 
@@ -325,12 +314,9 @@ exports.updatePOapprovalMultiple = function (req, res) {
 
                             if (item.approver_level_2 == userid) {
 
-                                // if(flagp1){
-                                p1 = new Promise((resolve, reject) => {
+                                p1.push(new Promise((resolve, reject) => {
                                     conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 = 'approved' and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [item.id, userid], (err, result, fields) => {
                                         if (err) reject(err);
-
-                                        // flagp1 = false;
 
                                         resolve({
                                             status: true,
@@ -342,68 +328,49 @@ exports.updatePOapprovalMultiple = function (req, res) {
 
                                     })
 
-                                })
-                                // }
-                                // else{
-
-                                //     dynamicPs[randomIntFromInterval()] = new Promise((resolve, reject) => {
-                                //             conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_2 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 = 'approved' and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_2 = ? ", [item.id, userid], (err, result, fields) => {
-                                //                 if (err) reject(err);
-
-                                //                 flagp1 = false;
-
-                                //                 resolve({
-                                //                     status: true,
-                                //                     message: `PO# ${item.id} approved at L2`,
-                                //                     code: 1,
-                                //                     level: 2
-                                //                 })
-
-                                //             })
-
-                                //         })
-                                // }
+                                }));
+                               
                             }
                             else {
 
-                                p2 = new Promise((resolve, reject) => {
+                                p2.push(new Promise((resolve, reject) => {
 
                                     resolve({
                                         status: false,
                                         message: `PO# ${item.id} cannot be approved by current user at L2`,
                                         code: 0
                                     })
-                                })
+                                }));
                             }
 
                         }
                         else if (item.approval_1 == "approved" && item.rejection_reason_1 == null && item.approval_2 == "approved" && item.rejection_reason_2 == null) {
 
-                            p3 = new Promise((resolve, reject) => {
+                            p3.push(new Promise((resolve, reject) => {
                                 resolve({
                                     status: false,
                                     message: `PO# ${item.id} is already approved at L2`,
                                     code: 0
                                 })
-                            })
+                            }));
 
                         }
                         else if (item.approval_1 == "approved" && item.rejection_reason_1 == null && item.approval_2 == "rejected" && item.rejection_reason_2 != null) {
 
-                            p4 = new Promise((resolve, reject) => {
+                            p4.push(new Promise((resolve, reject) => {
                                 resolve({
                                     status: false,
                                     message: `PO# ${item.id} is already rejected at L2 with reason: ${item.rejection_reason_2}`,
                                     code: -1
                                 })
-                            })
+                            }));
 
                         }
                         else if (item.approval_1 == null && item.rejection_reason_1 == null && item.approval_2 == null && item.rejection_reason_2 == null) {
 
                             if (item.approver_level_1 == userid) {
 
-                                p5 = new Promise((resolve, reject) => {
+                                p5.push(new Promise((resolve, reject) => {
                                     conn.query("update `0_po_master` pomaster ,`0_user_auth_matrix_for_po` pomatrix set pomaster.approval_1 = 'approved' where pomaster.created_by = pomatrix.user_id and pomaster.approval_1 is null and pomaster.rejection_reason_1 is null and pomaster.approval_2 is null and pomaster.rejection_reason_2 is null and pomaster.id = ? and pomatrix.approver_level_1 = ?", [item.id, userid], (err, result, fields) => {
                                         if (err) reject(err);
 
@@ -415,24 +382,22 @@ exports.updatePOapprovalMultiple = function (req, res) {
                                             po: item.id
                                         })
                                     })
-                                })
+                                }));
                             }
                             else {
-                                p6 = new Promise((resolve, reject) => {
+                                p6.push(new Promise((resolve, reject) => {
                                     resolve({
                                         status: false,
                                         message: `PO# ${item.id} cannot be approved by current user at L1`,
                                         code: 0
                                     })
-                                })
+                                }));
                             }
 
                         }
                         else if (item.approval_1 == "rejected" && item.rejection_reason_1 != null && item.approval_2 == null && item.rejection_reason_2 == null) {
 
-                            p7 = new Promise((resolve, reject) => {
-
-                                console.log("rejected l1: " + item.id)
+                            p7.push(new Promise((resolve, reject) => {
 
                                 resolve({
                                     status: false,
@@ -440,26 +405,25 @@ exports.updatePOapprovalMultiple = function (req, res) {
                                     code: -1
 
                                 })
-                            })
+                            }));
 
                         }
                         else {
 
-                            p8 = new Promise((resolve, reject) => {
+                            p8.push(new Promise((resolve, reject) => {
                                 resolve({
                                     status: false,
                                     message: `PO# ${item.id} cannot be approved by current user`,
                                     code: 0
                                 })
-                                console.log("8", multipleResult.length)
-                            })
+                            }))
                         }
 
                     })
 
                 } else {
 
-                    p9 = new Promise((resolve, reject) => {
+                    p9.push(new Promise((resolve, reject) => {
 
                         if (poarray.length > 1) {
                             resolve({
@@ -477,10 +441,10 @@ exports.updatePOapprovalMultiple = function (req, res) {
                             })
                             console.log("92", multipleResult.length)
                         }
-                    })
+                    }));
                 }
 
-                return Promise.all([p1, p2, p3, p4, p5, p6, p7, p8, p9]).then((results) => {
+                return Promise.all([...p1, ...p2, ...p3, ...p4, ...p5, ...p6, ...p7, ...p8, ...p9]).then((results) => {
                     multipleResult = results.filter(item => item != null)
                 });
 
@@ -526,7 +490,7 @@ exports.updatePOrejectionMultiple = function (req, res) {
                     return row.approver_level_1 == userid || row.approver_level_2 == userid
                 })
 
-                let p1, p2, p3, p4, p5, p6, p7,p8, p9;
+                let p1 =[], p2 =[], p3 =[], p4 =[], p5 =[], p6 =[], p7 =[],p8 =[], p9 =[];
                 rowsFiltered0.map(function (item) {
 
                     if (item.approval_1 == "rejected" && item.rejection_reason_1 != null && item.approval_2 == null && item.rejection_reason_2 == null) {
